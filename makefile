@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help, download, wasm
+.PHONY: help, download, wasm, build
 
 help:
 	# 20s is the width of the first column
@@ -10,5 +10,9 @@ download: ## download dependencies
 	@echo Download go.mod dependencies
 	@go mod download
 
+build:
+	@echo Build parser
+	@goreleaser build --snapshot --clean
+
 wasm: ## build wasm binary
-	$(MAKE) -C wasm build
+	go generate ./wasm/wasm.go
