@@ -1,0 +1,10 @@
+github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230321174746-8dcc6526cfb1 h1:X8MJ0fnN5FPdcGF5Ij2/OW+HgiJrRg3AfHAx1PJtIzM=
+github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230321174746-8dcc6526cfb1/go.mod h1:pSwJ0fSY5KhvocuWSx4fz3BA8OrA1bQn+K1Eli3BRwM=
+github.com/cstockton/go-conv v1.0.0 h1:zj/q/0MpQ/97XfiC9glWiohO8lhgR4TTnHYZifLTv6I=
+github.com/cstockton/go-conv v1.0.0/go.mod h1:HuiHkkRgOA0IoBNPC7ysG7kNpjDYlgM7Kj62yQPxjy4=
+github.com/kwilteam/kwil-db v0.2.1-0.20230510231037-ada74c4e3b77 h1:bGbIJ+IApt54cUo0Eycw3R/rKBcumzK2S4BDhxhr8YE=
+github.com/kwilteam/kwil-db v0.2.1-0.20230510231037-ada74c4e3b77/go.mod h1:VBV6Lp/sR0lnXzWLVMVatZ24Yn4b4a2RbkkyIs+NSxE=
+github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
+github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
+golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea h1:vLCWI/yYrdEHyN2JzIzPO3aaQJHQdp89IZBA/+azVC4=
+golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea/go.mod h1:V1LtkGg67GoY2N1AnLN78QLrzxkLyJw7RJb1gzOOz9w=
