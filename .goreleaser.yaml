@@ -2,10 +2,11 @@
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
-    # You may remove this if you don't use go modules.
+    - rm -rf ./dist
+    - rm -f ./wasm/*.wasm
     - go mod tidy
-    # you may remove this if you don't need go generate
-    - go generate ./...
+    - go generate ./wasm/wasm.go
+
 builds:
   - env:
       - CGO_ENABLED=0
@@ -13,12 +14,20 @@ builds:
       - linux
       - windows
       - darwin
+    goarch:
+      - amd64
+      - arm64
     ldflags:
       - -s -w
       - -X github.com/kwilteam/kuneiform/version.Version={{.Version}}
       - -X github.com/kwilteam/kuneiform/version.Commit={{.Commit}}
       - -X github.com/kwilteam/kuneiform/version.Date={{.Date}}
       - -X github.com/kwilteam/kuneiform/version.BuiltBy=goreleaser
+
+# pro feature
+#include:
+#  - from_file:
+#      path: ./wasm/kuneiform.wasm
 
 archives:
   - format: tar.gz
