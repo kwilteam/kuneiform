@@ -3,9 +3,7 @@
 before:
   hooks:
     - rm -rf ./dist
-    - rm -f ./wasm/*.wasm
     - go mod tidy
-    - go generate ./wasm/wasm.go
 
 builds:
   - env:

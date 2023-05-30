@@ -11,8 +11,21 @@ download: ## download dependencies
 	@go mod download
 
 build: ## build from current commit
+	@rm -f ./wasm/*.wasm
+	@make antlr
+	@make wasm
 	@echo Build parser
 	@goreleaser build --snapshot --clean
+	@rm -f ./sql_grammar/go.mod
 
 wasm: ## build wasm binary
-	go generate ./wasm/wasm.go
+	@echo Build wasm binary
+	@go generate ./wasm/wasm.go
+
+antlr: ## build Antlr code
+	@# need to generate go.mod file for antlr
+	@echo Generate antlr code
+	@cd ./sql_grammar/ && rm -f go.mod && go mod init sql_grammar && ./generate.sh
+
+sync: ## sync submodule
+	@git submodule update --remote
