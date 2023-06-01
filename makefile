@@ -27,5 +27,8 @@ antlr: ## build Antlr code
 	@echo Generate antlr code
 	@cd ./sql_grammar/ && rm -f go.mod && go mod init sql_grammar && ./generate.sh
 
-sync: ## sync submodule
+git-sync: ## sync submodule
 	@git submodule update --remote
+
+git-init: ## init submodule
+	@git submodule update --init
