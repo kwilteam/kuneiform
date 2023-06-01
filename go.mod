@@ -3,7 +3,7 @@ module github.com/kwilteam/kuneiform
 go 1.19
 
 require (
-	github.com/kwilteam/kwil-db v0.2.1-0.20230530200111-0196b0b65b9c
+	github.com/kwilteam/kwil-db v0.2.1-0.20230601234649-cdb284be65e1
 	github.com/spf13/cobra v1.7.0
 )
 

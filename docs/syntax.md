@@ -56,6 +56,7 @@ or
 
 * `unique`
 * `index`
+* `primary`
 
 ---
 

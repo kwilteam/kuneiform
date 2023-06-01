@@ -25,6 +25,7 @@ wasm: ## build wasm binary
 antlr: ## build Antlr code
 	@# need to generate go.mod file for antlr
 	@echo Generate antlr code
+	@rm -f ./sql_grammar/*.{go,interp,tokens}
 	@cd ./sql_grammar/ && rm -f go.mod && go mod init sql_grammar && ./generate.sh
 
 git-sync: ## sync submodule
