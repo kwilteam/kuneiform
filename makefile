@@ -33,3 +33,8 @@ git-sync: ## sync submodule
 
 git-init: ## init submodule
 	@git submodule update --init
+
+release: ## release
+	@# need configure github token
+	@# either `GITHUB_TOKEN` environment or ~/.config/goreleaser/github_token
+	@goreleaser release
