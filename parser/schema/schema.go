@@ -43,6 +43,26 @@ func (a *Attribute) Node() {}
 func (i *Index) Node()     {}
 func (a *Action) Node()    {}
 
-//func (s *Schema) Validate() error {
-//	return nil
-//}
+func (s *Schema) Accept(validator Validator) error {
+	return validator.VisitSchema(s)
+}
+
+func (t *Table) Accept(validator Validator) error {
+	return validator.VisitTable(t)
+}
+
+func (c *Column) Accept(validator Validator) error {
+	return validator.VisitColumn(c)
+}
+
+func (a *Attribute) Accept(validator Validator) error {
+	return validator.VisitAttribute(a)
+}
+
+func (i *Index) Accept(validator Validator) error {
+	return validator.VisitIndex(i)
+}
+
+func (a *Action) Accept(validator Validator) error {
+	return validator.VisitAction(a)
+}

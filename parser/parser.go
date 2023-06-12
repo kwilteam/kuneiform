@@ -6,6 +6,7 @@ import (
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/kwilteam/kuneiform/grammar"
 	"github.com/kwilteam/kuneiform/parser/ast"
+	"github.com/kwilteam/kuneiform/parser/schema"
 )
 
 type Mode uint
@@ -16,7 +17,7 @@ const (
 	AllErrors
 )
 
-func Parse(input string, el *errorListener, mode Mode) (schema ast.Ast, err error) {
+func Parse(input string, el *errorListener, mode Mode) (result ast.Ast, err error) {
 	stream := antlr.NewInputStream(input)
 	lexer := grammar.NewKuneiformLexer(stream)
 	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -33,6 +34,11 @@ func Parse(input string, el *errorListener, mode Mode) (schema ast.Ast, err erro
 		if e := recover(); e != nil {
 			el.Errors.Add(fmt.Sprintf("panic: %v", e))
 		}
+
+		if err != nil {
+			el.Errors.Add(err.Error())
+		}
+
 		err = el.Errors.Err()
 
 		// if trace mode, print the error
@@ -41,15 +47,13 @@ func Parse(input string, el *errorListener, mode Mode) (schema ast.Ast, err erro
 	visitor := NewKuneiformVisitor()
 
 	tree := p.Source_unit()
-
-	result := visitor.Visit(tree)
-	schema, ok := result.(ast.Ast)
+	astTree := visitor.Visit(tree)
+	result, ok := astTree.(ast.Ast)
 	if !ok {
 		return nil, errors.New("failed to parse")
 	}
 
-	//if err := schema.Validate(); err != nil {
-	//	return nil, err
-	//}
-	return schema, err
+	v := schema.NewCtxValidator()
+	err = result.Accept(v)
+	return result, err
 }

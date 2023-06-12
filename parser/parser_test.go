@@ -90,12 +90,10 @@ func TestParse_valid_syntax(t *testing.T) {
 			genOneTableOneCol(schema.ColInt),
 		},
 		{"table with int column with all attrs",
-			`database td1; table tt1 { tc1 int min(3) max(30) minlen(3) maxlen(30) default(3) notnull primary unique }`,
+			`database td1; table tt1 { tc1 int min(3) max(30) default(3) notnull primary unique }`,
 			genOneTableOneColWithAttrs(schema.ColInt,
 				schema.Attribute{Type: schema.AttrMin, Value: "3"},
 				schema.Attribute{Type: schema.AttrMax, Value: "30"},
-				schema.Attribute{Type: schema.AttrMinLength, Value: "3"},
-				schema.Attribute{Type: schema.AttrMaxLength, Value: "30"},
 				schema.Attribute{Type: schema.AttrDefault, Value: "3"},
 				schema.Attribute{Type: schema.AttrNotNull},
 				schema.Attribute{Type: schema.AttrPrimaryKey},
@@ -235,6 +233,27 @@ func TestParse_invalid_syntax(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			_, err := Parse(tt.input, nil, mode)
 			assert.Errorf(t, err, "Paser should complain about invalid syntax")
+		})
+	}
+}
+
+func TestParse_invalid_semantic(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+	}{
+		{"use attr min for text column", `database td1; table tt1 { tc1 text min(10)}`},
+		{"use attr max for text column", `database td1; table tt1 { tc1 text max(10)}`},
+		{"use attr minlen for int column", `database td1; table tt1 { tc1 int minlen(10)}`},
+		{"use attr maxlen for int column", `database td1; table tt1 { tc1 int maxlen(10)}`},
+		{"use non-defined column in index", `database td1; table tt1 { tc1 int, #idx1 index(tc2)}`},
+	}
+
+	mode := Trace
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := Parse(tt.input, nil, mode)
+			assert.Errorf(t, err, "Paser should complain about invalid semantic")
 		})
 	}
 }
