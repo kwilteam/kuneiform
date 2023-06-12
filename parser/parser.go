@@ -34,6 +34,8 @@ func Parse(input string, el *errorListener, mode Mode) (schema ast.Ast, err erro
 			el.Errors.Add(fmt.Sprintf("panic: %v", e))
 		}
 		err = el.Errors.Err()
+
+		// if trace mode, print the error
 	}()
 
 	visitor := NewKuneiformVisitor()
