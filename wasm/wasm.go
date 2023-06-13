@@ -15,7 +15,7 @@ func parse(input string) (json string, err error) {
 		return "", err
 	}
 
-	jsonBytes, err = schema.ToJSON()
+	jsonBytes, err := schema.ToJSON()
 	if err != nil {
 		return "", err
 	}
