@@ -1,10 +1,10 @@
-package kf_parser
+package kfparser
 
 import (
 	"errors"
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	"github.com/kwilteam/kuneiform/kf-grammar"
+	"github.com/kwilteam/kuneiform/kfgrammar"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
 )
@@ -23,9 +23,9 @@ func Parse(input string) (result *schema.Schema, err error) {
 
 func ParseKF(input string, errorListener *utils.ErrorListener, mode Mode) (result *schema.Schema, err error) {
 	stream := antlr.NewInputStream(input)
-	lexer := kf_grammar.NewKuneiformLexer(stream)
+	lexer := kfgrammar.NewKuneiformLexer(stream)
 	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-	p := kf_grammar.NewKuneiformParser(tokenStream)
+	p := kfgrammar.NewKuneiformParser(tokenStream)
 
 	// remove default error visitor
 	p.RemoveErrorListeners()

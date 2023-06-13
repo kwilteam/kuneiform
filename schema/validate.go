@@ -2,7 +2,7 @@ package schema
 
 import (
 	"fmt"
-	"github.com/kwilteam/kuneiform/sql_parser"
+	"github.com/kwilteam/kuneiform/sqlparser"
 	"github.com/pkg/errors"
 )
 
@@ -141,7 +141,7 @@ func (c *ContextValidator) VisitAction(a *Action) error {
 	}
 
 	for _, statement := range a.Statements {
-		astTree, err := sql_parser.ParseSql(statement, 1, nil, false)
+		astTree, err := sqlparser.ParseSql(statement, 1, nil, false)
 		if err != nil {
 			return errors.Wrap(err, c.currentDecl)
 		}

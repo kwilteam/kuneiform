@@ -24,12 +24,12 @@ wasm: ## build wasm binary
 
 antlr: ## build Antlr code
 	@echo Generate antlr code for sql-grammar
-	@rm -f ./sql_grammar/*.{go,interp,tokens}
-	@cd ./sql-grammar/ && ./generate.sh
+	@rm -f ./sqlgrammar/*.{go,interp,tokens}
+	@cd ./sqlgrammar/ && ./generate.sh
 
 	@echo Generate antlr code for kuneiform-grammar
-	@rm -f ./kf-grammar/*.{go,interp,tokens}
-	@cd ./kf-grammar/ && ./generate.sh
+	@rm -f ./kfgrammar/*.{go,interp,tokens}
+	@cd ./kfgrammar/ && ./generate.sh
 
 git-sync: ## sync submodule
 	@git submodule update --remote

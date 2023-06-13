@@ -5,12 +5,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/kwilteam/kuneiform/kf_parser"
+	"github.com/kwilteam/kuneiform/kfparser"
 	"syscall/js"
 )
 
 func parse(input string) (json string, err error) {
-	schema, err := kf_parser.ParseKF(input, nil, kf_parser.Default)
+	schema, err := kfparser.ParseKF(input, nil, kfparser.Default)
 	if err != nil {
 		return "", err
 	}

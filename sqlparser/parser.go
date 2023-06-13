@@ -1,4 +1,4 @@
-package sql_parser
+package sqlparser
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/kwilteam/kuneiform/utils"
 	"github.com/kwilteam/kwil-db/pkg/engine/tree"
 
-	"github.com/kwilteam/kuneiform/sql-grammar"
+	"github.com/kwilteam/kuneiform/sqlgrammar"
 )
 
 // Parse parses a raw sql string and returns a tree.Ast
@@ -24,9 +24,9 @@ func ParseSql(sql string, currentLine int, errorListener *utils.ErrorListener, t
 	}
 
 	stream := antlr.NewInputStream(sql)
-	lexer := sql_grammar.NewSQLiteLexer(stream)
+	lexer := sqlgrammar.NewSQLiteLexer(stream)
 	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-	p := sql_grammar.NewSQLiteParser(tokenStream)
+	p := sqlgrammar.NewSQLiteParser(tokenStream)
 
 	// remove default error visitor
 	p.RemoveErrorListeners()

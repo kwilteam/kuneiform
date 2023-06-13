@@ -1,4 +1,4 @@
-package sql_parser
+package sqlparser
 
 import (
 	"flag"
@@ -494,7 +494,7 @@ func TestParseRawSQL_syntax_valid(t *testing.T) {
 						},
 					},
 				}}},
-		{"expr names", "select table.column",
+		{"expr names", "select t1.c1",
 			&tree.Select{
 				SelectStmt: &tree.SelectStmt{
 					SelectCores: []*tree.SelectCore{
@@ -503,8 +503,8 @@ func TestParseRawSQL_syntax_valid(t *testing.T) {
 							Columns: []tree.ResultColumn{
 								&tree.ResultColumnExpression{
 									Expression: &tree.ExpressionColumn{
-										Table:  "table",
-										Column: "column",
+										Table:  "t1",
+										Column: "c1",
 									},
 								},
 							},

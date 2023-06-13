@@ -1,4 +1,4 @@
-package kf_parser
+package kfparser
 
 import (
 	"errors"

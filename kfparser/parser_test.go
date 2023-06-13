@@ -1,7 +1,7 @@
-package kf_parser
+package kfparser
 
 import (
-	"github.com/kwilteam/kuneiform/kf_parser/ast"
+	"github.com/kwilteam/kuneiform/kfparser/ast"
 	schema2 "github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
 	"github.com/stretchr/testify/assert"
