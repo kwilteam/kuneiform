@@ -1,17 +1,17 @@
-package parser
+package kf_parser
 
 import (
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	"github.com/kwilteam/kuneiform/grammar"
-	"github.com/kwilteam/kuneiform/parser/ast"
+	"github.com/kwilteam/kuneiform/kf-grammar"
+	"github.com/kwilteam/kuneiform/kf_parser/ast"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/pkg/errors"
 	"reflect"
 )
 
 type KFVisitor struct {
-	grammar.BaseKuneiformParserVisitor
+	kf_grammar.BaseKuneiformParserVisitor
 }
 
 func NewKuneiformVisitor() *KFVisitor {
@@ -60,7 +60,7 @@ func (v *KFVisitor) shouldVisitNextChild(node antlr.Tree, currentResult interfac
 }
 
 // VisitSource_unit is called when start parsing, return *schema.Schema
-func (v *KFVisitor) VisitSource_unit(ctx *grammar.Source_unitContext) interface{} {
+func (v *KFVisitor) VisitSource_unit(ctx *kf_grammar.Source_unitContext) interface{} {
 	if ctx.Database_directive() == nil {
 		panic(errors.Wrap(ErrorInvalidSyntax, "missing database clause"))
 	}
@@ -89,7 +89,7 @@ func (v *KFVisitor) VisitSource_unit(ctx *grammar.Source_unitContext) interface{
 }
 
 // VisitTable_decl is called when parsing table declaration, return *schema.Table
-func (v *KFVisitor) VisitTable_decl(ctx *grammar.Table_declContext) interface{} {
+func (v *KFVisitor) VisitTable_decl(ctx *kf_grammar.Table_declContext) interface{} {
 	t := schema.Table{}
 	t.Name = ctx.Table_name().GetText()
 
@@ -103,7 +103,7 @@ func (v *KFVisitor) VisitTable_decl(ctx *grammar.Table_declContext) interface{} 
 }
 
 // VisitColumn_def_list is called when parsing column definition list, return []schema.Column
-func (v *KFVisitor) VisitColumn_def_list(ctx *grammar.Column_def_listContext) interface{} {
+func (v *KFVisitor) VisitColumn_def_list(ctx *kf_grammar.Column_def_listContext) interface{} {
 	columnCount := len(ctx.AllColumn_def())
 	columns := make([]schema.Column, columnCount)
 
@@ -116,7 +116,7 @@ func (v *KFVisitor) VisitColumn_def_list(ctx *grammar.Column_def_listContext) in
 }
 
 // VisitColumn_def is called when parsing column definition, return *schema.Column
-func (v *KFVisitor) VisitColumn_def(ctx *grammar.Column_defContext) interface{} {
+func (v *KFVisitor) VisitColumn_def(ctx *kf_grammar.Column_defContext) interface{} {
 	c := schema.Column{}
 	c.Name = ctx.Column_name().GetText()
 
@@ -140,7 +140,7 @@ func (v *KFVisitor) VisitColumn_def(ctx *grammar.Column_defContext) interface{} 
 }
 
 // VisitColumn_constraint is called when parsing column constraint, return *schema.Attribute
-func (c *KFVisitor) VisitColumn_constraint(ctx *grammar.Column_constraintContext) interface{} {
+func (c *KFVisitor) VisitColumn_constraint(ctx *kf_grammar.Column_constraintContext) interface{} {
 	attr := schema.Attribute{}
 
 	switch {
@@ -171,7 +171,7 @@ func (c *KFVisitor) VisitColumn_constraint(ctx *grammar.Column_constraintContext
 }
 
 // VisitIndex_def_list is called when parsing index definition list, return []schema.Index
-func (v *KFVisitor) VisitIndex_def_list(ctx *grammar.Index_def_listContext) interface{} {
+func (v *KFVisitor) VisitIndex_def_list(ctx *kf_grammar.Index_def_listContext) interface{} {
 	indexCount := len(ctx.AllIndex_def())
 	indexes := make([]schema.Index, indexCount)
 
@@ -184,7 +184,7 @@ func (v *KFVisitor) VisitIndex_def_list(ctx *grammar.Index_def_listContext) inte
 }
 
 // VisitIndex_def is called when parsing index definition, return *schema.Index
-func (v *KFVisitor) VisitIndex_def(ctx *grammar.Index_defContext) interface{} {
+func (v *KFVisitor) VisitIndex_def(ctx *kf_grammar.Index_defContext) interface{} {
 	i := schema.Index{}
 	i.Name = ctx.Index_name().GetText()[1:]
 
@@ -203,7 +203,7 @@ func (v *KFVisitor) VisitIndex_def(ctx *grammar.Index_defContext) interface{} {
 }
 
 // VisitColumn_name_list is called when parsing column name list, return []string
-func (v *KFVisitor) VisitColumn_name_list(ctx *grammar.Column_name_listContext) interface{} {
+func (v *KFVisitor) VisitColumn_name_list(ctx *kf_grammar.Column_name_listContext) interface{} {
 	columnCount := len(ctx.AllColumn_name())
 	columns := make([]string, columnCount)
 
@@ -215,7 +215,7 @@ func (v *KFVisitor) VisitColumn_name_list(ctx *grammar.Column_name_listContext) 
 }
 
 // VisitAction_decl is called when parsing action declaration, return *schema.Action
-func (v *KFVisitor) VisitAction_decl(ctx *grammar.Action_declContext) interface{} {
+func (v *KFVisitor) VisitAction_decl(ctx *kf_grammar.Action_declContext) interface{} {
 	a := schema.Action{}
 
 	a.Name = ctx.Action_name().GetText()
@@ -233,7 +233,7 @@ func (v *KFVisitor) VisitAction_decl(ctx *grammar.Action_declContext) interface{
 }
 
 // VisitAction_param_list is called when parsing action parameter list, return []string
-func (v *KFVisitor) VisitAction_param_list(ctx *grammar.Action_param_listContext) interface{} {
+func (v *KFVisitor) VisitAction_param_list(ctx *kf_grammar.Action_param_listContext) interface{} {
 	paramCount := len(ctx.AllACTION_PARAMETER())
 	params := make([]string, paramCount)
 
@@ -245,7 +245,7 @@ func (v *KFVisitor) VisitAction_param_list(ctx *grammar.Action_param_listContext
 }
 
 // VisitAction_stmt_list is called when parsing action statement list, return []string
-func (v *KFVisitor) VisitAction_stmt_list(ctx *grammar.Action_stmt_listContext) interface{} {
+func (v *KFVisitor) VisitAction_stmt_list(ctx *kf_grammar.Action_stmt_listContext) interface{} {
 	stmtCount := len(ctx.AllAction_stmt())
 	stmts := make([]string, stmtCount)
 
@@ -258,7 +258,7 @@ func (v *KFVisitor) VisitAction_stmt_list(ctx *grammar.Action_stmt_listContext) 
 }
 
 // VisitAction_stmt is called when parsing action statement, return string
-func (v *KFVisitor) VisitAction_stmt(ctx *grammar.Action_stmtContext) interface{} {
+func (v *KFVisitor) VisitAction_stmt(ctx *kf_grammar.Action_stmtContext) interface{} {
 	if ctx.Sql_stmt() != nil {
 		stmt := ctx.Sql_stmt().GetText()
 		return stmt

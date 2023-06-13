@@ -1,6 +1,6 @@
-[submodule "sql_grammar"]
-	path = sql_grammar
+[submodule "sql-grammar"]
+	path = sql-grammar
 	url = https://github.com/kwilteam/sql-grammar
 [submodule "kuneiform-grammar"]
-	path = grammar
+	path = kf-grammar
 	url = https://github.com/kwilteam/kuneiform-grammar

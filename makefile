@@ -23,14 +23,13 @@ wasm: ## build wasm binary
 	@go generate ./wasm/wasm.go
 
 antlr: ## build Antlr code
-	@# need to generate go.mod file for sql-grammar
 	@echo Generate antlr code for sql-grammar
 	@rm -f ./sql_grammar/*.{go,interp,tokens}
-	@cd ./sql_grammar/ && rm -f go.mod && go mod init sql_grammar && ./generate.sh
+	@cd ./sql-grammar/ && ./generate.sh
 
 	@echo Generate antlr code for kuneiform-grammar
-	@rm -f ./grammar/*.{go,interp,tokens}
-	@cd ./grammar/ && ./generate.sh
+	@rm -f ./kf-grammar/*.{go,interp,tokens}
+	@cd ./kf-grammar/ && ./generate.sh
 
 git-sync: ## sync submodule
 	@git submodule update --remote

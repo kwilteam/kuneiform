@@ -5,17 +5,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/kwilteam/kwil-db/pkg/kuneiform/parser"
+	"github.com/kwilteam/kuneiform/kf_parser"
 	"syscall/js"
 )
 
 func parse(input string) (json string, err error) {
-	a, err := parser.Parse([]byte(input), parser.WithTraceOff())
+	schema, err := kf_parser.ParseKF(input, nil, kf_parser.Default)
 	if err != nil {
 		return "", err
 	}
 
-	json = string(a.GenerateJson())
+	jsonBytes, err = schema.ToJSON()
+	if err != nil {
+		return "", err
+	}
+
+	json = string(jsonBytes)
 	return
 }
 

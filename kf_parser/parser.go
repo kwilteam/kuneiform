@@ -1,10 +1,10 @@
-package parser
+package kf_parser
 
 import (
 	"errors"
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	"github.com/kwilteam/kuneiform/grammar"
+	"github.com/kwilteam/kuneiform/kf-grammar"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
 )
@@ -12,16 +12,20 @@ import (
 type Mode uint
 
 const (
-	DatabaseClauseOnly Mode = 1 << iota
-	Trace
+	Default Mode = 1 << iota
 	AllErrors
+	Trace
 )
 
-func Parse(input string, errorListener *utils.ErrorListener, mode Mode) (result *schema.Schema, err error) {
+func Parse(input string) (result *schema.Schema, err error) {
+	return ParseKF(input, nil, Default)
+}
+
+func ParseKF(input string, errorListener *utils.ErrorListener, mode Mode) (result *schema.Schema, err error) {
 	stream := antlr.NewInputStream(input)
-	lexer := grammar.NewKuneiformLexer(stream)
+	lexer := kf_grammar.NewKuneiformLexer(stream)
 	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-	p := grammar.NewKuneiformParser(tokenStream)
+	p := kf_grammar.NewKuneiformParser(tokenStream)
 
 	// remove default error visitor
 	p.RemoveErrorListeners()

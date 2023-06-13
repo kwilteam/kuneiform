@@ -1,9 +1,11 @@
-package parser
+package kf_parser
 
 import (
-	"github.com/kwilteam/kuneiform/parser/ast"
+	"github.com/kwilteam/kuneiform/kf_parser/ast"
 	schema2 "github.com/kwilteam/kuneiform/schema"
+	"github.com/kwilteam/kuneiform/utils"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
@@ -200,7 +202,7 @@ func TestParse_valid_syntax(t *testing.T) {
 	mode := Trace
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := Parse(tt.input, nil, mode)
+			got, err := ParseKF(tt.input, nil, mode)
 			assert.NoErrorf(t, err, "Paser got error")
 
 			assert.EqualValues(t, tt.want, got, `ParseFile() got %+v, want %+v`, got, tt.want)
@@ -227,8 +229,12 @@ func TestParse_invalid_syntax(t *testing.T) {
 	mode := Trace
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := Parse(tt.input, nil, mode)
+			_, err := ParseKF(tt.input, nil, mode)
 			assert.Errorf(t, err, "Paser should complain about invalid syntax")
+
+			if err == nil || !strings.Contains(err.Error(), utils.ErrInvalidSyntax.Error()) {
+				t.Errorf("ParseKF() expected error: %s, got %s", utils.ErrInvalidSyntax, err)
+			}
 		})
 	}
 }
@@ -248,7 +254,7 @@ func TestParse_invalid_semantic(t *testing.T) {
 	mode := Trace
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := Parse(tt.input, nil, mode)
+			_, err := ParseKF(tt.input, nil, mode)
 			assert.Errorf(t, err, "Paser should complain about invalid semantic")
 		})
 	}
