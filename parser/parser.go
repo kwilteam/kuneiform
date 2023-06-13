@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/kwilteam/kuneiform/grammar"
-	"github.com/kwilteam/kuneiform/parser/ast"
-	"github.com/kwilteam/kuneiform/parser/schema"
+	"github.com/kwilteam/kuneiform/schema"
+	"github.com/kwilteam/kuneiform/utils"
 )
 
 type Mode uint
@@ -17,7 +17,7 @@ const (
 	AllErrors
 )
 
-func Parse(input string, el *errorListener, mode Mode) (result ast.Ast, err error) {
+func Parse(input string, errorListener *utils.ErrorListener, mode Mode) (result *schema.Schema, err error) {
 	stream := antlr.NewInputStream(input)
 	lexer := grammar.NewKuneiformLexer(stream)
 	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -25,35 +25,38 @@ func Parse(input string, el *errorListener, mode Mode) (result ast.Ast, err erro
 
 	// remove default error visitor
 	p.RemoveErrorListeners()
-	if el == nil {
-		el = NewErrorListener()
+	if errorListener == nil {
+		errorListener = utils.NewErrorListener()
 	}
-	p.AddErrorListener(el)
+	p.AddErrorListener(errorListener)
 
 	defer func() {
 		if e := recover(); e != nil {
-			el.Errors.Add(fmt.Sprintf("panic: %v", e))
+			errorListener.Add(fmt.Sprintf("panic: %v", e))
 		}
 
 		if err != nil {
-			el.Errors.Add(err.Error())
+			errorListener.Add(err.Error())
 		}
 
-		err = el.Errors.Err()
+		err = errorListener.Err()
 
 		// if trace mode, print the error
 	}()
 
 	visitor := NewKuneiformVisitor()
 
-	tree := p.Source_unit()
-	astTree := visitor.Visit(tree)
-	result, ok := astTree.(ast.Ast)
+	parseTree := p.Source_unit()
+	result, ok := visitor.Visit(parseTree).(*schema.Schema)
 	if !ok {
 		return nil, errors.New("failed to parse")
 	}
 
 	v := schema.NewCtxValidator()
 	err = result.Accept(v)
+	if err != nil {
+		return nil, err
+	}
+
 	return result, err
 }

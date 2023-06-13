@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/kwilteam/kuneiform/grammar"
-	"github.com/kwilteam/kuneiform/parser/schema"
-	"github.com/kwilteam/kwil-db/pkg/engine/tree"
+	"github.com/kwilteam/kuneiform/parser/ast"
+	"github.com/kwilteam/kuneiform/schema"
 	"github.com/pkg/errors"
 	"reflect"
 )
@@ -33,7 +33,7 @@ func (v *KFVisitor) Visit(tree antlr.ParseTree) interface{} {
 // refer to https://github.com/antlr/antlr4/pull/1841#issuecomment-576791512
 // calling function need to convert the result to asts
 func (v *KFVisitor) VisitChildren(node antlr.RuleNode) interface{} {
-	var result []tree.Ast
+	var result []ast.Ast
 	n := node.GetChildCount()
 	for i := 0; i < n; i++ {
 		child := node.GetChild(i)
@@ -45,7 +45,7 @@ func (v *KFVisitor) VisitChildren(node antlr.RuleNode) interface{} {
 			break
 		}
 		c := child.(antlr.ParseTree)
-		childResult := v.Visit(c).(tree.Ast)
+		childResult := v.Visit(c).(ast.Ast)
 		result = append(result, childResult)
 	}
 	return result

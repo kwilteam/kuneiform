@@ -2,19 +2,19 @@ package parser
 
 import (
 	"github.com/kwilteam/kuneiform/parser/ast"
-	"github.com/kwilteam/kuneiform/parser/schema"
+	schema2 "github.com/kwilteam/kuneiform/schema"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func genOneTableOneCol(colType schema.ColumnType) *schema.Schema {
-	return &schema.Schema{
+func genOneTableOneCol(colType schema2.ColumnType) *schema2.Schema {
+	return &schema2.Schema{
 		Name:  "td1",
 		Owner: "",
-		Tables: []schema.Table{
+		Tables: []schema2.Table{
 			{
 				Name: "tt1",
-				Columns: []schema.Column{
+				Columns: []schema2.Column{
 					{Name: "tc1", Type: colType},
 				},
 			},
@@ -22,14 +22,14 @@ func genOneTableOneCol(colType schema.ColumnType) *schema.Schema {
 	}
 }
 
-func genOneTableOneColWithAttrs(colType schema.ColumnType, attrs ...schema.Attribute) *schema.Schema {
-	return &schema.Schema{
+func genOneTableOneColWithAttrs(colType schema2.ColumnType, attrs ...schema2.Attribute) *schema2.Schema {
+	return &schema2.Schema{
 		Name:  "td1",
 		Owner: "",
-		Tables: []schema.Table{
+		Tables: []schema2.Table{
 			{
 				Name: "tt1",
-				Columns: []schema.Column{
+				Columns: []schema2.Column{
 					{
 						Name:       "tc1",
 						Type:       colType,
@@ -41,18 +41,16 @@ func genOneTableOneColWithAttrs(colType schema.ColumnType, attrs ...schema.Attri
 	}
 }
 
-func genOneTableOneColWithIndexes(colType schema.ColumnType, index ...schema.Index) *schema.Schema {
-	return &schema.Schema{
+func genOneTableTwoColWithIndexes(colType1, colType2 schema2.ColumnType, index ...schema2.Index) *schema2.Schema {
+	return &schema2.Schema{
 		Name:  "td1",
 		Owner: "",
-		Tables: []schema.Table{
+		Tables: []schema2.Table{
 			{
 				Name: "tt1",
-				Columns: []schema.Column{
-					{
-						Name: "tc1",
-						Type: colType,
-					},
+				Columns: []schema2.Column{
+					{Name: "tc1", Type: colType1},
+					{Name: "tc2", Type: colType2},
 				},
 				Indexes: index,
 			},
@@ -60,14 +58,14 @@ func genOneTableOneColWithIndexes(colType schema.ColumnType, index ...schema.Ind
 	}
 }
 
-func genOneTableTwoColWithActions(colType1, colType2 schema.ColumnType, actions ...schema.Action) *schema.Schema {
-	return &schema.Schema{
+func genOneTableTwoColWithActions(colType1, colType2 schema2.ColumnType, actions ...schema2.Action) *schema2.Schema {
+	return &schema2.Schema{
 		Name:  "td1",
 		Owner: "",
-		Tables: []schema.Table{
+		Tables: []schema2.Table{
 			{
 				Name: "tt1",
-				Columns: []schema.Column{
+				Columns: []schema2.Column{
 					{Name: "tc1", Type: colType1},
 					{Name: "tc2", Type: colType2},
 				},
@@ -84,55 +82,53 @@ func TestParse_valid_syntax(t *testing.T) {
 		want  ast.Ast
 	}{
 		{"only database clause", "database td;",
-			&schema.Schema{Name: "td", Owner: ""}},
+			&schema2.Schema{Name: "td", Owner: ""}},
 		// int column
 		{"table with int column", `database td1; table tt1 { tc1 int, }`,
-			genOneTableOneCol(schema.ColInt),
+			genOneTableOneCol(schema2.ColInt),
 		},
 		{"table with int column with all attrs",
 			`database td1; table tt1 { tc1 int min(3) max(30) default(3) notnull primary unique }`,
-			genOneTableOneColWithAttrs(schema.ColInt,
-				schema.Attribute{Type: schema.AttrMin, Value: "3"},
-				schema.Attribute{Type: schema.AttrMax, Value: "30"},
-				schema.Attribute{Type: schema.AttrDefault, Value: "3"},
-				schema.Attribute{Type: schema.AttrNotNull},
-				schema.Attribute{Type: schema.AttrPrimaryKey},
-				schema.Attribute{Type: schema.AttrUnique}),
+			genOneTableOneColWithAttrs(schema2.ColInt,
+				schema2.Attribute{Type: schema2.AttrMin, Value: "3"},
+				schema2.Attribute{Type: schema2.AttrMax, Value: "30"},
+				schema2.Attribute{Type: schema2.AttrDefault, Value: "3"},
+				schema2.Attribute{Type: schema2.AttrNotNull},
+				schema2.Attribute{Type: schema2.AttrPrimaryKey},
+				schema2.Attribute{Type: schema2.AttrUnique}),
 		},
 		// text column
 		{"table with text column", `database td1; table tt1 { tc1 text}`,
-			genOneTableOneCol(schema.ColText),
+			genOneTableOneCol(schema2.ColText),
 		},
 		{"table with text column with all attrs",
-			`database td1; table tt1 { tc1 text min(3) max(30) minlen(3) maxlen(30) default(3) notnull primary unique }`,
-			genOneTableOneColWithAttrs(schema.ColText,
-				schema.Attribute{Type: schema.AttrMin, Value: "3"},
-				schema.Attribute{Type: schema.AttrMax, Value: "30"},
-				schema.Attribute{Type: schema.AttrMinLength, Value: "3"},
-				schema.Attribute{Type: schema.AttrMaxLength, Value: "30"},
-				schema.Attribute{Type: schema.AttrDefault, Value: "3"},
-				schema.Attribute{Type: schema.AttrNotNull},
-				schema.Attribute{Type: schema.AttrPrimaryKey},
-				schema.Attribute{Type: schema.AttrUnique}),
+			`database td1; table tt1 { tc1 text minlen(3) maxlen(30) default(3) notnull primary unique }`,
+			genOneTableOneColWithAttrs(schema2.ColText,
+				schema2.Attribute{Type: schema2.AttrMinLength, Value: "3"},
+				schema2.Attribute{Type: schema2.AttrMaxLength, Value: "30"},
+				schema2.Attribute{Type: schema2.AttrDefault, Value: "3"},
+				schema2.Attribute{Type: schema2.AttrNotNull},
+				schema2.Attribute{Type: schema2.AttrPrimaryKey},
+				schema2.Attribute{Type: schema2.AttrUnique}),
 		},
 		// index
-		{"table with primary index", `database td1; table tt1 { tc1 int, #idx1 primary (tc1,tc2) }`,
-			genOneTableOneColWithIndexes(schema.ColInt,
-				schema.Index{Name: "idx1", Type: schema.IdxPrimary, Columns: []string{"tc1", "tc2"}}),
+		{"table with primary index", `database td1; table tt1 { tc1 int, tc2 text, #idx1 primary (tc1,tc2) }`,
+			genOneTableTwoColWithIndexes(schema2.ColInt, schema2.ColText,
+				schema2.Index{Name: "idx1", Type: schema2.IdxPrimary, Columns: []string{"tc1", "tc2"}}),
 		},
-		{"table with index index", `database td1; table tt1 { tc1 int, #idx1 index (tc1,tc2) }`,
-			genOneTableOneColWithIndexes(schema.ColInt,
-				schema.Index{Name: "idx1", Type: schema.IdxBtree, Columns: []string{"tc1", "tc2"}}),
+		{"table with index index", `database td1; table tt1 { tc1 int, tc2 text, #idx1 index (tc1,tc2) }`,
+			genOneTableTwoColWithIndexes(schema2.ColInt, schema2.ColText,
+				schema2.Index{Name: "idx1", Type: schema2.IdxBtree, Columns: []string{"tc1", "tc2"}}),
 		},
-		{"table with unique index", `database td1; table tt1 { tc1 int, #idx1 unique (tc1,tc2) }`,
-			genOneTableOneColWithIndexes(schema.ColInt,
-				schema.Index{Name: "idx1", Type: schema.IdxUniqueBtree, Columns: []string{"tc1", "tc2"}}),
+		{"table with unique index", `database td1; table tt1 { tc1 int, tc2 text, #idx1 unique (tc1,tc2) }`,
+			genOneTableTwoColWithIndexes(schema2.ColInt, schema2.ColText,
+				schema2.Index{Name: "idx1", Type: schema2.IdxUniqueBtree, Columns: []string{"tc1", "tc2"}}),
 		},
 		// action
 		{"table with action insert", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { insert into tt1 (tc1, tc2) values (1, "2"); }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
+			genOneTableTwoColWithActions(schema2.ColInt, schema2.ColText,
+				[]schema2.Action{
 					{
 						Name:       "act1",
 						Public:     true,
@@ -142,8 +138,8 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		{"table with action update", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { update tt1 set tc1 = 1, tc2 = "2" where tc1 = 1; }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
+			genOneTableTwoColWithActions(schema2.ColInt, schema2.ColText,
+				[]schema2.Action{
 					{
 						Name:       "act1",
 						Public:     true,
@@ -153,8 +149,8 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		{"table with action delete", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { delete from tt1 where tc1 = 1; }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
+			genOneTableTwoColWithActions(schema2.ColInt, schema2.ColText,
+				[]schema2.Action{
 					{
 						Name:       "act1",
 						Public:     true,
@@ -164,8 +160,8 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		{"table with action select", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1($var1) public { select * from tt1 where tc1 = $var1; }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
+			genOneTableTwoColWithActions(schema2.ColInt, schema2.ColText,
+				[]schema2.Action{
 					{
 						Name:       "act1",
 						Public:     true,
@@ -176,8 +172,8 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		{"table with action private", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1($var1) private { select * from tt1 where tc1 = $var1; }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
+			genOneTableTwoColWithActions(schema2.ColInt, schema2.ColText,
+				[]schema2.Action{
 					{
 						Name:       "act1",
 						Inputs:     []string{"$var1"},
@@ -188,8 +184,8 @@ func TestParse_valid_syntax(t *testing.T) {
 		{"table with action multi sql statements", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1($var1) private { select * from tt1 where tc1 = 2;
 										 select * from tt1 where tc1 = $var1; }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
+			genOneTableTwoColWithActions(schema2.ColInt, schema2.ColText,
+				[]schema2.Action{
 					{
 						Name:   "act1",
 						Inputs: []string{"$var1"},

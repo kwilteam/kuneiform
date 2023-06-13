@@ -1,5 +1,7 @@
 package schema
 
+import "encoding/json"
+
 type Schema struct {
 	Owner   string   `json:"owner"`
 	Name    string   `json:"name"`
@@ -65,4 +67,52 @@ func (i *Index) Accept(validator Validator) error {
 
 func (a *Action) Accept(validator Validator) error {
 	return validator.VisitAction(a)
+}
+
+func (s *Schema) ToJSON() ([]byte, error) {
+	res, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (t *Table) ToJSON() ([]byte, error) {
+	res, err := json.MarshalIndent(t, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (c *Column) ToJSON() ([]byte, error) {
+	res, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (a *Attribute) ToJSON() ([]byte, error) {
+	res, err := json.MarshalIndent(a, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (i *Index) ToJSON() ([]byte, error) {
+	res, err := json.MarshalIndent(i, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (a *Action) ToJSON() ([]byte, error) {
+	res, err := json.MarshalIndent(a, "", "  ")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }
