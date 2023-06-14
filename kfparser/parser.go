@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	"github.com/kwilteam/kuneiform/kfgrammar"
+	"github.com/kwilteam/kuneiform-grammar-go/kfgrammar"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
 )

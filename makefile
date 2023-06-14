@@ -12,7 +12,7 @@ download: ## download dependencies
 
 build: ## build from current commit
 	@rm -f ./wasm/*.wasm
-	@make antlr
+	@#make antlr
 	@make wasm
 	@echo Build parser
 	@goreleaser build --snapshot --clean
@@ -22,14 +22,14 @@ wasm: ## build wasm binary
 	@echo Build wasm binary
 	@go generate ./wasm/wasm.go
 
-antlr: ## build Antlr code
-	@echo Generate antlr code for sql-grammar
-	@rm -f ./sqlgrammar/*.{go,interp,tokens}
-	@cd ./sqlgrammar/ && ./generate.sh
-
-	@echo Generate antlr code for kuneiform-grammar
-	@rm -f ./kfgrammar/*.{go,interp,tokens}
-	@cd ./kfgrammar/ && ./generate.sh
+#antlr: ## build Antlr code
+#	@echo Generate antlr code for sql-grammar
+#	@rm -f ./sqlgrammar/*.{go,interp,tokens}
+#	@cd ./sqlgrammar/ && ./generate.sh
+#
+#	@echo Generate antlr code for kuneiform-grammar
+#	@rm -f ./kfgrammar/*.{go,interp,tokens}
+#	@cd ./kfgrammar/ && ./generate.sh
 
 git-sync: ## sync submodule
 	@git submodule update --remote
