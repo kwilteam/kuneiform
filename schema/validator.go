@@ -7,15 +7,15 @@ import (
 )
 
 var (
-	ErrorDuplicateTable     = errors.New("duplicate table")
-	ErrorDuplicateColumn    = errors.New("duplicate column")
-	ErrorDuplicateAttribute = errors.New("duplicate attribute")
-	ErrorDuplicateIndex     = errors.New("duplicate index")
-	ErrorDuplicateAction    = errors.New("duplicate action")
-	ErrorDuplicateParam     = errors.New("duplicate param")
-	ErrorAttributeNotAllow  = errors.New("attribute not allowed")
-	ErrorTableNotFound      = errors.New("table not found")
-	ErrorColumnNotFound     = errors.New("column not found")
+	ErrDuplicateTable     = errors.New("duplicate table")
+	ErrDuplicateColumn    = errors.New("duplicate column")
+	ErrDuplicateAttribute = errors.New("duplicate attribute")
+	ErrDuplicateIndex     = errors.New("duplicate index")
+	ErrDuplicateAction    = errors.New("duplicate action")
+	ErrDuplicateParam     = errors.New("duplicate param")
+	ErrAttributeNotAllow  = errors.New("attribute not allowed")
+	ErrTableNotFound      = errors.New("table not found")
+	ErrColumnNotFound     = errors.New("column not found")
 )
 
 type Validator interface {
@@ -46,7 +46,7 @@ func NewCtxValidator() *ContextValidator {
 func (c *ContextValidator) VisitSchema(s *Schema) error {
 	for _, t := range s.Tables {
 		if _, ok := c.tableCtx[t.Name]; ok {
-			return errors.Wrap(ErrorDuplicateTable, t.Name)
+			return errors.Wrap(ErrDuplicateTable, t.Name)
 		}
 		c.currentDecl = t.Name
 		if err := t.Accept(c); err != nil {
@@ -56,7 +56,7 @@ func (c *ContextValidator) VisitSchema(s *Schema) error {
 
 	for _, a := range s.Actions {
 		if _, ok := c.actionCtx[a.Name]; ok {
-			return errors.Wrap(ErrorDuplicateAction, a.Name)
+			return errors.Wrap(ErrDuplicateAction, a.Name)
 		}
 		c.currentDecl = a.Name
 		if err := a.Accept(c); err != nil {
@@ -74,7 +74,7 @@ func (c *ContextValidator) VisitTable(t *Table) error {
 	if len(t.Columns) != 0 {
 		for _, col := range t.Columns {
 			if _, ok := c.tableCtx[c.currentDecl][col.Name]; ok {
-				return errors.Wrap(ErrorDuplicateColumn, col.Name)
+				return errors.Wrap(ErrDuplicateColumn, col.Name)
 			}
 			c.tableCtx[c.currentDecl][col.Name] = "column"
 			if err := col.Accept(c); err != nil {
@@ -86,7 +86,7 @@ func (c *ContextValidator) VisitTable(t *Table) error {
 	if len(t.Indexes) != 0 {
 		for _, idx := range t.Indexes {
 			if _, ok := c.tableCtx[c.currentDecl][idx.Name]; ok {
-				return errors.Wrap(ErrorDuplicateIndex, idx.Name)
+				return errors.Wrap(ErrDuplicateIndex, idx.Name)
 			}
 			c.actionCtx[c.currentDecl][idx.Name] = "index"
 			if err := idx.Accept(c); err != nil {
@@ -103,16 +103,16 @@ func (c *ContextValidator) VisitColumn(col *Column) error {
 
 	for _, attr := range col.Attributes {
 		if _, ok := seenAttr[attr.Type]; ok {
-			return errors.Wrap(ErrorDuplicateAttribute, attr.Type.String())
+			return errors.Wrap(ErrDuplicateAttribute, attr.Type.String())
 		}
 		seenAttr[attr.Type] = true
 
 		if col.Type == ColInt && (attr.Type == AttrMinLength || attr.Type == AttrMaxLength) {
-			return errors.Wrap(ErrorAttributeNotAllow, fmt.Sprintf("%s(%s)", col.Type.String(), attr.Type.String()))
+			return errors.Wrap(ErrAttributeNotAllow, fmt.Sprintf("%s(%s)", col.Type.String(), attr.Type.String()))
 		}
 
 		if col.Type == ColText && (attr.Type == AttrMin || attr.Type == AttrMax) {
-			return errors.Wrap(ErrorAttributeNotAllow, fmt.Sprintf("%s(%s)", col.Type.String(), attr.Type.String()))
+			return errors.Wrap(ErrAttributeNotAllow, fmt.Sprintf("%s(%s)", col.Type.String(), attr.Type.String()))
 		}
 	}
 	return nil
@@ -125,7 +125,7 @@ func (c *ContextValidator) VisitAttribute(a *Attribute) error {
 func (c *ContextValidator) VisitIndex(i *Index) error {
 	for _, col := range i.Columns {
 		if _, ok := c.tableCtx[c.currentDecl][col]; !ok {
-			return errors.Wrap(ErrorColumnNotFound, col)
+			return errors.Wrap(ErrColumnNotFound, col)
 		}
 	}
 	return nil
@@ -135,7 +135,7 @@ func (c *ContextValidator) VisitAction(a *Action) error {
 	seenInput := map[string]bool{}
 	for _, input := range a.Inputs {
 		if _, ok := seenInput[input]; ok {
-			return errors.Wrap(ErrorDuplicateParam, input)
+			return errors.Wrap(ErrDuplicateParam, input)
 		}
 		seenInput[input] = true
 	}
