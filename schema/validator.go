@@ -2,7 +2,7 @@ package schema
 
 import (
 	"fmt"
-	"github.com/kwilteam/kuneiform/sqlparser"
+	"github.com/kwilteam/kwil-db/pkg/sqlparser"
 	"github.com/pkg/errors"
 )
 
