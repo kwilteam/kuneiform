@@ -53,13 +53,13 @@ func ParseKF(input string, errorListener *utils.ErrorListener, mode Mode) (resul
 	parseTree := p.Source_unit()
 	result, ok := visitor.Visit(parseTree).(*schema.Schema)
 	if !ok {
-		return nil, errors.New("failed to parse")
+		return result, errors.New("failed to parse")
 	}
 
 	v := schema.NewCtxValidator()
 	err = result.Accept(v)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 
 	return result, err
