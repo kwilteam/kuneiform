@@ -27,3 +27,6 @@ dist/
 
 # default build output for parser
 build/
+
+# antlr
+gen/

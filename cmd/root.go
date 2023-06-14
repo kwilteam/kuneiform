@@ -1,9 +1,9 @@
 package cmd
 
 import (
+	"github.com/kwilteam/kuneiform/kfparser"
+	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/version"
-	"github.com/kwilteam/kwil-db/pkg/kuneiform/ast"
-	"github.com/kwilteam/kwil-db/pkg/kuneiform/parser"
 	"log"
 	"os"
 	"path/filepath"
@@ -18,6 +18,7 @@ const (
 	CodeErrMakeOutputDir
 	CodeErrReadFile
 	CodeErrParseFile
+	CodeErrSerialize
 	CodeErrWriteFile
 )
 
@@ -58,19 +59,25 @@ var rootCmd = &cobra.Command{
 			os.Exit(CodeErrReadFile)
 		}
 
-		var db *ast.Database
+		var db *schema.Schema
+		parserMode := kfparser.Default
 		if trace {
-			db, err = parser.Parse(data, parser.WithTraceOn())
-		} else {
-			db, err = parser.Parse(data)
+			parserMode = kfparser.Trace
 		}
+		db, err = kfparser.ParseKF(string(data), nil, parserMode)
 		if err != nil {
 			cmd.Println(err)
 			os.Exit(CodeErrParseFile)
 		}
 
+		dbJson, err := db.ToJSON()
+		if err != nil {
+			cmd.Println(err)
+			os.Exit(CodeErrSerialize)
+		}
+
 		outputFilePath := filepath.Join(outputDir, fileName+".json")
-		err = writeToFile(db.GenerateJson(), outputFilePath)
+		err = writeToFile(dbJson, outputFilePath)
 		if err != nil {
 			cmd.Println(err)
 			os.Exit(CodeErrWriteFile)
