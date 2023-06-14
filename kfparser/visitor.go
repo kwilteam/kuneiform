@@ -10,12 +10,25 @@ import (
 	"reflect"
 )
 
+type Mode uint
+
+const (
+	Default Mode = 1 << iota
+	Trace
+)
+
 type KFVisitor struct {
 	kfgrammar.BaseKuneiformParserVisitor
+
+	mode  Mode
+	trace bool
 }
 
-func NewKuneiformVisitor() *KFVisitor {
-	return &KFVisitor{}
+func NewKuneiformVisitor(mode Mode) *KFVisitor {
+	return &KFVisitor{
+		mode:  mode,
+		trace: mode&Trace != 0, // for convenience
+	}
 }
 
 // Visit dispatch to the visit method of the ctx
@@ -23,8 +36,9 @@ func NewKuneiformVisitor() *KFVisitor {
 // Overwrite is needed,
 // refer to https://github.com/antlr/antlr4/pull/1841#issuecomment-576791512
 func (v *KFVisitor) Visit(tree antlr.ParseTree) interface{} {
-	//if v.trace
-	fmt.Printf("visit tree: %v, %s\n", reflect.TypeOf(tree), tree.GetText())
+	if v.trace {
+		fmt.Printf("visit tree: %v, %s\n", reflect.TypeOf(tree), tree.GetText())
+	}
 	return tree.Accept(v)
 }
 
@@ -38,10 +52,9 @@ func (v *KFVisitor) VisitChildren(node antlr.RuleNode) interface{} {
 	for i := 0; i < n; i++ {
 		child := node.GetChild(i)
 		if !v.shouldVisitNextChild(child, result) {
-			//if v.trace {
-			//	fmt.Printf("should not visit next child: %v,\n", reflect.TypeOf(child))
-			//}
-			fmt.Printf("should not visit next child: %v,\n", reflect.TypeOf(child))
+			if v.trace {
+				fmt.Printf("should not visit next child: %v,\n", reflect.TypeOf(child))
+			}
 			break
 		}
 		c := child.(antlr.ParseTree)
