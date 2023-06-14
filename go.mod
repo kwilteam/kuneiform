@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9
 	github.com/kwilteam/kuneiform-grammar-go v0.0.0
-	github.com/kwilteam/kwil-db v0.3.0
+	github.com/kwilteam/kwil-db v0.3.1-0.20230614215414-18d90cf55955
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.1
@@ -22,6 +22,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace (
-	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
-)
+replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1

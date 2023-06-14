@@ -8,8 +8,10 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
-github.com/kwilteam/kuneiform-grammar-go v0.0.0-20230614214351-51787a07d322 h1:OLaP3HG2YOeU7Zn5RKTQhWssVOkDx/gocBTe/kArMP0=
-github.com/kwilteam/kuneiform-grammar-go v0.0.0-20230614214351-51787a07d322/go.mod h1:uki0OHLCXttIQqy/DsJ5X9WaNtRf3HB/OmxCCd+XdZU=
+github.com/kwilteam/kuneiform-grammar-go v0.0.0 h1:FRABMKr/h+7bgd62YRv/6eI1j5cqeT34mJdjwKYmlQ4=
+github.com/kwilteam/kuneiform-grammar-go v0.0.0/go.mod h1:uki0OHLCXttIQqy/DsJ5X9WaNtRf3HB/OmxCCd+XdZU=
+github.com/kwilteam/kwil-db v0.3.1-0.20230614215414-18d90cf55955 h1:bBoHQWxAH39+bqQwm1tcbyskxHzyQGmew0iqGgk530k=
+github.com/kwilteam/kwil-db v0.3.1-0.20230614215414-18d90cf55955/go.mod h1:uWT675bjJGsthgKDBYfoh5AVZYcNTE6fLWPSGKqYkAA=
 github.com/kwilteam/sql-grammar-go v0.0.0-20230614214308-49b3d70d9050 h1:ywIBZG9a84M/jeRfsDiYKKJZmv8imE6yRNDbJ/oxfek=
 github.com/kwilteam/sql-grammar-go v0.0.0-20230614214308-49b3d70d9050/go.mod h1:OqmGyCwHfBZvYv/sYPrQ5Ih290dhlD5AcKOHDlUSS0Y=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
