@@ -9,14 +9,6 @@ import (
 	"github.com/kwilteam/kuneiform/utils"
 )
 
-type Mode uint
-
-const (
-	Default Mode = 1 << iota
-	AllErrors
-	Trace
-)
-
 func Parse(input string) (result *schema.Schema, err error) {
 	return ParseKF(input, nil, Default)
 }
@@ -48,18 +40,18 @@ func ParseKF(input string, errorListener *utils.ErrorListener, mode Mode) (resul
 		// if trace mode, print the error
 	}()
 
-	visitor := NewKuneiformVisitor()
+	visitor := NewKuneiformVisitor(mode)
 
 	parseTree := p.Source_unit()
 	result, ok := visitor.Visit(parseTree).(*schema.Schema)
 	if !ok {
-		return nil, errors.New("failed to parse")
+		return result, errors.New("failed to parse")
 	}
 
 	v := schema.NewCtxValidator()
 	err = result.Accept(v)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 
 	return result, err
