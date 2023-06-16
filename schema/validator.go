@@ -7,24 +7,26 @@ import (
 )
 
 var (
-	ErrDuplicateTable     = errors.New("duplicate table")
-	ErrDuplicateColumn    = errors.New("duplicate column")
-	ErrDuplicateAttribute = errors.New("duplicate attribute")
-	ErrDuplicateIndex     = errors.New("duplicate index")
-	ErrDuplicateAction    = errors.New("duplicate action")
-	ErrDuplicateParam     = errors.New("duplicate param")
-	ErrAttributeNotAllow  = errors.New("attribute not allowed")
-	ErrTableNotFound      = errors.New("table not found")
-	ErrColumnNotFound     = errors.New("column not found")
+	ErrDuplicateTable      = errors.New("duplicate table")
+	ErrDuplicateColumn     = errors.New("duplicate column")
+	ErrDuplicateAttribute  = errors.New("duplicate attribute")
+	ErrDuplicateIndex      = errors.New("duplicate index")
+	ErrDuplicateAction     = errors.New("duplicate action")
+	ErrDuplicateParam      = errors.New("duplicate param")
+	ErrDupForeignKeyAction = errors.New("duplicate foreign key action")
+	ErrAttributeNotAllow   = errors.New("attribute not allowed")
+	ErrTableNotFound       = errors.New("table not found")
+	ErrColumnNotFound      = errors.New("column not found")
 )
 
 type Validator interface {
-	VisitSchema(s *Schema) error
-	VisitTable(t *Table) error
-	VisitColumn(c *Column) error
-	VisitAttribute(a *Attribute) error
-	VisitIndex(i *Index) error
-	VisitAction(a *Action) error
+	VisitSchema(*Schema) error
+	VisitTable(*Table) error
+	VisitColumn(*Column) error
+	VisitAttribute(*Attribute) error
+	VisitIndex(*Index) error
+	VisitForeignKey(*ForeignKey) error
+	VisitAction(*Action) error
 }
 
 type declCtx map[string]string
@@ -61,6 +63,23 @@ func (c *ContextValidator) VisitSchema(s *Schema) error {
 		c.currentDecl = a.Name
 		if err := a.Accept(c); err != nil {
 			return err
+		}
+	}
+
+	// all table have been visited, Check foreign keys references
+	for _, t := range s.Tables {
+		for _, fk := range t.ForeignKeys {
+			// check foreign keys column in current table
+			for _, col := range fk.ChildKeys {
+				if _, ok := c.tableCtx[t.Name][col]; !ok {
+					return errors.Wrap(ErrColumnNotFound, fmt.Sprintf("fk(%s/%s)", t.Name, col))
+				}
+			}
+
+			// check foreign keys column in parent table
+			if err := fk.Accept(c); err != nil {
+				return err
+			}
 		}
 	}
 
@@ -125,9 +144,31 @@ func (c *ContextValidator) VisitAttribute(a *Attribute) error {
 func (c *ContextValidator) VisitIndex(i *Index) error {
 	for _, col := range i.Columns {
 		if _, ok := c.tableCtx[c.currentDecl][col]; !ok {
-			return errors.Wrap(ErrColumnNotFound, col)
+			return errors.Wrap(ErrColumnNotFound, fmt.Sprintf("index(%s/%s)", c.currentDecl, col))
 		}
 	}
+	return nil
+}
+
+func (c *ContextValidator) VisitForeignKey(fk *ForeignKey) error {
+	if _, ok := c.tableCtx[fk.ParentTable]; !ok {
+		return errors.Wrap(ErrTableNotFound, fk.ParentTable)
+	}
+
+	for _, col := range fk.ParentKeys {
+		if _, ok := c.tableCtx[fk.ParentTable][col]; !ok {
+			return errors.Wrap(ErrColumnNotFound, fmt.Sprintf("ref(%s->%s)", fk.ParentTable, col))
+		}
+	}
+
+	seenAction := map[ForeignKeyActionOn]bool{}
+	for _, action := range fk.Actions {
+		if _, ok := seenAction[action.On]; ok {
+			return errors.Wrap(ErrDupForeignKeyAction, string(action.On))
+		}
+		seenAction[action.On] = true
+	}
+
 	return nil
 }
 

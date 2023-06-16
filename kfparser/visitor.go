@@ -112,6 +112,10 @@ func (v *KFVisitor) VisitTable_decl(ctx *kfgrammar.Table_declContext) interface{
 		t.Indexes = v.Visit(ctx.Index_def_list()).([]schema.Index)
 	}
 
+	if ctx.Foreign_key_def_list() != nil {
+		t.ForeignKeys = v.Visit(ctx.Foreign_key_def_list()).([]schema.ForeignKey)
+	}
+
 	return &t
 }
 
@@ -225,6 +229,62 @@ func (v *KFVisitor) VisitColumn_name_list(ctx *kfgrammar.Column_name_listContext
 	}
 
 	return columns
+}
+
+func (v *KFVisitor) VisitForeign_key_def_list(ctx *kfgrammar.Foreign_key_def_listContext) interface{} {
+	fkCount := len(ctx.AllForeign_key_def())
+	fks := make([]schema.ForeignKey, fkCount)
+
+	for i, fkDef := range ctx.AllForeign_key_def() {
+		fk := v.Visit(fkDef).(*schema.ForeignKey)
+		fks[i] = *fk
+	}
+
+	return fks
+}
+
+func (v *KFVisitor) VisitForeign_key_def(ctx *kfgrammar.Foreign_key_defContext) interface{} {
+	fk := schema.ForeignKey{}
+	fk.ChildKeys = v.Visit(ctx.Column_name_list(0)).([]string)
+	fk.ParentTable = ctx.Table_name().GetText()
+	fk.ParentKeys = v.Visit(ctx.Column_name_list(1)).([]string)
+
+	actionCount := len(ctx.AllForeign_key_action())
+	if actionCount != 0 {
+		fk.Actions = make([]schema.ForeignKeyAction, actionCount)
+		for i, fkAction := range ctx.AllForeign_key_action() {
+			action := v.Visit(fkAction).(*schema.ForeignKeyAction)
+			fk.Actions[i] = *action
+		}
+	}
+
+	return &fk
+}
+
+func (v *KFVisitor) VisitForeign_key_action(ctx *kfgrammar.Foreign_key_actionContext) interface{} {
+	action := schema.ForeignKeyAction{}
+
+	switch {
+	case ctx.ACTION_ON_UPDATE_() != nil:
+		action.On = schema.ON_UPDATE
+	case ctx.ACTION_ON_DELETE_() != nil:
+		action.On = schema.ON_DELETE
+	}
+
+	switch {
+	case ctx.ACTION_DO_NO_ACTION_() != nil:
+		action.Do = schema.DO_NO_ACTION
+	case ctx.ACTION_DO_SET_NULL_() != nil:
+		action.Do = schema.DO_SET_NULL
+	case ctx.ACTION_DO_SET_DEFAULT_() != nil:
+		action.Do = schema.DO_SET_DEFAULT
+	case ctx.ACTION_DO_CASCADE_() != nil:
+		action.Do = schema.DO_CASCADE
+	case ctx.ACTION_DO_RESTRICT_() != nil:
+		action.Do = schema.DO_RESTRICT
+	}
+
+	return &action
 }
 
 // VisitAction_decl is called when parsing action declaration, return *schema.Action
