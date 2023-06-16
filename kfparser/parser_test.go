@@ -60,6 +60,30 @@ func genOneTableTwoColWithIndexes(colType1, colType2 schema.ColumnType, index ..
 	}
 }
 
+func genTwoTableTwoColWithFks(colType1, colType2 schema.ColumnType, fks ...schema.ForeignKey) *schema.Schema {
+	return &schema.Schema{
+		Name:  "td1",
+		Owner: "",
+		Tables: []schema.Table{
+			{
+				Name: "tt1",
+				Columns: []schema.Column{
+					{Name: "tc1", Type: colType1},
+					{Name: "tc2", Type: colType2},
+				},
+			},
+			{
+				Name: "tt2",
+				Columns: []schema.Column{
+					{Name: "tc1", Type: colType1},
+					{Name: "tc2", Type: colType2},
+				},
+				ForeignKeys: fks,
+			},
+		},
+	}
+}
+
 func genOneTableTwoColWithActions(colType1, colType2 schema.ColumnType, actions ...schema.Action) *schema.Schema {
 	return &schema.Schema{
 		Name:  "td1",
@@ -126,6 +150,199 @@ func TestParse_valid_syntax(t *testing.T) {
 			genOneTableTwoColWithIndexes(schema.ColInt, schema.ColText,
 				schema.Index{Name: "idx1", Type: schema.IdxUniqueBtree, Columns: []string{"tc1", "tc2"}}),
 		},
+		// TODO: parentheses follows with spaces, like `func ( arg1, arg2 )`
+		// foreign key
+		{"table with foreign key update no_action", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_update do no_action,}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_NO_ACTION,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key update restrict", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_update do restrict}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_RESTRICT,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key update set_null", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_update do set_null}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_SET_NULL,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key update set_default", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_update do set_default}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_SET_DEFAULT,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key update cascade", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_update do cascade}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_CASCADE,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key delete no_action", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do no_action,}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_DELETE,
+								Do: schema.DO_NO_ACTION,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key delete restrict", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do restrict}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_DELETE,
+								Do: schema.DO_RESTRICT,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key delte set_null", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do set_null}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_DELETE,
+								Do: schema.DO_SET_NULL,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key delete set_default", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do set_default}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_DELETE,
+								Do: schema.DO_SET_DEFAULT,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key delete cascade", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_DELETE,
+								Do: schema.DO_CASCADE,
+							},
+						},
+					},
+				}...)},
+		{"table with foreign key two actions", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade on_update do restrict}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_DELETE,
+								Do: schema.DO_CASCADE,
+							},
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_RESTRICT,
+							},
+						},
+					},
+				}...)},
 		// action
 		{"table with action insert", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { insert into tt1 (tc1, tc2) values (1, "2"); }`,
@@ -199,7 +416,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...),
 		},
 	}
-	mode := Trace
+	mode := Default
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := ParseKF(tt.input, nil, mode)
@@ -249,6 +466,9 @@ func TestParse_invalid_semantic(t *testing.T) {
 		{"use attr minlen for int column", `database td1; table tt1 { tc1 int minlen(10)}`},
 		{"use attr maxlen for int column", `database td1; table tt1 { tc1 int maxlen(10)}`},
 		{"use non-defined column in index", `database td1; table tt1 { tc1 int, #idx1 index(tc2)}`},
+		{"use dup action for foreieng key", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade on_delete do restrict}`},
 	}
 
 	mode := Trace
