@@ -1,6 +1,7 @@
 package kfparser
 
 import (
+	"flag"
 	"github.com/kwilteam/kuneiform/kfparser/ast"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
@@ -8,6 +9,8 @@ import (
 	"strings"
 	"testing"
 )
+
+var trace = flag.Bool("trace", false, "run tests with trace enabled")
 
 func genOneTableOneCol(colType schema.ColumnType) *schema.Schema {
 	return &schema.Schema{
@@ -152,6 +155,23 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		// TODO: parentheses follows with spaces, like `func ( arg1, arg2 )`
 		// foreign key
+		{"table with foreign key update no_action using abbr without do", `database td1; 
+			table tt1 { tc1 int, tc2 text }
+            table tt2 { tc1 int, tc2 text, fk (tc1) ref tt1 (tc1) on_update no_action,}`,
+			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
+				[]schema.ForeignKey{
+					{
+						ChildKeys:   []string{"tc1"},
+						ParentTable: "tt1",
+						ParentKeys:  []string{"tc1"},
+						Actions: []schema.ForeignKeyAction{
+							{
+								On: schema.ON_UPDATE,
+								Do: schema.DO_NO_ACTION,
+							},
+						},
+					},
+				}...)},
 		{"table with foreign key update no_action", `database td1; 
 			table tt1 { tc1 int, tc2 text }
             table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_update do no_action,}`,
@@ -239,7 +259,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...)},
 		{"table with foreign key delete no_action", `database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do no_action,}`,
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete no_action,}`,
 			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
 				[]schema.ForeignKey{
 					{
@@ -256,7 +276,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...)},
 		{"table with foreign key delete restrict", `database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do restrict}`,
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete restrict}`,
 			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
 				[]schema.ForeignKey{
 					{
@@ -273,7 +293,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...)},
 		{"table with foreign key delte set_null", `database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do set_null}`,
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete set_null}`,
 			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
 				[]schema.ForeignKey{
 					{
@@ -290,7 +310,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...)},
 		{"table with foreign key delete set_default", `database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do set_default}`,
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete set_default}`,
 			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
 				[]schema.ForeignKey{
 					{
@@ -307,7 +327,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...)},
 		{"table with foreign key delete cascade", `database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade}`,
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete cascade}`,
 			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
 				[]schema.ForeignKey{
 					{
@@ -324,7 +344,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...)},
 		{"table with foreign key two actions", `database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade on_update do restrict}`,
+            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete cascade on_update restrict}`,
 			genTwoTableTwoColWithFks(schema.ColInt, schema.ColText,
 				[]schema.ForeignKey{
 					{
@@ -417,6 +437,10 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 	}
 	mode := Default
+	if *trace {
+		mode = Trace
+	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := ParseKF(tt.input, nil, mode)
@@ -443,7 +467,11 @@ func TestParse_invalid_syntax(t *testing.T) {
                    action act1() public { select * from tt1 }`},
 	}
 
-	mode := Trace
+	mode := Default
+	if *trace {
+		mode = Trace
+	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			_, err := ParseKF(tt.input, nil, mode)
@@ -471,7 +499,11 @@ func TestParse_invalid_semantic(t *testing.T) {
             table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade on_delete do restrict}`},
 	}
 
-	mode := Trace
+	mode := Default
+	if *trace {
+		mode = Trace
+	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			_, err := ParseKF(tt.input, nil, mode)
