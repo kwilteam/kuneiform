@@ -25,3 +25,6 @@ release: ## release
 	@# need configure github token
 	@# either `GITHUB_TOKEN` environment or ~/.config/goreleaser/github_token
 	@goreleaser release
+
+test: ## run tests
+	@go test -v ./kfparser/ -count=1
