@@ -1,26 +1,50 @@
 package schema
 
 import (
+	"errors"
 	"fmt"
+	"github.com/kwilteam/kwil-db/pkg/engine/actparser"
 	"github.com/kwilteam/kwil-db/pkg/engine/sqlparser"
-	"github.com/pkg/errors"
+	"strings"
 )
 
 var (
-	ErrDuplicateTable      = errors.New("duplicate table")
-	ErrDuplicateColumn     = errors.New("duplicate column")
-	ErrDuplicateAttribute  = errors.New("duplicate attribute")
-	ErrDuplicateIndex      = errors.New("duplicate index")
-	ErrDuplicateAction     = errors.New("duplicate action")
-	ErrDuplicateParam      = errors.New("duplicate param")
-	ErrDupForeignKeyAction = errors.New("duplicate foreign key action")
-	ErrAttributeNotAllow   = errors.New("attribute not allowed")
-	ErrTableNotFound       = errors.New("table not found")
-	ErrColumnNotFound      = errors.New("column not found")
+	ErrAttributeNotAllow  = errors.New("attribute not allowed")
+	ErrDuplicateTable     = errors.New("duplicate table")
+	ErrDuplicateExtension = errors.New("duplicate extension")
+	ErrDuplicateColumn    = errors.New("duplicate column")
+	ErrDuplicateAttribute = errors.New("duplicate attribute")
+	ErrDuplicateIndex     = errors.New("duplicate index")
+	ErrDuplicateAction    = errors.New("duplicate action")
+	ErrDuplicateParam     = errors.New("duplicate param")
+	ErrDupFKAction        = errors.New("duplicate foreign key action")
+	ErrDuplicateVariable  = errors.New("duplicate variable")
+	ErrTableNotFound      = errors.New("table not found")
+	ErrColumnNotFound     = errors.New("column not found")
+	ErrActionNotFound     = errors.New("action not found")
+	ErrVariableNotFound   = errors.New("variable not found")
+	ErrExtensionNotFound  = errors.New("extension not found")
+	ErrBlockVarNotFound   = errors.New("block variable not found")
+)
+
+var (
+	builtinBlockVars = map[string]bool{
+		"@caller":  true,
+		"@action":  true,
+		"@dataset": true,
+	}
+)
+
+const (
+	// BlockVarPrefix is the prefix for block variables
+	BlockVarPrefix = "@"
+	// VarPrefix is the prefix for variables
+	VarPrefix = "$"
 )
 
 type Validator interface {
 	VisitSchema(*Schema) error
+	VisitExtension(*Extension) error
 	VisitTable(*Table) error
 	VisitColumn(*Column) error
 	VisitAttribute(*Attribute) error
@@ -34,6 +58,7 @@ type declCtx map[string]string
 type ContextValidator struct {
 	tableCtx    map[string]declCtx
 	actionCtx   map[string]declCtx
+	extCtx      map[string]declCtx
 	currentDecl string
 }
 
@@ -41,14 +66,26 @@ func NewCtxValidator() *ContextValidator {
 	return &ContextValidator{
 		tableCtx:    map[string]declCtx{},
 		actionCtx:   map[string]declCtx{},
+		extCtx:      map[string]declCtx{},
 		currentDecl: "current",
 	}
 }
 
 func (c *ContextValidator) VisitSchema(s *Schema) error {
+	for _, t := range s.Extensions {
+		name := t.Name
+		if t.Alias != "" {
+			name = t.Alias
+		}
+		if _, ok := c.extCtx[name]; ok {
+			return fmt.Errorf("%w: %s", ErrDuplicateExtension, name)
+		}
+		c.extCtx[name] = declCtx{}
+	}
+
 	for _, t := range s.Tables {
 		if _, ok := c.tableCtx[t.Name]; ok {
-			return errors.Wrap(ErrDuplicateTable, t.Name)
+			return fmt.Errorf("%w: %s", ErrDuplicateTable, t.Name)
 		}
 		c.currentDecl = t.Name
 		if err := t.Accept(c); err != nil {
@@ -58,7 +95,7 @@ func (c *ContextValidator) VisitSchema(s *Schema) error {
 
 	for _, a := range s.Actions {
 		if _, ok := c.actionCtx[a.Name]; ok {
-			return errors.Wrap(ErrDuplicateAction, a.Name)
+			return fmt.Errorf("%w: %s", ErrDuplicateAction, a.Name)
 		}
 		c.currentDecl = a.Name
 		if err := a.Accept(c); err != nil {
@@ -72,7 +109,7 @@ func (c *ContextValidator) VisitSchema(s *Schema) error {
 			// check foreign keys column in current table
 			for _, col := range fk.ChildKeys {
 				if _, ok := c.tableCtx[t.Name][col]; !ok {
-					return errors.Wrap(ErrColumnNotFound, fmt.Sprintf("fk(%s/%s)", t.Name, col))
+					return fmt.Errorf("%w: fk(%s/%s)", ErrColumnNotFound, t.Name, col)
 				}
 			}
 
@@ -83,17 +120,26 @@ func (c *ContextValidator) VisitSchema(s *Schema) error {
 		}
 	}
 
+	// all action have been visited, Check action references
+	if err := c.visitActions(s.Actions); err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func (c *ContextValidator) VisitExtension(extension *Extension) error {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (c *ContextValidator) VisitTable(t *Table) error {
 	c.tableCtx[c.currentDecl] = declCtx{}
-	c.actionCtx[c.currentDecl] = declCtx{}
 
 	if len(t.Columns) != 0 {
 		for _, col := range t.Columns {
 			if _, ok := c.tableCtx[c.currentDecl][col.Name]; ok {
-				return errors.Wrap(ErrDuplicateColumn, col.Name)
+				return fmt.Errorf("%w: %s", ErrDuplicateColumn, col.Name)
 			}
 			c.tableCtx[c.currentDecl][col.Name] = "column"
 			if err := col.Accept(c); err != nil {
@@ -105,9 +151,9 @@ func (c *ContextValidator) VisitTable(t *Table) error {
 	if len(t.Indexes) != 0 {
 		for _, idx := range t.Indexes {
 			if _, ok := c.tableCtx[c.currentDecl][idx.Name]; ok {
-				return errors.Wrap(ErrDuplicateIndex, idx.Name)
+				return fmt.Errorf("%w: %s", ErrDuplicateIndex, idx.Name)
 			}
-			c.actionCtx[c.currentDecl][idx.Name] = "index"
+			c.tableCtx[c.currentDecl][idx.Name] = "index"
 			if err := idx.Accept(c); err != nil {
 				return err
 			}
@@ -122,16 +168,16 @@ func (c *ContextValidator) VisitColumn(col *Column) error {
 
 	for _, attr := range col.Attributes {
 		if _, ok := seenAttr[attr.Type]; ok {
-			return errors.Wrap(ErrDuplicateAttribute, attr.Type.String())
+			return fmt.Errorf("%w: %s", ErrDuplicateAttribute, attr.Type.String())
 		}
 		seenAttr[attr.Type] = true
 
 		if col.Type == ColInt && (attr.Type == AttrMinLength || attr.Type == AttrMaxLength) {
-			return errors.Wrap(ErrAttributeNotAllow, fmt.Sprintf("%s(%s)", col.Type.String(), attr.Type.String()))
+			return fmt.Errorf("%w: %s(%s)", ErrAttributeNotAllow, col.Type.String(), attr.Type.String())
 		}
 
 		if col.Type == ColText && (attr.Type == AttrMin || attr.Type == AttrMax) {
-			return errors.Wrap(ErrAttributeNotAllow, fmt.Sprintf("%s(%s)", col.Type.String(), attr.Type.String()))
+			return fmt.Errorf("%w: %s(%s)", ErrAttributeNotAllow, col.Type.String(), attr.Type.String())
 		}
 	}
 	return nil
@@ -144,7 +190,7 @@ func (c *ContextValidator) VisitAttribute(a *Attribute) error {
 func (c *ContextValidator) VisitIndex(i *Index) error {
 	for _, col := range i.Columns {
 		if _, ok := c.tableCtx[c.currentDecl][col]; !ok {
-			return errors.Wrap(ErrColumnNotFound, fmt.Sprintf("index(%s/%s)", c.currentDecl, col))
+			return fmt.Errorf("%w: index(%s/%s)", ErrColumnNotFound, c.currentDecl, col)
 		}
 	}
 	return nil
@@ -152,19 +198,19 @@ func (c *ContextValidator) VisitIndex(i *Index) error {
 
 func (c *ContextValidator) VisitForeignKey(fk *ForeignKey) error {
 	if _, ok := c.tableCtx[fk.ParentTable]; !ok {
-		return errors.Wrap(ErrTableNotFound, fk.ParentTable)
+		return fmt.Errorf("%w: %s", ErrTableNotFound, fk.ParentTable)
 	}
 
 	for _, col := range fk.ParentKeys {
 		if _, ok := c.tableCtx[fk.ParentTable][col]; !ok {
-			return errors.Wrap(ErrColumnNotFound, fmt.Sprintf("ref(%s->%s)", fk.ParentTable, col))
+			return fmt.Errorf("%w: ref(%s->%s)", ErrColumnNotFound, fk.ParentTable, col)
 		}
 	}
 
 	seenAction := map[ForeignKeyActionOn]bool{}
 	for _, action := range fk.Actions {
 		if _, ok := seenAction[action.On]; ok {
-			return errors.Wrap(ErrDupForeignKeyAction, string(action.On))
+			return fmt.Errorf("%w: %s", ErrDupFKAction, string(action.On))
 		}
 		seenAction[action.On] = true
 	}
@@ -172,25 +218,118 @@ func (c *ContextValidator) VisitForeignKey(fk *ForeignKey) error {
 	return nil
 }
 
-func (c *ContextValidator) VisitAction(a *Action) error {
-	seenInput := map[string]bool{}
-	for _, input := range a.Inputs {
-		if _, ok := seenInput[input]; ok {
-			return errors.Wrap(ErrDuplicateParam, input)
+func isSqlStatement(stmt string) bool {
+	stmt = strings.TrimSpace(stmt)
+	stmt = strings.ToLower(stmt)
+	return strings.HasPrefix(stmt, "select") ||
+		strings.HasPrefix(stmt, "insert") ||
+		strings.HasPrefix(stmt, "update") ||
+		strings.HasPrefix(stmt, "delete") ||
+		strings.HasPrefix(stmt, "with")
+}
+
+func checkArgRef(arg string, ctx declCtx, localCtx map[string]bool) error {
+	// only validate variable
+	// regular variable
+	if strings.HasPrefix(arg, VarPrefix) {
+		if _, ok := ctx[arg]; !ok {
+			if _, _ok := localCtx[arg]; !_ok {
+				return fmt.Errorf("%w: %s", ErrVariableNotFound, arg)
+			}
 		}
-		seenInput[input] = true
 	}
 
-	for _, statement := range a.Statements {
-		astTree, err := sqlparser.ParseSql(statement, 1, nil, false)
-		if err != nil {
-			return errors.Wrap(err, c.currentDecl)
+	// block variable
+	if strings.HasPrefix(arg, BlockVarPrefix) {
+		if _, ok := builtinBlockVars[arg]; !ok {
+			return fmt.Errorf("%w: %s", ErrVariableNotFound, arg)
 		}
-		if _, err := astTree.ToSQL(); err != nil {
-			return errors.Wrap(err, c.currentDecl)
-		}
-		// TODO: validate reference in SQL statement
 	}
+
+	return nil
+}
+
+func (c *ContextValidator) visitActions(actions []Action) error {
+	for _, a := range actions {
+		// track local defined variables
+		localCtx := map[string]bool{}
+
+		for _, arg := range a.Inputs {
+			localCtx[arg] = true
+		}
+
+		for _, statement := range a.Statements {
+			stmt, err := actparser.Parse(statement)
+			if err != nil {
+				return fmt.Errorf("%w: %s", err, statement)
+			}
+
+			switch s := stmt.(type) {
+			case *actparser.DMLStmt:
+				astTree, err := sqlparser.ParseSql(statement, 1, nil, false)
+				if err != nil {
+					return fmt.Errorf("%w: %s", err, statement)
+				}
+				if _, err := astTree.ToSQL(); err != nil {
+					return fmt.Errorf("%w: %s", err, statement)
+				}
+				// TODO: validate reference in SQL statement
+				//switch t := astTree.(type) {
+				//case *tree.Select:
+			case *actparser.ActionCallStmt:
+				if _, ok := c.actionCtx[s.Method]; !ok {
+					fmt.Errorf("%w: %s", ErrActionNotFound, s.Method)
+				}
+
+				for _, input := range s.Args {
+					if err := checkArgRef(input, c.actionCtx[a.Name], localCtx); err != nil {
+						return err
+					}
+				}
+			case *actparser.ExtensionCallStmt:
+				if _, ok := c.extCtx[s.Extension]; !ok {
+					return fmt.Errorf("%w: %s", ErrExtensionNotFound, s.Extension)
+				}
+
+				for _, input := range s.Args {
+					if err := checkArgRef(input, c.actionCtx[a.Name], localCtx); err != nil {
+						return err
+					}
+				}
+
+				currentLineCtx := map[string]bool{}
+				for _, receiver := range s.Receivers {
+					if _, ok := currentLineCtx[receiver]; ok {
+						return fmt.Errorf("%w: %s", ErrDuplicateVariable, receiver)
+					}
+					currentLineCtx[receiver] = true
+
+					localCtx[receiver] = true
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func (c *ContextValidator) VisitAction(a *Action) error {
+	c.actionCtx[c.currentDecl] = declCtx{}
+
+	//seenInput := map[string]bool{}
+	//for _, input := range a.Inputs {
+	//	if _, ok := seenInput[input]; ok {
+	//		return fmt.Errorf("%w: %s", ErrDuplicateParam, input)
+	//	}
+	//	seenInput[input] = true
+	//}
+
+	for _, input := range a.Inputs {
+		if _, ok := c.actionCtx[c.currentDecl][input]; ok {
+			return fmt.Errorf("%w: %s", ErrDuplicateParam, input)
+		}
+		c.actionCtx[c.currentDecl][input] = input
+	}
+
 	return nil
 }
 

@@ -6,8 +6,8 @@ import (
 	"github.com/kwilteam/kuneiform-grammar-go/kfgrammar"
 	"github.com/kwilteam/kuneiform/kfparser/ast"
 	"github.com/kwilteam/kuneiform/schema"
-	"github.com/pkg/errors"
 	"reflect"
+	"strings"
 )
 
 type Mode uint
@@ -74,12 +74,17 @@ func (v *KFVisitor) shouldVisitNextChild(node antlr.Tree, currentResult interfac
 
 // VisitSource_unit is called when start parsing, return *schema.Schema
 func (v *KFVisitor) VisitSource_unit(ctx *kfgrammar.Source_unitContext) interface{} {
-	if ctx.Database_directive() == nil {
-		panic(errors.Wrap(ErrorInvalidSyntax, "missing database clause"))
-	}
-
 	s := schema.Schema{}
 	s.Name = ctx.Database_directive().Database_name().GetText()
+
+	extCount := len(ctx.AllExtension_directive())
+	if extCount != 0 {
+		s.Extensions = make([]schema.Extension, extCount)
+		for i, extDirective := range ctx.AllExtension_directive() {
+			ext := v.Visit(extDirective).(*schema.Extension)
+			s.Extensions[i] = *ext
+		}
+	}
 
 	tableCount := len(ctx.AllTable_decl())
 	if tableCount != 0 {
@@ -99,6 +104,31 @@ func (v *KFVisitor) VisitSource_unit(ctx *kfgrammar.Source_unitContext) interfac
 	}
 
 	return &s
+}
+
+func (v *KFVisitor) VisitExtension_directive(ctx *kfgrammar.Extension_directiveContext) interface{} {
+	ext := schema.Extension{}
+	ext.Name = ctx.Extension_name(0).GetText()
+
+	if ctx.Ext_config_list() != nil {
+		ext.Config = v.Visit(ctx.Ext_config_list()).(map[string]string)
+	}
+
+	if ctx.AS_() != nil {
+		ext.Alias = ctx.Extension_name(1).GetText()
+	}
+	return &ext
+}
+
+func (v *KFVisitor) VisitExt_config_list(ctx *kfgrammar.Ext_config_listContext) interface{} {
+	configCount := len(ctx.AllExt_config())
+	configs := make(map[string]string, configCount)
+
+	for _, config := range ctx.AllExt_config() {
+		configs[config.Ext_config_name().GetText()] = config.Ext_config_value().GetText()
+	}
+
+	return configs
 }
 
 // VisitTable_decl is called when parsing table declaration, return *schema.Table
@@ -280,24 +310,24 @@ func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interfac
 
 	a.Name = ctx.Action_name().GetText()
 
-	if ctx.PUBLIC_() != nil {
+	if ctx.ACTION_OPEN_PUBLIC() != nil {
 		a.Public = true
 	}
 
-	if len(ctx.Action_param_list().AllACTION_PARAMETER()) != 0 {
-		a.Inputs = v.Visit(ctx.Action_param_list()).([]string)
+	if len(ctx.Param_list().AllPARAMETER()) != 0 {
+		a.Inputs = v.Visit(ctx.Param_list()).([]string)
 	}
-	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
 
+	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
 	return a
 }
 
 // VisitAction_param_list is called when parsing action parameter list, return []string
-func (v *KFVisitor) VisitAction_param_list(ctx *kfgrammar.Action_param_listContext) interface{} {
-	paramCount := len(ctx.AllACTION_PARAMETER())
+func (v *KFVisitor) VisitParam_list(ctx *kfgrammar.Param_listContext) interface{} {
+	paramCount := len(ctx.AllPARAMETER())
 	params := make([]string, paramCount)
 
-	for i, actionParam := range ctx.AllACTION_PARAMETER() {
+	for i, actionParam := range ctx.AllPARAMETER() {
 		params[i] = actionParam.GetText()
 	}
 
@@ -319,11 +349,6 @@ func (v *KFVisitor) VisitAction_stmt_list(ctx *kfgrammar.Action_stmt_listContext
 
 // VisitAction_stmt is called when parsing action statement, return string
 func (v *KFVisitor) VisitAction_stmt(ctx *kfgrammar.Action_stmtContext) interface{} {
-	if ctx.Sql_stmt() != nil {
-		stmt := ctx.Sql_stmt().GetText()
-		return stmt
-	}
-
-	stmt := ctx.GetText()
+	stmt := strings.TrimSpace(ctx.GetText())
 	return stmt
 }

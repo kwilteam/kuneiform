@@ -3,10 +3,17 @@ package schema
 import "encoding/json"
 
 type Schema struct {
-	Owner   string   `json:"owner"`
-	Name    string   `json:"name"`
-	Tables  []Table  `json:"tables,omitempty"`
-	Actions []Action `json:"actions,omitempty"`
+	Owner      string      `json:"owner"`
+	Name       string      `json:"name"`
+	Tables     []Table     `json:"tables,omitempty"`
+	Actions    []Action    `json:"actions,omitempty"`
+	Extensions []Extension `json:"extensions,omitempty"`
+}
+
+type Extension struct {
+	Name   string            `json:"name"`
+	Config map[string]string `json:"config"`
+	Alias  string            `json:"alias"`
 }
 
 type Table struct {
@@ -72,6 +79,7 @@ type Action struct {
 }
 
 func (s *Schema) Node()     {}
+func (e *Extension) Node()  {}
 func (t *Table) Node()      {}
 func (c *Column) Node()     {}
 func (a *Attribute) Node()  {}
@@ -81,6 +89,10 @@ func (a *Action) Node()     {}
 
 func (s *Schema) Accept(validator Validator) error {
 	return validator.VisitSchema(s)
+}
+
+func (e *Extension) Accept(validator Validator) error {
+	return validator.VisitExtension(e)
 }
 
 func (t *Table) Accept(validator Validator) error {
@@ -108,47 +120,39 @@ func (a *Action) Accept(validator Validator) error {
 }
 
 func (s *Schema) ToJSON() ([]byte, error) {
-	res, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
+	return astMarshal(s)
+}
+
+func (e *Extension) ToJSON() ([]byte, error) {
+	return astMarshal(e)
 }
 
 func (t *Table) ToJSON() ([]byte, error) {
-	res, err := json.MarshalIndent(t, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
+	return astMarshal(t)
 }
 
 func (c *Column) ToJSON() ([]byte, error) {
-	res, err := json.MarshalIndent(c, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
+	return astMarshal(c)
 }
 
 func (a *Attribute) ToJSON() ([]byte, error) {
-	res, err := json.MarshalIndent(a, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
+	return astMarshal(a)
 }
 
 func (i *Index) ToJSON() ([]byte, error) {
-	res, err := json.MarshalIndent(i, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-	return res, nil
+	return astMarshal(i)
+}
+
+func (f *ForeignKey) ToJSON() ([]byte, error) {
+	return astMarshal(f)
 }
 
 func (a *Action) ToJSON() ([]byte, error) {
-	res, err := json.MarshalIndent(a, "", "  ")
+	return astMarshal(a)
+}
+
+func astMarshal(v interface{}) ([]byte, error) {
+	res, err := json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return nil, err
 	}
