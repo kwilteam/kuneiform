@@ -363,6 +363,48 @@ func TestParse_valid_syntax(t *testing.T) {
 						},
 					},
 				}...)},
+		// fk and index
+		{"table with mixed foreign key and index", `database td1;
+			table tt1 {
+				tc1 int, tc2 text,
+				#idx1 primary (tc1,tc2),
+				foreign_key (tc1) references tt1 (tc1) on_delete cascade on_update restrict,
+				#idx2 primary (tc1,tc2),
+		}`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+							{Name: "tc2", Type: schema.ColText},
+						},
+						Indexes: []schema.Index{
+							{Name: "idx1", Type: schema.IdxPrimary, Columns: []string{"tc1", "tc2"}},
+							{Name: "idx2", Type: schema.IdxPrimary, Columns: []string{"tc1", "tc2"}},
+						},
+						ForeignKeys: []schema.ForeignKey{
+							{
+								ChildKeys:   []string{"tc1"},
+								ParentTable: "tt1",
+								ParentKeys:  []string{"tc1"},
+								Actions: []schema.ForeignKeyAction{
+									{
+										On: schema.ON_DELETE,
+										Do: schema.DO_CASCADE,
+									},
+									{
+										On: schema.ON_UPDATE,
+										Do: schema.DO_RESTRICT,
+									},
+								},
+							},
+						},
+					},
+				},
+			}},
 		// action
 		{"table with action insert", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { insert into tt1 (tc1, tc2) values (1, "2"); }`,

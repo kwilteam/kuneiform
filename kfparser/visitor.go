@@ -108,12 +108,24 @@ func (v *KFVisitor) VisitTable_decl(ctx *kfgrammar.Table_declContext) interface{
 
 	t.Columns = v.Visit(ctx.Column_def_list()).([]schema.Column)
 
-	if ctx.Index_def_list() != nil {
-		t.Indexes = v.Visit(ctx.Index_def_list()).([]schema.Index)
+	indexCount := len(ctx.AllIndex_def())
+
+	if indexCount > 0 {
+		t.Indexes = make([]schema.Index, indexCount)
+		for i, indexDef := range ctx.AllIndex_def() {
+			index := v.Visit(indexDef).(*schema.Index)
+			t.Indexes[i] = *index
+		}
 	}
 
-	if ctx.Foreign_key_def_list() != nil {
-		t.ForeignKeys = v.Visit(ctx.Foreign_key_def_list()).([]schema.ForeignKey)
+	fkCount := len(ctx.AllForeign_key_def())
+	if fkCount > 0 {
+		t.ForeignKeys = make([]schema.ForeignKey, fkCount)
+
+		for i, fkDef := range ctx.AllForeign_key_def() {
+			fk := v.Visit(fkDef).(*schema.ForeignKey)
+			t.ForeignKeys[i] = *fk
+		}
 	}
 
 	return &t
@@ -187,19 +199,6 @@ func (c *KFVisitor) VisitColumn_constraint(ctx *kfgrammar.Column_constraintConte
 	return &attr
 }
 
-// VisitIndex_def_list is called when parsing index definition list, return []schema.Index
-func (v *KFVisitor) VisitIndex_def_list(ctx *kfgrammar.Index_def_listContext) interface{} {
-	indexCount := len(ctx.AllIndex_def())
-	indexes := make([]schema.Index, indexCount)
-
-	for i, indexDef := range ctx.AllIndex_def() {
-		index := v.Visit(indexDef).(*schema.Index)
-		indexes[i] = *index
-	}
-
-	return indexes
-}
-
 // VisitIndex_def is called when parsing index definition, return *schema.Index
 func (v *KFVisitor) VisitIndex_def(ctx *kfgrammar.Index_defContext) interface{} {
 	i := schema.Index{}
@@ -229,18 +228,6 @@ func (v *KFVisitor) VisitColumn_name_list(ctx *kfgrammar.Column_name_listContext
 	}
 
 	return columns
-}
-
-func (v *KFVisitor) VisitForeign_key_def_list(ctx *kfgrammar.Foreign_key_def_listContext) interface{} {
-	fkCount := len(ctx.AllForeign_key_def())
-	fks := make([]schema.ForeignKey, fkCount)
-
-	for i, fkDef := range ctx.AllForeign_key_def() {
-		fk := v.Visit(fkDef).(*schema.ForeignKey)
-		fks[i] = *fk
-	}
-
-	return fks
 }
 
 func (v *KFVisitor) VisitForeign_key_def(ctx *kfgrammar.Foreign_key_defContext) interface{} {
