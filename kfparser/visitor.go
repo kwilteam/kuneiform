@@ -95,12 +95,28 @@ func (v *KFVisitor) VisitSource_unit(ctx *kfgrammar.Source_unitContext) interfac
 		}
 	}
 
+	initCount := len(ctx.AllInit_decl())
+	if initCount > 1 {
+		panic(schema.ErrMultiInit)
+	}
+
+	// if init is defined, it will be the last action
 	actionCount := len(ctx.AllAction_decl())
 	if actionCount != 0 {
-		s.Actions = make([]schema.Action, actionCount)
+		cap := actionCount + initCount
+		s.Actions = make([]schema.Action, cap)
 		for i, actionDecl := range ctx.AllAction_decl() {
 			s.Actions[i] = v.Visit(actionDecl).(schema.Action)
 		}
+		if initCount == 1 {
+			s.Actions[cap-1] = v.Visit(ctx.Init_decl(0)).(schema.Action)
+		}
+	} else {
+		if initCount == 1 {
+			s.Actions = make([]schema.Action, 1)
+			s.Actions[0] = v.Visit(ctx.Init_decl(0)).(schema.Action)
+		}
+
 	}
 
 	return &s
@@ -351,4 +367,12 @@ func (v *KFVisitor) VisitAction_stmt_list(ctx *kfgrammar.Action_stmt_listContext
 func (v *KFVisitor) VisitAction_stmt(ctx *kfgrammar.Action_stmtContext) interface{} {
 	stmt := strings.TrimSpace(ctx.GetText())
 	return stmt
+}
+
+// VisitInit_decl is called when parsing init declaration, return *schema.Action
+func (v *KFVisitor) VisitInit_decl(ctx *kfgrammar.Init_declContext) interface{} {
+	a := schema.Action{}
+	a.Name = "init"
+	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
+	return a
 }

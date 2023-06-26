@@ -25,6 +25,9 @@ var (
 	ErrVariableNotFound   = errors.New("variable not found")
 	ErrExtensionNotFound  = errors.New("extension not found")
 	ErrBlockVarNotFound   = errors.New("block variable not found")
+
+	// ErrMultiInit this error will be thrown in parsing stage.
+	ErrMultiInit = errors.New("more than one init")
 )
 
 var (

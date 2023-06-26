@@ -513,21 +513,6 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-
-		//{"with extension directive", `database td; `,
-		//	&schema.Schema{
-		//		Name:  "td",
-		//		Owner: "",
-		//		Extensions: []schema.Extension{
-		//			{
-		//				Name:   "a_ext",
-		//				Alias:  "ext1",
-		//				Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
-		//			},
-		//		},
-		//	},
-		//},
-
 		{"action with extension call refer to block variable",
 			`database td1;
 			use a_ext{addr: "0x0000", seed: 3} as ext1;
@@ -558,6 +543,78 @@ func TestParse_valid_syntax(t *testing.T) {
 						Name: "act2",
 						Statements: []string{
 							`$v=ext1.call(@caller,@action,@dataset);`,
+						},
+					},
+				},
+			},
+		},
+		{"with init",
+			`database td1; table tt1 { tc1 int, tc2 text }
+				  init() { insert into tt1 values (1, '2'); }`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+							{Name: "tc2", Type: schema.ColText},
+						},
+					},
+				},
+				Actions: []schema.Action{
+					{
+						Name: "init",
+						Statements: []string{
+							`insert into tt1 values (1, '2');`,
+						},
+					},
+				},
+			},
+		},
+		{"with init and actions",
+			`database td1;
+				use a_ext{addr: "0x0000", seed: 3} as ext1;
+ 				table tt1 { tc1 int }
+				action act1($var1) private { select * from tt1 where tc1 = $var1; }
+				init() {
+					act1(1);
+					$v = ext1.call(@caller);
+					insert into tt1 values ($v);
+				}`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Extensions: []schema.Extension{
+					{
+						Name:   "a_ext",
+						Alias:  "ext1",
+						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+					},
+				},
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+						},
+					},
+				},
+				Actions: []schema.Action{
+					{
+						Name:   "act1",
+						Inputs: []string{"$var1"},
+						Statements: []string{
+							`select * from tt1 where tc1 = $var1;`,
+						},
+					},
+					{
+						Name: "init",
+						Statements: []string{
+							`act1(1);`,
+							`$v=ext1.call(@caller);`,
+							`insert into tt1 values ($v);`,
 						},
 					},
 				},
