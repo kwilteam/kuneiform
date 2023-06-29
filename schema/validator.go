@@ -3,7 +3,7 @@ package schema
 import (
 	"errors"
 	"fmt"
-	"github.com/kwilteam/kwil-db/pkg/engine/actparser"
+	"github.com/kwilteam/kwil-db/pkg/engine/dataset/actparser"
 	"github.com/kwilteam/kwil-db/pkg/engine/sqlparser"
 	"strings"
 )

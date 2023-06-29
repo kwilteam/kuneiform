@@ -12,8 +12,8 @@ github.com/kwilteam/action-grammar-go v0.0.0-20230626155541-72265621f427 h1:MYJu
 github.com/kwilteam/action-grammar-go v0.0.0-20230626155541-72265621f427/go.mod h1:2KYz1ittMk7BbKRJSnSnRSysrgDUUtNB1Ha47ZMdc6M=
 github.com/kwilteam/kuneiform-grammar-go v0.3.2-0.20230626225210-894cd388c72a h1:WJkJJ2qHwMkEb10Rpma85uhIaoYLe22GJZIq6mlqgPY=
 github.com/kwilteam/kuneiform-grammar-go v0.3.2-0.20230626225210-894cd388c72a/go.mod h1:uki0OHLCXttIQqy/DsJ5X9WaNtRf3HB/OmxCCd+XdZU=
-github.com/kwilteam/kwil-db v0.4.1-0.20230622213824-cf04069b99e1 h1:FKwnCJenPF4II1Xg0kpFVBlEp1iuwJ7xNA4k1VmKFpg=
-github.com/kwilteam/kwil-db v0.4.1-0.20230622213824-cf04069b99e1/go.mod h1:JXuFPnCNvw3Sh8GAPQagAng2Lor7JaD27F7gpLh6H8Q=
+github.com/kwilteam/kwil-db v0.4.1-0.20230629144950-2f7a1637e2cf h1:WeeZhKwt24vi+vBFAKS58gYFxG9t9Cwhn9p6TWsvVA0=
+github.com/kwilteam/kwil-db v0.4.1-0.20230629144950-2f7a1637e2cf/go.mod h1:UrDKyYMtpDR5jfBXz9wUdxhXxS6cK6vUyBltQ+OPles=
 github.com/kwilteam/sql-grammar-go v0.0.2 h1:Tg8xo/Pzd72QsO19wwNvFrpw2muuBaERP7XTv21U4Iw=
 github.com/kwilteam/sql-grammar-go v0.0.2/go.mod h1:OqmGyCwHfBZvYv/sYPrQ5Ih290dhlD5AcKOHDlUSS0Y=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
