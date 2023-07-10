@@ -112,6 +112,19 @@ func TestParse_valid_syntax(t *testing.T) {
 	}{
 		{"only database clause", "database td;",
 			&schema.Schema{Name: "td", Owner: ""}},
+		{"with extension directive", `database td; use a_ext{addr: "0x0000", seed: 3} as ext1;`,
+			&schema.Schema{
+				Name:  "td",
+				Owner: "",
+				Extensions: []schema.Extension{
+					{
+						Name:   "a_ext",
+						Alias:  "ext1",
+						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+					},
+				},
+			},
+		},
 		// int column
 		{"table with int column", `database td1; table tt1 { tc1 int, }`,
 			genOneTableOneCol(schema.ColInt),
@@ -406,7 +419,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 			}},
 		// action
-		{"table with action insert", `database td1; table tt1 { tc1 int, tc2 text }
+		{"action with sql insert", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { insert into tt1 (tc1, tc2) values (1, "2"); }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
@@ -417,7 +430,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-		{"table with action update", `database td1; table tt1 { tc1 int, tc2 text }
+		{"action with sql update", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { update tt1 set tc1 = 1, tc2 = "2" where tc1 = 1; }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
@@ -428,7 +441,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-		{"table with action delete", `database td1; table tt1 { tc1 int, tc2 text }
+		{"action with sql delete", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { delete from tt1 where tc1 = 1; }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
@@ -439,7 +452,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-		{"table with action select", `database td1; table tt1 { tc1 int, tc2 text }
+		{"action with sql select", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1($var1) public { select * from tt1 where tc1 = $var1; }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
@@ -451,7 +464,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-		{"table with action private", `database td1; table tt1 { tc1 int, tc2 text }
+		{"action with sql private", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1($var1) private { select * from tt1 where tc1 = $var1; }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
@@ -462,7 +475,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-		{"table with action multi sql statements", `database td1; table tt1 { tc1 int, tc2 text }
+		{"action with multi sql statements", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1($var1) private { select * from tt1 where tc1 = 2;
 										 select * from tt1 where tc1 = $var1; }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
@@ -477,7 +490,138 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
+		{"action with action call refer to block variable",
+			`database td1; table tt1 { tc1 int, tc2 text }
+			action act1($var1, $var2, $var3) private 
+			{ select * from tt1 where tc1 = $var1 or tc2 = $var2 or tc2 = $var3; }
+			action act2() private 
+			{ act1(@caller, @action, @dataset); }`,
+			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
+				[]schema.Action{
+					{
+						Name:   "act1",
+						Inputs: []string{"$var1", "$var2", "$var3"},
+						Statements: []string{
+							`select * from tt1 where tc1 = $var1 or tc2 = $var2 or tc2 = $var3;`,
+						},
+					},
+					{
+						Name: "act2",
+						Statements: []string{
+							`act1(@caller,@action,@dataset);`,
+						},
+					},
+				}...),
+		},
+		{"action with extension call refer to block variable",
+			`database td1;
+			use a_ext{addr: "0x0000", seed: 3} as ext1;
+			table tt1 { tc1 int, tc2 text }
+			action act2() private 
+			{ $v = ext1.call(@caller, @action, @dataset); }`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Extensions: []schema.Extension{
+					{
+						Name:   "a_ext",
+						Alias:  "ext1",
+						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+					},
+				},
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+							{Name: "tc2", Type: schema.ColText},
+						},
+					},
+				},
+				Actions: []schema.Action{
+					{
+						Name: "act2",
+						Statements: []string{
+							`$v=ext1.call(@caller,@action,@dataset);`,
+						},
+					},
+				},
+			},
+		},
+		{"with init",
+			`database td1; table tt1 { tc1 int, tc2 text }
+				  init() { insert into tt1 values (1, '2'); }`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+							{Name: "tc2", Type: schema.ColText},
+						},
+					},
+				},
+				Actions: []schema.Action{
+					{
+						Name: "init",
+						Statements: []string{
+							`insert into tt1 values (1, '2');`,
+						},
+					},
+				},
+			},
+		},
+		{"with init and actions",
+			`database td1;
+				use a_ext{addr: "0x0000", seed: 3} as ext1;
+ 				table tt1 { tc1 int }
+				action act1($var1) private { select * from tt1 where tc1 = $var1; }
+				init() {
+					act1(1);
+					$v = ext1.call(@caller);
+					insert into tt1 values ($v);
+				}`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Extensions: []schema.Extension{
+					{
+						Name:   "a_ext",
+						Alias:  "ext1",
+						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+					},
+				},
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+						},
+					},
+				},
+				Actions: []schema.Action{
+					{
+						Name:   "act1",
+						Inputs: []string{"$var1"},
+						Statements: []string{
+							`select * from tt1 where tc1 = $var1;`,
+						},
+					},
+					{
+						Name: "init",
+						Statements: []string{
+							`act1(1);`,
+							`$v=ext1.call(@caller);`,
+							`insert into tt1 values ($v);`,
+						},
+					},
+				},
+			},
+		},
 	}
+
 	mode := Default
 	if *trace {
 		mode = Trace
@@ -498,12 +642,14 @@ func TestParse_invalid_syntax(t *testing.T) {
 		name  string
 		input string
 	}{
+		{"invalid parameter", `database td1; table tt1 { tc1 int, tc2 text }
+			action act1($1) private { select * from tt1; }`},
 		{"use keyword as database name", `database database; table tt1 { tc1 int, tc2 text }`},
 		{"use keyword as table name", `database td1; table table { tc1 int, tc2 text }`},
 		{"use keyword as column name", `database td1; table tt1 { select int, tc2 text }`},
 		{"use keyword as action name",
 			`database td1; table tt1 { tc1 int, tc2 text }
-					action select() public { select * from tt1 }`},
+					action select() public { select * from tt1; }`},
 		{"action sql without semicolon",
 			`database td1; table tt1 { tc1 int, tc2 text }
                    action act1() public { select * from tt1 }`},
@@ -522,6 +668,8 @@ func TestParse_invalid_syntax(t *testing.T) {
 			if err == nil || !strings.Contains(err.Error(), utils.ErrInvalidSyntax.Error()) {
 				t.Errorf("ParseKF() expected error: %s, got %s", utils.ErrInvalidSyntax, err)
 			}
+
+			assert.ErrorIs(t, err, utils.ErrInvalidSyntax, "Parser complain about wrong error")
 		})
 	}
 }
@@ -530,15 +678,98 @@ func TestParse_invalid_semantic(t *testing.T) {
 	tests := []struct {
 		name  string
 		input string
+		err   error
 	}{
-		{"use attr min for text column", `database td1; table tt1 { tc1 text min(10)}`},
-		{"use attr max for text column", `database td1; table tt1 { tc1 text max(10)}`},
-		{"use attr minlen for int column", `database td1; table tt1 { tc1 int minlen(10)}`},
-		{"use attr maxlen for int column", `database td1; table tt1 { tc1 int maxlen(10)}`},
-		{"use non-defined column in index", `database td1; table tt1 { tc1 int, #idx1 index(tc2)}`},
-		{"use dup action for foreieng key", `database td1; 
+		// attribute not allow
+		{"attr min for text column",
+			`database td1; table tt1 { tc1 text min(10)}`,
+			schema.ErrAttributeNotAllow},
+		{"attr max for text column",
+			`database td1; table tt1 { tc1 text max(10)}`,
+			schema.ErrAttributeNotAllow},
+		{"attr minlen for int column",
+			`database td1; table tt1 { tc1 int minlen(10)}`,
+			schema.ErrAttributeNotAllow},
+		{"attr maxlen for int column",
+			`database td1; table tt1 { tc1 int maxlen(10)}`,
+			schema.ErrAttributeNotAllow},
+		// dup table
+		{"dup table",
+			`database td1; table tt1 { tc1 int, tc2 text } table tt1 { tc1 int, tc2 text }`,
+			schema.ErrDuplicateTable},
+		// dup extension
+		{"dup extension",
+			`database td1; use erc20 as token; use erc712 as token;`,
+			schema.ErrDuplicateExtension},
+		// dup column
+		{"dup column",
+			`database td1; table tt1 { tc1 int, tc2 text, tc1 int }`,
+			schema.ErrDuplicateColumn},
+		// dup attribute
+		{"dup attribute",
+			`database td1; table tt1 { tc1 int primary primary,}`,
+			schema.ErrDuplicateAttribute},
+		// dup index
+		{"dup index",
+			`database td1; table tt1 { tc1 int, tc2 text, #idx1 index(tc1), #idx1 index(tc2) }`,
+			schema.ErrDuplicateIndex},
+		// dup action
+		{"dup action",
+			`database td1; action act1() public {select * from tt1;} action act1() public {select * from tt1;}`,
+			schema.ErrDuplicateAction},
+		// dup parameter
+		{"dup parameter",
+			`database td1; action act1($var1, $var1) public {select * from tt1;}`,
+			schema.ErrDuplicateParam},
+		// dup fk action
+		{"dup on-action for foreieng key",
+			`database td1; 
 			table tt1 { tc1 int, tc2 text }
-            table tt2 { tc1 int, tc2 text, foreign_key (tc1) references tt1 (tc1) on_delete do cascade on_delete do restrict}`},
+            table tt2 { tc1 int, tc2 text, 
+					    fk (tc1) ref tt1 (tc1) on_delete do cascade on_delete do restrict}`,
+			schema.ErrDupFKAction},
+		// dup variable
+		{"dup variable",
+			`database td1; use erc20 as token; action act2($param) public { $var1, $var1 = token.balanceOf($param); }`,
+			schema.ErrDuplicateVariable},
+		// table not found
+		{"table not found in fk",
+			`database td1; 
+            table tt2 { tc1 int, tc2 text, 
+					    fk (tc1) ref tt1 (tc1) on_delete cascade}`,
+			schema.ErrTableNotFound},
+		// column not found
+		{"column not found in index",
+			`database td1; table tt1 { tc1 int, #idx1 index(tc2)}`,
+			schema.ErrColumnNotFound},
+		{"column not found in fk child keys",
+			`database td1; table tt1 { tc1 int, tc2 text } table tt2 { tc1 int, tc2 text, fk (tc3) ref tt1 (tc1) on_delete cascade }`,
+			schema.ErrColumnNotFound},
+		{"column not found in fk parent keys",
+			`database td1; table tt1 { tc1 int, tc2 text } table tt2 { tc1 int, tc2 text, fk (tc1) ref tt1 (tc3) on_delete cascade }`,
+			schema.ErrColumnNotFound},
+		// action not found
+		// TODO: need context to test
+		//{"action not found",
+		//	`database td1; action act2() public { act1(); select * from tt2;}`,
+		//	schema.ErrActionNotFound},
+		// variable not found
+		{"variable not found in action call",
+			`database td1; use erc20 as token; action act2() public { act1($nondefined); }`,
+			schema.ErrVariableNotFound},
+		{"variable not found in extension call",
+			`database td1; use erc20 as token; action act2() public { $var1 = token.balanceOf($nondefined); }`,
+			schema.ErrVariableNotFound},
+		{"block variable not found in action call",
+			`database td1; use erc20 as token; action act2() public { act1(@nondefined); }`,
+			schema.ErrVariableNotFound},
+		{"block variable not found in extension call",
+			`database td1; use erc20 as token; action act2() public { $var1 = token.balanceOf(@nondefined); }`,
+			schema.ErrVariableNotFound},
+		// extension not found
+		{"extension not found",
+			`database td1; use erc20 as token; action act2($param) public { $var1, $var1 = erc.balanceOf($param); }`,
+			schema.ErrExtensionNotFound},
 	}
 
 	mode := Default
@@ -550,6 +781,7 @@ func TestParse_invalid_semantic(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			_, err := ParseKF(tt.input, nil, mode)
 			assert.Errorf(t, err, "Paser should complain about invalid semantic")
+			assert.ErrorIs(t, err, tt.err, "Parser complain about wrong error")
 		})
 	}
 }

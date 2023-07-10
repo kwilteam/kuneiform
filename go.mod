@@ -4,9 +4,8 @@ go 1.19
 
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9
-	github.com/kwilteam/kuneiform-grammar-go v0.3.1
-	github.com/kwilteam/kwil-db v0.3.2-0.20230619192610-61f4f30d30e9
-	github.com/pkg/errors v0.9.1
+	github.com/kwilteam/kuneiform-grammar-go v0.3.2-0.20230710155215-f2e02ad890d5
+	github.com/kwilteam/kwil-db v0.4.1-0.20230629144950-2f7a1637e2cf
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.1
 )
@@ -15,7 +14,9 @@ require (
 	github.com/cstockton/go-conv v1.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/kwilteam/sql-grammar-go v0.0.1 // indirect
+	github.com/kwilteam/action-grammar-go v0.0.0-20230626155541-72265621f427 // indirect
+	github.com/kwilteam/sql-grammar-go v0.0.2 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/exp v0.0.0-20230419192730-864b3d6c5c2c // indirect
