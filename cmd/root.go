@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"github.com/kwilteam/kuneiform/kfparser"
-	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/version"
 	"log"
 	"os"
@@ -59,12 +58,11 @@ var rootCmd = &cobra.Command{
 			os.Exit(CodeErrReadFile)
 		}
 
-		var db *schema.Schema
 		parserMode := kfparser.Default
 		if trace {
 			parserMode = kfparser.Trace
 		}
-		db, err = kfparser.ParseKF(string(data), nil, parserMode)
+		db, err := kfparser.ParseKF(string(data), nil, parserMode)
 		if err != nil {
 			cmd.Println(err)
 			os.Exit(CodeErrParseFile)
