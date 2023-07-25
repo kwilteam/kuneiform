@@ -326,8 +326,16 @@ func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interfac
 
 	a.Name = ctx.Action_name().GetText()
 
-	if ctx.ACTION_OPEN_PUBLIC() != nil {
+	actionOpenStr := ctx.ACTION_OPEN().GetText()
+	if strings.Contains(actionOpenStr, "public") {
 		a.Public = true
+	}
+
+	if strings.Contains(actionOpenStr, "view") {
+		a.Mutability = schema.MutabilityView
+	} else {
+		// default is update
+		a.Mutability = schema.MutabilityUpdate
 	}
 
 	if len(ctx.Param_list().AllPARAMETER()) != 0 {
@@ -373,6 +381,7 @@ func (v *KFVisitor) VisitAction_stmt(ctx *kfgrammar.Action_stmtContext) interfac
 func (v *KFVisitor) VisitInit_decl(ctx *kfgrammar.Init_declContext) interface{} {
 	a := schema.Action{}
 	a.Name = "init"
+	a.Mutability = schema.MutabilityUpdate
 	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
 	return a
 }

@@ -419,6 +419,18 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 			}},
 		// action
+		{"action with view", `database td1; table tt1 { tc1 int, tc2 text }
+			action act1() public view { insert into tt1 (tc1, tc2) values (1, "2"); }`,
+			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
+				[]schema.Action{
+					{
+						Name:       "act1",
+						Public:     true,
+						Mutability: schema.MutabilityView,
+						Statements: []string{`insert into tt1 (tc1, tc2) values (1, "2");`},
+					},
+				}...),
+		},
 		{"action with sql insert", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { insert into tt1 (tc1, tc2) values (1, "2"); }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
@@ -426,6 +438,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					{
 						Name:       "act1",
 						Public:     true,
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{`insert into tt1 (tc1, tc2) values (1, "2");`},
 					},
 				}...),
@@ -437,6 +450,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					{
 						Name:       "act1",
 						Public:     true,
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{`update tt1 set tc1 = 1, tc2 = "2" where tc1 = 1;`},
 					},
 				}...),
@@ -448,6 +462,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					{
 						Name:       "act1",
 						Public:     true,
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{`delete from tt1 where tc1 = 1;`},
 					},
 				}...),
@@ -459,6 +474,7 @@ func TestParse_valid_syntax(t *testing.T) {
 					{
 						Name:       "act1",
 						Public:     true,
+						Mutability: schema.MutabilityUpdate,
 						Inputs:     []string{"$var1"},
 						Statements: []string{`select * from tt1 where tc1 = $var1;`},
 					},
@@ -470,6 +486,7 @@ func TestParse_valid_syntax(t *testing.T) {
 				[]schema.Action{
 					{
 						Name:       "act1",
+						Mutability: schema.MutabilityUpdate,
 						Inputs:     []string{"$var1"},
 						Statements: []string{`select * from tt1 where tc1 = $var1;`},
 					},
@@ -481,8 +498,9 @@ func TestParse_valid_syntax(t *testing.T) {
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
 					{
-						Name:   "act1",
-						Inputs: []string{"$var1"},
+						Name:       "act1",
+						Mutability: schema.MutabilityUpdate,
+						Inputs:     []string{"$var1"},
 						Statements: []string{
 							`select * from tt1 where tc1 = 2;`,
 							`select * from tt1 where tc1 = $var1;`,
@@ -499,14 +517,16 @@ func TestParse_valid_syntax(t *testing.T) {
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
 					{
-						Name:   "act1",
-						Inputs: []string{"$var1", "$var2", "$var3"},
+						Name:       "act1",
+						Mutability: schema.MutabilityUpdate,
+						Inputs:     []string{"$var1", "$var2", "$var3"},
 						Statements: []string{
 							`select * from tt1 where tc1 = $var1 or tc2 = $var2 or tc2 = $var3;`,
 						},
 					},
 					{
-						Name: "act2",
+						Name:       "act2",
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{
 							`act1(@caller,@action,@dataset);`,
 						},
@@ -540,7 +560,8 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 				Actions: []schema.Action{
 					{
-						Name: "act2",
+						Name:       "act2",
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{
 							`$v=ext1.call(@caller,@action,@dataset);`,
 						},
@@ -565,7 +586,8 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 				Actions: []schema.Action{
 					{
-						Name: "init",
+						Name:       "init",
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{
 							`insert into tt1 values (1, '2');`,
 						},
@@ -603,14 +625,16 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 				Actions: []schema.Action{
 					{
-						Name:   "act1",
-						Inputs: []string{"$var1"},
+						Name:       "act1",
+						Mutability: schema.MutabilityUpdate,
+						Inputs:     []string{"$var1"},
 						Statements: []string{
 							`select * from tt1 where tc1 = $var1;`,
 						},
 					},
 					{
-						Name: "init",
+						Name:       "init",
+						Mutability: schema.MutabilityUpdate,
 						Statements: []string{
 							`act1(1);`,
 							`$v=ext1.call(@caller);`,
