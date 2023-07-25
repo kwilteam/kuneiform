@@ -131,3 +131,11 @@ const (
 	// DO_CASCADE updates the child key(s) or deletes the records (depending on the action type)
 	DO_CASCADE ForeignKeyActionDo = "CASCADE"
 )
+
+// MutabilityType is the type of mutability
+type MutabilityType string
+
+const (
+	MutabilityUpdate MutabilityType = "update"
+	MutabilityView   MutabilityType = "view"
+)
