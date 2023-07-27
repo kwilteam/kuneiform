@@ -327,15 +327,26 @@ func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interfac
 	a.Name = ctx.Action_name().GetText()
 
 	actionOpenStr := ctx.ACTION_OPEN().GetText()
-	if strings.Contains(actionOpenStr, "public") {
+	if strings.Contains(actionOpenStr, schema.VisibilityPublic.String()) {
 		a.Public = true
 	}
 
-	if strings.Contains(actionOpenStr, "view") {
+	if strings.Contains(actionOpenStr, schema.MutabilityView.String()) {
 		a.Mutability = schema.MutabilityView
 	} else {
 		// default is update
 		a.Mutability = schema.MutabilityUpdate
+	}
+
+	auxs := []schema.AuxiliaryType{}
+	switch {
+	case strings.Contains(actionOpenStr, schema.AuxiliaryTypeMustSign.String()):
+		auxs = append(auxs, schema.AuxiliaryTypeMustSign)
+	}
+
+	// default to nil if no auxiliary
+	if len(auxs) != 0 {
+		a.Auxiliaries = auxs
 	}
 
 	if len(ctx.Param_list().AllPARAMETER()) != 0 {
@@ -380,7 +391,7 @@ func (v *KFVisitor) VisitAction_stmt(ctx *kfgrammar.Action_stmtContext) interfac
 // VisitInit_decl is called when parsing init declaration, return *schema.Action
 func (v *KFVisitor) VisitInit_decl(ctx *kfgrammar.Init_declContext) interface{} {
 	a := schema.Action{}
-	a.Name = "init"
+	a.Name = schema.InitActionName
 	a.Mutability = schema.MutabilityUpdate
 	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
 	return a

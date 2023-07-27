@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+const InitActionName = "init"
+
 // ColumnType is the type of column
 type ColumnType string
 
@@ -132,10 +134,38 @@ const (
 	DO_CASCADE ForeignKeyActionDo = "CASCADE"
 )
 
+// VisibilityType is the type of visibility
+type VisibilityType string
+
+func (t VisibilityType) String() string {
+	return string(t)
+}
+
+const (
+	VisibilityPublic  VisibilityType = "public"
+	VisibilityPrivate VisibilityType = "private"
+)
+
 // MutabilityType is the type of mutability
 type MutabilityType string
+
+func (t MutabilityType) String() string {
+	return string(t)
+}
 
 const (
 	MutabilityUpdate MutabilityType = "update"
 	MutabilityView   MutabilityType = "view"
+)
+
+// AuxiliaryType is the type of auxiliary
+type AuxiliaryType string
+
+func (t AuxiliaryType) String() string {
+	return string(t)
+}
+
+const (
+	// AuxiliaryTypeMustSign is used to specify that an action need signature, it is used for `view` action.
+	AuxiliaryTypeMustSign AuxiliaryType = "mustsign"
 )

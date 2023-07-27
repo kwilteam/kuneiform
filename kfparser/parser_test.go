@@ -431,6 +431,19 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
+		{"action with view mustsign", `database td1; table tt1 { tc1 int, tc2 text }
+			action act1() public view mustsign { insert into tt1 (tc1, tc2) values (1, "2"); }`,
+			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
+				[]schema.Action{
+					{
+						Name:        "act1",
+						Public:      true,
+						Mutability:  schema.MutabilityView,
+						Auxiliaries: []schema.AuxiliaryType{schema.AuxiliaryTypeMustSign},
+						Statements:  []string{`insert into tt1 (tc1, tc2) values (1, "2");`},
+					},
+				}...),
+		},
 		{"action with sql insert", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public { insert into tt1 (tc1, tc2) values (1, "2"); }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
