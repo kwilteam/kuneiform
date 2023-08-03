@@ -17,6 +17,13 @@ build: ## build from current commit
 	@goreleaser build --snapshot --clean
 	@rm -f ./sql_grammar/go.mod
 
+build-go: ## build from current commit using just go
+	@rm -f ./wasm/*.wasm
+	@make wasm
+	@echo Build parser
+	@go build -o ./dist/tmp/kuneiform ./cmd/root.go
+	@rm -f ./sql_grammar/go.mod
+
 wasm: ## build wasm binary
 	@echo Build wasm binary
 	@go generate ./wasm/wasm.go
