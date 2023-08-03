@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+  push:
+    branches:
+      - "dev"
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.KWIL_MACH_SECRET }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20.0'
+          cache: true
+
+      - name: Install dependencies
+        env:
+          GH_ACCESS_TOKEN: ${{ secrets.KWIL_MACH_SECRET }}
+        run: |
+          go version
+          git config --global url."https://${GH_ACCESS_TOKEN}:x-oauth-basic@github.com/kwilteam/".insteadOf "https://github.com/kwilteam/"
+          make download
+
+      - name: run build
+        run: |
+          make build-go
+
+      - name: Run unit test
+        run: |
+          make test
