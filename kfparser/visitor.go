@@ -366,7 +366,12 @@ func (v *KFVisitor) VisitAction_attr_list(ctx *kfgrammar.Action_attr_listContext
 				panic(fmt.Errorf("%w: %s", schema.ErrActionAuxiliaryAlreadySet, aux.GetText()))
 			}
 			seenAuxs[aux.GetText()] = true
-			aa.auxs[i] = schema.AuxiliaryType(aux.GetText())
+			switch {
+			case aux.GetText() == schema.AuxiliaryTypeMustSign.String():
+				aa.auxs[i] = schema.AuxiliaryTypeMustSign
+			case aux.GetText() == schema.AuxiliaryTypeOwner.String():
+				aa.auxs[i] = schema.AuxiliaryTypeOwner
+			}
 		}
 	}
 
