@@ -807,6 +807,20 @@ func TestParse_invalid_semantic(t *testing.T) {
 		{"extension not found",
 			`database td1; use erc20 as token; action act2($param) public { $var1, $var1 = erc.balanceOf($param); }`,
 			schema.ErrExtensionNotFound},
+
+		// action attr already set
+		{"action visibility already set",
+			`database td1; action act1() public private { select *; }`,
+			schema.ErrActionVisibilityAlreadySet},
+		{"action visibility already set 2",
+			`database td1; action act1() public public { select *; }`,
+			schema.ErrActionVisibilityAlreadySet},
+		{"action mutability already set",
+			`database td1; action act1() view public view { select *; }`,
+			schema.ErrActionMutabilityAlreadySet},
+		{"action auxiliary already set",
+			`database td1; action act1() mustsign view public mustsign { select *; }`,
+			schema.ErrActionAuxiliaryAlreadySet},
 	}
 
 	mode := Default

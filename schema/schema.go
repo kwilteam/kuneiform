@@ -79,7 +79,7 @@ type Action struct {
 	// Inputs are the arguments that the action takes, all arguments start with '$' sign.
 	Inputs []string `json:"inputs"`
 
-	// Public is used to specify if the action is public or private.
+	// Public is used to specify if the action is public or private, default value is `false`.
 	// If an action is public, it can be called from outside the schema.
 	// If an action is private, it can only be called from within the schema.
 	Public bool `json:"public"`

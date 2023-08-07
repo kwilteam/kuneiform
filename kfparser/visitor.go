@@ -320,38 +320,74 @@ func (v *KFVisitor) VisitForeign_key_action(ctx *kfgrammar.Foreign_key_actionCon
 	return &action
 }
 
+type actionAttrs struct {
+	public     bool
+	mutability schema.MutabilityType
+	auxs       []schema.AuxiliaryType
+}
+
+func (v *KFVisitor) VisitAction_attr_list(ctx *kfgrammar.Action_attr_listContext) interface{} {
+	aa := actionAttrs{
+		public:     false,
+		mutability: schema.MutabilityUpdate,
+		auxs:       nil,
+	}
+
+	if ctx == nil {
+		return &aa
+	}
+
+	visibities := ctx.AllAction_visibility()
+	switch {
+	case len(visibities) == 1:
+		if visibities[0].GetText() == schema.VisibilityPublic.String() {
+			aa.public = true
+		}
+	case len(visibities) >= 2:
+		panic(fmt.Errorf("%w: %s", schema.ErrActionVisibilityAlreadySet, visibities[0].GetText()))
+	}
+
+	mutabilities := ctx.AllAction_mutability()
+	switch {
+	case len(mutabilities) == 1:
+		if mutabilities[0].GetText() == schema.MutabilityView.String() {
+			aa.mutability = schema.MutabilityView
+		}
+	case len(mutabilities) >= 2:
+		panic(fmt.Errorf("%w: %s", schema.ErrActionMutabilityAlreadySet, mutabilities[0].GetText()))
+	}
+
+	auxs := ctx.AllAction_auxiliary()
+	if len(auxs) != 0 {
+		aa.auxs = make([]schema.AuxiliaryType, len(auxs))
+		seenAuxs := make(map[string]bool)
+		for i, aux := range auxs {
+			if seenAuxs[aux.GetText()] {
+				panic(fmt.Errorf("%w: %s", schema.ErrActionAuxiliaryAlreadySet, aux.GetText()))
+			}
+			seenAuxs[aux.GetText()] = true
+			aa.auxs[i] = schema.AuxiliaryType(aux.GetText())
+		}
+	}
+
+	return &aa
+}
+
 // VisitAction_decl is called when parsing action declaration, return *schema.Action
 func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interface{} {
 	a := schema.Action{}
 
 	a.Name = ctx.Action_name().GetText()
 
-	actionOpenStr := ctx.ACTION_OPEN().GetText()
-	if strings.Contains(actionOpenStr, schema.VisibilityPublic.String()) {
-		a.Public = true
-	}
-
-	if strings.Contains(actionOpenStr, schema.MutabilityView.String()) {
-		a.Mutability = schema.MutabilityView
-	} else {
-		// default is update
-		a.Mutability = schema.MutabilityUpdate
-	}
-
-	auxs := []schema.AuxiliaryType{}
-	switch {
-	case strings.Contains(actionOpenStr, schema.AuxiliaryTypeMustSign.String()):
-		auxs = append(auxs, schema.AuxiliaryTypeMustSign)
-	}
-
-	// default to nil if no auxiliary
-	if len(auxs) != 0 {
-		a.Auxiliaries = auxs
-	}
-
-	if len(ctx.Param_list().AllPARAMETER()) != 0 {
+	if len(ctx.Param_list().AllParameter()) != 0 {
 		a.Inputs = v.Visit(ctx.Param_list()).([]string)
 	}
+
+	actionAttrList := ctx.Action_attr_list()
+	actionAttrs := v.Visit(actionAttrList).(*actionAttrs)
+	a.Public = actionAttrs.public
+	a.Mutability = actionAttrs.mutability
+	a.Auxiliaries = actionAttrs.auxs
 
 	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
 	return a
@@ -359,10 +395,10 @@ func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interfac
 
 // VisitAction_param_list is called when parsing action parameter list, return []string
 func (v *KFVisitor) VisitParam_list(ctx *kfgrammar.Param_listContext) interface{} {
-	paramCount := len(ctx.AllPARAMETER())
+	paramCount := len(ctx.AllParameter())
 	params := make([]string, paramCount)
 
-	for i, actionParam := range ctx.AllPARAMETER() {
+	for i, actionParam := range ctx.AllParameter() {
 		params[i] = actionParam.GetText()
 	}
 
