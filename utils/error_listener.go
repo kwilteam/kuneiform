@@ -42,37 +42,72 @@ func (e *ErrorList) Unwrap() error {
 	return (*e)[0]
 }
 
-type ErrorListener struct {
+type LexerErrorListener struct {
 	ErrorList
 }
 
-var _ antlr.ErrorListener = &ErrorListener{}
+var _ antlr.ErrorListener = &LexerErrorListener{}
 
-func NewErrorListener() *ErrorListener {
-	return &ErrorListener{
+func NewLexerErrorListener() *LexerErrorListener {
+	return &LexerErrorListener{
 		ErrorList: ErrorList{},
 	}
 }
 
-func (s *ErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+func (s *LexerErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
 	//symbol := offendingSymbol.(antlr.Token)
 	info := fmt.Sprintf("line %d:%d %s", line, column, msg)
 	s.Add(fmt.Errorf("%w: %s", ErrInvalidSyntax, info))
 	//s.Add(errors.Wrap(ErrInvalidSyntax, info))
 }
 
-func (s *ErrorListener) ReportAmbiguity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, exact bool, ambigAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
+func (s *LexerErrorListener) ReportAmbiguity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, exact bool, ambigAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
 	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrAmbiguity, "ambiguity"))
 }
 
-func (s *ErrorListener) ReportAttemptingFullContext(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, conflictingAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
+func (s *LexerErrorListener) ReportAttemptingFullContext(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, conflictingAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
 	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrAttemptingFullContext, "attempting full context"))
 }
 
-func (s *ErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex, prediction int, configs antlr.ATNConfigSet) {
+func (s *LexerErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex, prediction int, configs antlr.ATNConfigSet) {
 	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrContextSensitivity, "context sensitivity"))
 }
 
-func (s *ErrorListener) Error() string {
+func (s *LexerErrorListener) Error() string {
+	return s.ErrorList.Error()
+}
+
+type ParserErrorListener struct {
+	ErrorList
+}
+
+var _ antlr.ErrorListener = &ParserErrorListener{}
+
+func NewParserErrorListener() *ParserErrorListener {
+	return &ParserErrorListener{
+		ErrorList: ErrorList{},
+	}
+}
+
+func (s *ParserErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+	//symbol := offendingSymbol.(antlr.Token)
+	info := fmt.Sprintf("line %d:%d %s", line, column, msg)
+	s.Add(fmt.Errorf("%w: %s", ErrInvalidSyntax, info))
+	//s.Add(errors.Wrap(ErrInvalidSyntax, info))
+}
+
+func (s *ParserErrorListener) ReportAmbiguity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, exact bool, ambigAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
+	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrAmbiguity, "ambiguity"))
+}
+
+func (s *ParserErrorListener) ReportAttemptingFullContext(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, conflictingAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
+	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrAttemptingFullContext, "attempting full context"))
+}
+
+func (s *ParserErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex, prediction int, configs antlr.ATNConfigSet) {
+	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrContextSensitivity, "context sensitivity"))
+}
+
+func (s *ParserErrorListener) Error() string {
 	return s.ErrorList.Error()
 }
