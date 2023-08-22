@@ -10,9 +10,14 @@ type Schema struct {
 	Extensions []Extension `json:"extensions,omitempty"`
 }
 
+type ExtensionConfig struct {
+	Argument string
+	Value    string
+}
+
 type Extension struct {
 	Name   string            `json:"name"`
-	Config map[string]string `json:"config"`
+	Config []ExtensionConfig `json:"config"`
 	Alias  string            `json:"alias"`
 }
 
