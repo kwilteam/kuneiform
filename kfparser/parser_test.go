@@ -118,9 +118,12 @@ func TestParse_valid_syntax(t *testing.T) {
 				Owner: "",
 				Extensions: []schema.Extension{
 					{
-						Name:   "a_ext",
-						Alias:  "ext1",
-						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+						Name:  "a_ext",
+						Alias: "ext1",
+						Config: []schema.ExtensionConfig{
+							{Argument: "addr", Value: `"0x0000"`},
+							{Argument: "seed", Value: "3"},
+						},
 					},
 				},
 			},
@@ -585,9 +588,12 @@ func TestParse_valid_syntax(t *testing.T) {
 				Owner: "",
 				Extensions: []schema.Extension{
 					{
-						Name:   "a_ext",
-						Alias:  "ext1",
-						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+						Name:  "a_ext",
+						Alias: "ext1",
+						Config: []schema.ExtensionConfig{
+							{Argument: "addr", Value: `"0x0000"`},
+							{Argument: "seed", Value: "3"},
+						},
 					},
 				},
 				Tables: []schema.Table{
@@ -651,9 +657,12 @@ func TestParse_valid_syntax(t *testing.T) {
 				Owner: "",
 				Extensions: []schema.Extension{
 					{
-						Name:   "a_ext",
-						Alias:  "ext1",
-						Config: map[string]string{"addr": `"0x0000"`, "seed": "3"},
+						Name:  "a_ext",
+						Alias: "ext1",
+						Config: []schema.ExtensionConfig{
+							{Argument: "addr", Value: `"0x0000"`},
+							{Argument: "seed", Value: "3"},
+						},
 					},
 				},
 				Tables: []schema.Table{

@@ -127,7 +127,7 @@ func (v *KFVisitor) VisitExtension_directive(ctx *kfgrammar.Extension_directiveC
 	ext.Name = ctx.Extension_name(0).GetText()
 
 	if ctx.Ext_config_list() != nil {
-		ext.Config = v.Visit(ctx.Ext_config_list()).(map[string]string)
+		ext.Config = v.Visit(ctx.Ext_config_list()).([]schema.ExtensionConfig)
 	}
 
 	if ctx.AS_() != nil {
@@ -138,10 +138,14 @@ func (v *KFVisitor) VisitExtension_directive(ctx *kfgrammar.Extension_directiveC
 
 func (v *KFVisitor) VisitExt_config_list(ctx *kfgrammar.Ext_config_listContext) interface{} {
 	configCount := len(ctx.AllExt_config())
-	configs := make(map[string]string, configCount)
+	configs := make([]schema.ExtensionConfig, configCount)
 
-	for _, config := range ctx.AllExt_config() {
-		configs[config.Ext_config_name().GetText()] = config.Ext_config_value().GetText()
+	for i, config := range ctx.AllExt_config() {
+		cfg := schema.ExtensionConfig{
+			Argument: config.Ext_config_name().GetText(),
+			Value:    config.Ext_config_value().GetText(),
+		}
+		configs[i] = cfg
 	}
 
 	return configs
