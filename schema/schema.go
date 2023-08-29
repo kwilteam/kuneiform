@@ -11,8 +11,8 @@ type Schema struct {
 }
 
 type ExtensionConfig struct {
-	Argument string
-	Value    string
+	Argument string `json:"argument"`
+	Value    string `json:"value"`
 }
 
 type Extension struct {
