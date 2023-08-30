@@ -19,10 +19,10 @@ jobs:
           token: ${{ secrets.KWIL_MACH_SECRET }}
 
       - name: Setup Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
-          go-version: '1.20.0'
-          cache: true
+          go-version: '1.21'
+          check-latest: true
 
       - name: Install dependencies
         env:
