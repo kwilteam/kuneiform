@@ -130,9 +130,8 @@ func (v *KFVisitor) VisitExtension_directive(ctx *kfgrammar.Extension_directiveC
 		ext.Config = v.Visit(ctx.Ext_config_list()).([]schema.ExtensionConfig)
 	}
 
-	if ctx.AS_() != nil {
-		ext.Alias = ctx.Extension_name(1).GetText()
-	}
+	ext.Alias = ctx.Extension_name(1).GetText()
+
 	return &ext
 }
 
