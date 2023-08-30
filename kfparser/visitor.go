@@ -203,6 +203,10 @@ func (v *KFVisitor) VisitColumn_def(ctx *kfgrammar.Column_defContext) interface{
 		c.Type = schema.ColInt
 	case ctx.Column_type().TEXT_() != nil:
 		c.Type = schema.ColText
+	case ctx.Column_type().BLOB_() != nil:
+		c.Type = schema.ColBlob
+	default:
+		panic(fmt.Errorf("%w: %s", schema.ErrNotSupportColumnType, ctx.Column_type().GetText()))
 	}
 
 	attrCount := len(ctx.AllColumn_constraint())

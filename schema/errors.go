@@ -4,6 +4,8 @@ import "errors"
 
 var (
 	// semantic error at parsing stage
+	ErrNotSupportColumnType = errors.New("not support column type")
+
 	ErrMultiInit = errors.New("more than one init")
 
 	ErrActionVisibilityAlreadySet = errors.New("action visibility already specified")
