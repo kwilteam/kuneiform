@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help download wasm build
+.PHONY: help download git-sync build-antlr wasm build
 
 help:
 	@# 20s is the width of the first column
@@ -10,7 +10,16 @@ download: ## download dependencies
 	@echo Download go.mod dependencies
 	@go mod download
 
+git-sync: ## sync submodule
+	@git submodule update
+
+build-antlr: ## generate antlr code
+	@echo Generate antlr code
+	@rm -rf ./kfgrammar/{*.go,*.interp,*.tokens}
+	@cd ./kuneiform-grammar && ./generate.sh Go kfgrammar ../kfgrammar
+
 build: ## build from current commit
+	@build-antlr
 	@rm -f ./wasm/*.wasm
 	@make wasm
 	@echo Build parser

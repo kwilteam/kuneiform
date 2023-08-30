@@ -1,0 +1,3 @@
+[submodule "kuneiform-grammar"]
+	path = kuneiform-grammar
+	url = https://github.com/kwilteam/kuneiform-grammar

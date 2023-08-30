@@ -32,7 +32,15 @@ jobs:
           git config --global url."https://${GH_ACCESS_TOKEN}:x-oauth-basic@github.com/kwilteam/".insteadOf "https://github.com/kwilteam/"
           make download
 
-      - name: run build
+      - name: Check tidiness of go.mod and go.sum
+        run: |
+          ./scripts/mods/check_tidy.sh
+
+      - name: Ensure generated antlr is up-to-date
+        run: |
+          ./scripts/antlr/check_sync.sh
+
+      - name: Run build
         run: |
           make build-go
 

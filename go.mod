@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9
-	github.com/kwilteam/kuneiform-grammar-go v0.5.0-alpha.0.20230830204631-b688219e334b
 	github.com/kwilteam/kwil-db v0.5.0
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.3
