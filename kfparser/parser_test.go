@@ -727,6 +727,7 @@ func TestParse_invalid_syntax(t *testing.T) {
 		{"action sql without semicolon",
 			`database td1; table tt1 { tc1 int, tc2 text }
                    action act1() public { select * from tt1 }`},
+		{"extension without alias", `database td; use a_ext{addr: "0x0000", seed: 3};`},
 	}
 
 	mode := Default
