@@ -258,7 +258,7 @@ func (c *ContextValidator) visitActions(actions []Action) error {
 				//case *tree.Select:
 			case *actparser.ActionCallStmt:
 				if _, ok := c.actionCtx[s.Method]; !ok {
-					fmt.Errorf("%w: %s", ErrActionNotFound, s.Method)
+					return fmt.Errorf("%w: %s", ErrActionNotFound, s.Method)
 				}
 
 				for _, input := range s.Args {
