@@ -14,6 +14,7 @@ const (
 	ColNull ColumnType = "null"
 	ColText ColumnType = "text"
 	ColInt  ColumnType = "int"
+	ColBlob ColumnType = "blob"
 )
 
 func (t ColumnType) String() string {
@@ -33,6 +34,7 @@ var columnTypes = map[string]ColumnType{
 	"null": ColNull,
 	"text": ColText,
 	"int":  ColInt,
+	"blob": ColBlob,
 }
 
 // AttributeType is the type of attribute
