@@ -839,18 +839,18 @@ func TestParse_invalid_semantic(t *testing.T) {
 			schema.ErrColumnNotFound},
 		// action not found
 		// TODO: need context to test
-		//{"action not found",
-		//	`database td1; action act2() public { act1(); select * from tt2;}`,
-		//	schema.ErrActionNotFound},
+		{"action not found",
+			`database td1; action act2() public { act1(); }`,
+			schema.ErrActionNotFound},
 		// variable not found
 		{"variable not found in action call",
-			`database td1; use erc20 as token; action act2() public { act1($nondefined); }`,
+			`database td1; action act1($name) public {select *;}  action act2() public { act1($nondefined); }`,
 			schema.ErrVariableNotFound},
 		{"variable not found in extension call",
 			`database td1; use erc20 as token; action act2() public { $var1 = token.balanceOf($nondefined); }`,
 			schema.ErrVariableNotFound},
 		{"block variable not found in action call",
-			`database td1; use erc20 as token; action act2() public { act1(@nondefined); }`,
+			`database td1; action act1($name) public {select *;} action act2() public { act1(@nondefined); }`,
 			schema.ErrVariableNotFound},
 		{"block variable not found in extension call",
 			`database td1; use erc20 as token; action act2() public { $var1 = token.balanceOf(@nondefined); }`,
