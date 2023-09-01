@@ -112,7 +112,7 @@ func TestParse_valid_syntax(t *testing.T) {
 	}{
 		{"only database clause", "database td;",
 			&schema.Schema{Name: "td", Owner: ""}},
-		{"with extension directive", `database td; use a_ext{addr: "0x0000", seed: 3} as ext1;`,
+		{"with extension directive", `database td; use a_ext{addr: '0x0000', seed: 3} as ext1;`,
 			&schema.Schema{
 				Name:  "td",
 				Owner: "",
@@ -121,7 +121,7 @@ func TestParse_valid_syntax(t *testing.T) {
 						Name:  "a_ext",
 						Alias: "ext1",
 						Config: []schema.ExtensionConfig{
-							{Argument: "addr", Value: `"0x0000"`},
+							{Argument: "addr", Value: `'0x0000'`},
 							{Argument: "seed", Value: "3"},
 						},
 					},
@@ -593,7 +593,7 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		{"action with extension call refer to block variable",
 			`database td1;
-			use a_ext{addr: "0x0000", seed: 3} as ext1;
+			use a_ext{addr: '0x0000', seed: 3} as ext1;
 			table tt1 { tc1 int, tc2 text }
 			action act2() private 
 			{ $v = ext1.call(@caller, @action, @dataset); }`,
@@ -605,7 +605,7 @@ func TestParse_valid_syntax(t *testing.T) {
 						Name:  "a_ext",
 						Alias: "ext1",
 						Config: []schema.ExtensionConfig{
-							{Argument: "addr", Value: `"0x0000"`},
+							{Argument: "addr", Value: `'0x0000'`},
 							{Argument: "seed", Value: "3"},
 						},
 					},
@@ -658,7 +658,7 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 		{"with init and actions",
 			`database td1;
-				use a_ext{addr: "0x0000", seed: 3} as ext1;
+				use a_ext{addr: '0x0000', seed: 3} as ext1;
  				table tt1 { tc1 int }
 				action act1($var1) private { select * from tt1 where tc1 = $var1; }
 				init() {
@@ -674,7 +674,7 @@ func TestParse_valid_syntax(t *testing.T) {
 						Name:  "a_ext",
 						Alias: "ext1",
 						Config: []schema.ExtensionConfig{
-							{Argument: "addr", Value: `"0x0000"`},
+							{Argument: "addr", Value: `'0x0000'`},
 							{Argument: "seed", Value: "3"},
 						},
 					},
@@ -741,7 +741,8 @@ func TestParse_invalid_syntax(t *testing.T) {
 		{"action sql without semicolon",
 			`database td1; table tt1 { tc1 int, tc2 text }
                    action act1() public { select * from tt1 }`},
-		{"extension without alias", `database td; use a_ext{addr: "0x0000", seed: 3};`},
+		{"extension without alias", `database td; use a_ext{addr: '0x0000', seed: 3};`},
+		{"use double quote for string", `database td; use a_ext{addr: "0x0000", seed: 3} ax ext1;`},
 	}
 
 	mode := Default
