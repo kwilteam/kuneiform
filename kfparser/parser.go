@@ -15,16 +15,21 @@ func Parse(input string) (result ast.Ast, err error) {
 }
 
 func ParseKF(input string, errorListener *utils.ErrorListener, mode Mode) (result ast.Ast, err error) {
-	stream := antlr.NewInputStream(input)
-	lexer := kfgrammar.NewKuneiformLexer(stream)
-	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-	p := kfgrammar.NewKuneiformParser(tokenStream)
-
-	// remove default error visitor
-	p.RemoveErrorListeners()
 	if errorListener == nil {
 		errorListener = utils.NewErrorListener()
 	}
+
+	stream := antlr.NewInputStream(input)
+	lexer := kfgrammar.NewKuneiformLexer(stream)
+	// remove default Lexer error listener
+	lexer.RemoveErrorListeners()
+	lexer.AddErrorListener(errorListener)
+
+	tokenStream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	p := kfgrammar.NewKuneiformParser(tokenStream)
+
+	// remove default Parser error listener
+	p.RemoveErrorListeners()
 	p.AddErrorListener(errorListener)
 
 	defer func() {
@@ -55,6 +60,10 @@ func ParseKF(input string, errorListener *utils.ErrorListener, mode Mode) (resul
 	visitor := NewKuneiformVisitor(mode)
 
 	parseTree := p.Source_unit()
+	if errorListener.Err() != nil {
+		return result, errorListener.Err()
+	}
+
 	result, ok := visitor.Visit(parseTree).(ast.Ast)
 	if !ok {
 		return result, errors.New("failed to parse")
