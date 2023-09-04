@@ -2,16 +2,18 @@ package schema
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/kwilteam/kwil-db/pkg/engine/dataset/actparser"
 	"github.com/kwilteam/kwil-db/pkg/engine/sqlparser"
-	"strings"
 )
 
 var (
 	builtinBlockVars = map[string]bool{
-		"@caller":  true,
-		"@action":  true,
-		"@dataset": true,
+		"@caller":         true,
+		"@caller_address": true,
+		"@action":         true,
+		"@dataset":        true,
 	}
 )
 
