@@ -21,5 +21,3 @@ require (
 	golang.org/x/exp v0.0.0-20230419192730-864b3d6c5c2c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
