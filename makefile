@@ -19,7 +19,7 @@ build-antlr: ## generate antlr code
 	@cd ./kuneiform-grammar && ./generate.sh Go kfgrammar ../kfgrammar
 
 build: ## build from current commit
-	@build-antlr
+	@make build-antlr
 	@rm -f ./wasm/*.wasm
 	@make wasm
 	@echo Build parser
