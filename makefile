@@ -27,6 +27,7 @@ build: ## build from current commit
 	@rm -f ./sql_grammar/go.mod
 
 build-go: ## build from current commit using just go
+	@make build-antlr
 	@rm -f ./wasm/*.wasm
 	@make wasm
 	@echo Build parser
