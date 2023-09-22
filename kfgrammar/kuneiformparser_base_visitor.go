@@ -147,6 +147,18 @@ func (v *BaseKuneiformParserVisitor) VisitSql_stmt(ctx *Sql_stmtContext) interfa
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseKuneiformParserVisitor) VisitCall_stmt(ctx *Call_stmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitCall_receivers(ctx *Call_receiversContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitCall_body(ctx *Call_bodyContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseKuneiformParserVisitor) VisitVariable(ctx *VariableContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -155,23 +167,15 @@ func (v *BaseKuneiformParserVisitor) VisitBlock_var(ctx *Block_varContext) inter
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseKuneiformParserVisitor) VisitExt_call_name(ctx *Ext_call_nameContext) interface{} {
+func (v *BaseKuneiformParserVisitor) VisitExtension_call_name(ctx *Extension_call_nameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseKuneiformParserVisitor) VisitCallee_name(ctx *Callee_nameContext) interface{} {
+func (v *BaseKuneiformParserVisitor) VisitFn_name(ctx *Fn_nameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseKuneiformParserVisitor) VisitCall_receivers(ctx *Call_receiversContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseKuneiformParserVisitor) VisitCall_stmt(ctx *Call_stmtContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseKuneiformParserVisitor) VisitCall_body(ctx *Call_bodyContext) interface{} {
+func (v *BaseKuneiformParserVisitor) VisitSfn_name(ctx *Sfn_nameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -179,6 +183,6 @@ func (v *BaseKuneiformParserVisitor) VisitFn_arg_list(ctx *Fn_arg_listContext) i
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseKuneiformParserVisitor) VisitFn_arg(ctx *Fn_argContext) interface{} {
+func (v *BaseKuneiformParserVisitor) VisitFn_arg_expr(ctx *Fn_arg_exprContext) interface{} {
 	return v.VisitChildren(ctx)
 }

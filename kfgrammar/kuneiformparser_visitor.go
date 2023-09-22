@@ -112,30 +112,33 @@ type KuneiformParserVisitor interface {
 	// Visit a parse tree produced by KuneiformParser#sql_stmt.
 	VisitSql_stmt(ctx *Sql_stmtContext) interface{}
 
+	// Visit a parse tree produced by KuneiformParser#call_stmt.
+	VisitCall_stmt(ctx *Call_stmtContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#call_receivers.
+	VisitCall_receivers(ctx *Call_receiversContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#call_body.
+	VisitCall_body(ctx *Call_bodyContext) interface{}
+
 	// Visit a parse tree produced by KuneiformParser#variable.
 	VisitVariable(ctx *VariableContext) interface{}
 
 	// Visit a parse tree produced by KuneiformParser#block_var.
 	VisitBlock_var(ctx *Block_varContext) interface{}
 
-	// Visit a parse tree produced by KuneiformParser#ext_call_name.
-	VisitExt_call_name(ctx *Ext_call_nameContext) interface{}
+	// Visit a parse tree produced by KuneiformParser#extension_call_name.
+	VisitExtension_call_name(ctx *Extension_call_nameContext) interface{}
 
-	// Visit a parse tree produced by KuneiformParser#callee_name.
-	VisitCallee_name(ctx *Callee_nameContext) interface{}
+	// Visit a parse tree produced by KuneiformParser#fn_name.
+	VisitFn_name(ctx *Fn_nameContext) interface{}
 
-	// Visit a parse tree produced by KuneiformParser#call_receivers.
-	VisitCall_receivers(ctx *Call_receiversContext) interface{}
-
-	// Visit a parse tree produced by KuneiformParser#call_stmt.
-	VisitCall_stmt(ctx *Call_stmtContext) interface{}
-
-	// Visit a parse tree produced by KuneiformParser#call_body.
-	VisitCall_body(ctx *Call_bodyContext) interface{}
+	// Visit a parse tree produced by KuneiformParser#sfn_name.
+	VisitSfn_name(ctx *Sfn_nameContext) interface{}
 
 	// Visit a parse tree produced by KuneiformParser#fn_arg_list.
 	VisitFn_arg_list(ctx *Fn_arg_listContext) interface{}
 
-	// Visit a parse tree produced by KuneiformParser#fn_arg.
-	VisitFn_arg(ctx *Fn_argContext) interface{}
+	// Visit a parse tree produced by KuneiformParser#fn_arg_expr.
+	VisitFn_arg_expr(ctx *Fn_arg_exprContext) interface{}
 }

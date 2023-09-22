@@ -630,6 +630,49 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 			},
 		},
+		{
+			"action with extension call using scalar function", // here only syntax is checked
+			`database td1;
+			use a_ext{addr: '0x0000', seed: 3} as ext1;
+			table tt1 { tc1 int, tc2 text }
+			action act2($a) private
+			{ $v = ext1.call(2, '3', $a, @dataset, -2, 1 + - 2, (1 * 2) + 3, 1 <= 2, 1 and $a, address(@caller), address(upper(@action))); }`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Extensions: []schema.Extension{
+					{
+						Name:  "a_ext",
+						Alias: "ext1",
+						Config: []schema.ExtensionConfig{
+							{Argument: "addr", Value: `'0x0000'`},
+							{Argument: "seed", Value: "3"},
+						},
+					},
+				},
+				Tables: []schema.Table{
+					{
+						Name: "tt1",
+						Columns: []schema.Column{
+							{Name: "tc1", Type: schema.ColInt},
+							{Name: "tc2", Type: schema.ColText},
+						},
+					},
+				},
+				Actions: []schema.Action{
+					{
+						Name:       "act2",
+						Mutability: schema.MutabilityUpdate,
+						Inputs: []string{
+							"$a",
+						},
+						Statements: []string{
+							`$v=ext1.call(2,'3',$a,@dataset,-2,1+-2,(1*2)+3,1<=2,1and$a,address(@caller),address(upper(@action)));`,
+						},
+					},
+				},
+			},
+		},
 		{"with init",
 			`database td1; table tt1 { tc1 int, tc2 text }
 				  init() { insert into tt1 values (1, '2'); }`,

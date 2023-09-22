@@ -406,7 +406,7 @@ func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interfac
 	return a
 }
 
-// VisitAction_param_list is called when parsing action parameter list, return []string
+// VisitParam_list is called when parsing action parameter list, return []string
 func (v *KFVisitor) VisitParam_list(ctx *kfgrammar.Param_listContext) interface{} {
 	paramCount := len(ctx.AllParameter())
 	params := make([]string, paramCount)

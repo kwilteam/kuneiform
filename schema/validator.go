@@ -6,6 +6,7 @@ import (
 
 	"github.com/kwilteam/kwil-db/pkg/engine/dataset/actparser"
 	"github.com/kwilteam/kwil-db/pkg/engine/sqlparser"
+	"github.com/kwilteam/kwil-db/pkg/engine/sqlparser/tree"
 )
 
 var (
@@ -210,21 +211,26 @@ func isSqlStatement(stmt string) bool {
 		strings.HasPrefix(stmt, "with")
 }
 
-func checkArgRef(arg string, ctx declCtx, localCtx map[string]bool) error {
-	// only validate variable
-	// regular variable
-	if strings.HasPrefix(arg, VarPrefix) {
-		if _, ok := ctx[arg]; !ok {
-			if _, _ok := localCtx[arg]; !_ok {
-				return fmt.Errorf("%w: %s", ErrVariableNotFound, arg)
+// checkArgRef check if the argument(bind parameter) is a valid reference
+func checkArgRef(arg tree.Expression, ctx declCtx, localCtx map[string]bool) error {
+	switch t := arg.(type) {
+	case *tree.ExpressionBindParameter:
+		param := t.Parameter
+		// only validate variable
+		// regular variable
+		if strings.HasPrefix(param, VarPrefix) {
+			if _, ok := ctx[param]; !ok {
+				if _, _ok := localCtx[param]; !_ok {
+					return fmt.Errorf("%w: %s", ErrVariableNotFound, arg)
+				}
 			}
 		}
-	}
 
-	// block variable
-	if strings.HasPrefix(arg, BlockVarPrefix) {
-		if _, ok := builtinBlockVars[arg]; !ok {
-			return fmt.Errorf("%w: %s", ErrVariableNotFound, arg)
+		// block variable
+		if strings.HasPrefix(param, BlockVarPrefix) {
+			if _, ok := builtinBlockVars[param]; !ok {
+				return fmt.Errorf("%w: %s", ErrVariableNotFound, arg)
+			}
 		}
 	}
 
