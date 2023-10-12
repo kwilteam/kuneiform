@@ -1,0 +1,14 @@
+database td1;
+use a_ext{addr: '0x0000', seed: 3} as ext1;
+
+table tt1 { tc1 int }
+
+action act1($var1) private {
+    select * from tt1 where tc1 = $var1;
+}
+
+init() {
+    act1(1);
+    $v = ext1.call(@caller);
+    insert into tt1 values ($v);
+}

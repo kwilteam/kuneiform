@@ -1,0 +1,57 @@
+{
+  "owner": "",
+  "name": "td1",
+  "tables": [
+    {
+      "name": "tt1",
+      "columns": [
+        {
+          "name": "tc1",
+          "type": "int"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "act1",
+      "inputs": [
+        "$var1"
+      ],
+      "public": false,
+      "mutability": "update",
+      "auxiliaries": null,
+      "statements": [
+        "select * from tt1 where tc1 = $var1;"
+      ]
+    },
+    {
+      "name": "init",
+      "inputs": null,
+      "public": false,
+      "mutability": "update",
+      "auxiliaries": null,
+      "statements": [
+        "act1(1);",
+        "$v=ext1.call(@caller);",
+        "insert into tt1 values ($v);"
+      ]
+    }
+  ],
+  "extensions": [
+    {
+      "name": "a_ext",
+      "config": [
+        {
+          "argument": "addr",
+          "value": "'0x0000'"
+        },
+        {
+          "argument": "seed",
+          "value": "3"
+        }
+      ],
+      "alias": "ext1"
+    }
+  ]
+}

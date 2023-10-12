@@ -37,6 +37,7 @@ build-go: ## build from current commit using just go
 wasm: ## build wasm binary
 	@echo Build wasm binary
 	@go generate ./wasm/wasm.go
+	@tar -czf ./wasm/kuneiform_wasm.tar.gz -C ./wasm/ kuneiform.wasm
 
 release: ## release
 	@# need configure github token
@@ -45,3 +46,7 @@ release: ## release
 
 test: ## run tests
 	@go test -v ./kfparser/ -count=1
+	@make test-wasm
+
+test-wasm: ## run wasm tests
+	@GOOS=js GOARCH=wasm go test -v -exec="$$(go env GOROOT)/misc/wasm/go_js_wasm_exec" ./wasm/ -count=1
