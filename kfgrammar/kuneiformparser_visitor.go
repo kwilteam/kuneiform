@@ -22,6 +22,15 @@ type KuneiformParserVisitor interface {
 	// Visit a parse tree produced by KuneiformParser#ext_config.
 	VisitExt_config(ctx *Ext_configContext) interface{}
 
+	// Visit a parse tree produced by KuneiformParser#annotation_decl.
+	VisitAnnotation_decl(ctx *Annotation_declContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#annotation_attr_list.
+	VisitAnnotation_attr_list(ctx *Annotation_attr_listContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#annotation_attr.
+	VisitAnnotation_attr(ctx *Annotation_attrContext) interface{}
+
 	// Visit a parse tree produced by KuneiformParser#table_decl.
 	VisitTable_decl(ctx *Table_declContext) interface{}
 
@@ -96,6 +105,15 @@ type KuneiformParserVisitor interface {
 
 	// Visit a parse tree produced by KuneiformParser#index_name.
 	VisitIndex_name(ctx *Index_nameContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#annotation_target_name.
+	VisitAnnotation_target_name(ctx *Annotation_target_nameContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#annotation_attr_name.
+	VisitAnnotation_attr_name(ctx *Annotation_attr_nameContext) interface{}
+
+	// Visit a parse tree produced by KuneiformParser#annotation_attr_value.
+	VisitAnnotation_attr_value(ctx *Annotation_attr_valueContext) interface{}
 
 	// Visit a parse tree produced by KuneiformParser#ext_config_value.
 	VisitExt_config_value(ctx *Ext_config_valueContext) interface{}

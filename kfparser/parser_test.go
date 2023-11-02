@@ -673,6 +673,31 @@ func TestParse_valid_syntax(t *testing.T) {
 				},
 			},
 		},
+		// annotation
+		{
+			"action with annotation",
+			`database td1;
+		    @you(speak='english',  level=2)
+            @you(speak='english', level=6)
+            action act1() public { select *; }
+			`,
+			&schema.Schema{
+				Name:  "td1",
+				Owner: "",
+				Actions: []schema.Action{
+					{
+						Name: "act1",
+						Annotations: []string{
+							`you(speak='english',level=2)`,
+							`you(speak='english',level=6)`,
+						},
+						Public:     true,
+						Mutability: schema.MutabilityUpdate,
+						Statements: []string{`select *;`},
+					},
+				},
+			},
+		},
 		{"with init",
 			`database td1; table tt1 { tc1 int, tc2 text }
 				  init() { insert into tt1 values (1, '2'); }`,

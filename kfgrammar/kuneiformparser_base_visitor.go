@@ -27,6 +27,18 @@ func (v *BaseKuneiformParserVisitor) VisitExt_config(ctx *Ext_configContext) int
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseKuneiformParserVisitor) VisitAnnotation_decl(ctx *Annotation_declContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitAnnotation_attr_list(ctx *Annotation_attr_listContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitAnnotation_attr(ctx *Annotation_attrContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseKuneiformParserVisitor) VisitTable_decl(ctx *Table_declContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -124,6 +136,18 @@ func (v *BaseKuneiformParserVisitor) VisitColumn_name_list(ctx *Column_name_list
 }
 
 func (v *BaseKuneiformParserVisitor) VisitIndex_name(ctx *Index_nameContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitAnnotation_target_name(ctx *Annotation_target_nameContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitAnnotation_attr_name(ctx *Annotation_attr_nameContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseKuneiformParserVisitor) VisitAnnotation_attr_value(ctx *Annotation_attr_valueContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

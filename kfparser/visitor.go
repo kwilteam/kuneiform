@@ -386,11 +386,19 @@ func (v *KFVisitor) VisitAction_attr_list(ctx *kfgrammar.Action_attr_listContext
 	return &aa
 }
 
-// VisitAction_decl is called when parsing action declaration, return *schema.Action
+// VisitAction_decl is called when parsing action declaration, return schema.Action
 func (v *KFVisitor) VisitAction_decl(ctx *kfgrammar.Action_declContext) interface{} {
 	a := schema.Action{}
 
 	a.Name = ctx.Action_name().GetText()
+
+	anns := ctx.AllAnnotation_decl()
+	if len(anns) != 0 {
+		a.Annotations = make([]string, len(anns))
+		for i, ann := range anns {
+			a.Annotations[i] = v.Visit(ann).(string)
+		}
+	}
 
 	if len(ctx.Param_list().AllParameter()) != 0 {
 		a.Inputs = v.Visit(ctx.Param_list()).([]string)
@@ -437,11 +445,19 @@ func (v *KFVisitor) VisitAction_stmt(ctx *kfgrammar.Action_stmtContext) interfac
 	return stmt
 }
 
-// VisitInit_decl is called when parsing init declaration, return *schema.Action
+// VisitInit_decl is called when parsing init declaration, return schema.Action
 func (v *KFVisitor) VisitInit_decl(ctx *kfgrammar.Init_declContext) interface{} {
 	a := schema.Action{}
 	a.Name = schema.InitActionName
 	a.Mutability = schema.MutabilityUpdate
 	a.Statements = v.Visit(ctx.Action_stmt_list()).([]string)
 	return a
+}
+
+// VisitAnnotation_decl is called when parsing annotation declaration, return
+// a string(without '@' sign)
+func (v *KFVisitor) VisitAnnotation_decl(ctx *kfgrammar.Annotation_declContext) interface{} {
+	// this will strip out spaces and newlines
+	annotation := ctx.GetText()[1:] // remove the '@' sign
+	return annotation
 }
