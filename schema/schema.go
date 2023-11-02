@@ -81,6 +81,12 @@ type Action struct {
 	// Name is the action name used to call the action.
 	Name string `json:"name"`
 
+	// Annotations are the annotations that this action has. It's optional and
+	// only to be interpreted by the external target component or system.
+	// Although Kuneiform return string(unparsed), it will ensure the syntax
+	// is correct.
+	Annotations []string `json:"annotations,omitempty"`
+
 	// Inputs are the arguments that the action takes, all arguments start with '$' sign.
 	Inputs []string `json:"inputs"`
 

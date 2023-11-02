@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/kwilteam/kwil-db/parse/action"
 	"github.com/kwilteam/kwil-db/parse/sql"
 	"github.com/kwilteam/kwil-db/parse/sql/tree"
-	"github.com/kwilteam/kwil-db/parse/action"
 )
 
 var (
