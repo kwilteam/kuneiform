@@ -234,8 +234,7 @@ func (c *KFVisitor) VisitColumn_constraint(ctx *kfgrammar.Column_constraintConte
 		attr.Type = schema.AttrUnique
 	case ctx.DEFAULT_() != nil:
 		attr.Type = schema.AttrDefault
-		// remove the single quote
-		attr.Value = strings.Trim(ctx.Literal_value().GetText(), "'")
+		attr.Value = ctx.Literal_value().GetText()
 	case ctx.MIN_() != nil:
 		attr.Type = schema.AttrMin
 		attr.Value = ctx.Number_value().GetText()
