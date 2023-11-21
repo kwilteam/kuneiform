@@ -374,8 +374,6 @@ func (v *KFVisitor) VisitAction_attr_list(ctx *kfgrammar.Action_attr_listContext
 			}
 			seenAuxs[aux.GetText()] = true
 			switch {
-			case aux.GetText() == schema.AuxiliaryTypeMustSign.String():
-				aa.auxs[i] = schema.AuxiliaryTypeMustSign
 			case aux.GetText() == schema.AuxiliaryTypeOwner.String():
 				aa.auxs[i] = schema.AuxiliaryTypeOwner
 			}

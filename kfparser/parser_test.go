@@ -449,19 +449,6 @@ func TestParse_valid_syntax(t *testing.T) {
 					},
 				}...),
 		},
-		{"action with view mustsign", `database td1; table tt1 { tc1 int, tc2 text }
-			action act1() public view mustsign { insert into tt1 (tc1, tc2) values (1, "2"); }`,
-			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
-				[]schema.Action{
-					{
-						Name:        "act1",
-						Public:      true,
-						Mutability:  schema.MutabilityView,
-						Auxiliaries: []schema.AuxiliaryType{schema.AuxiliaryTypeMustSign},
-						Statements:  []string{`insert into tt1 (tc1, tc2) values (1, "2");`},
-					},
-				}...),
-		},
 		{"action with owner", `database td1; table tt1 { tc1 int, tc2 text }
 			action act1() public owner { insert into tt1 (tc1, tc2) values (1, "2"); }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
@@ -476,14 +463,14 @@ func TestParse_valid_syntax(t *testing.T) {
 				}...),
 		},
 		{"action with all auxiliaries", `database td1; table tt1 { tc1 int, tc2 text }
-			action act1() public owner mustsign { insert into tt1 (tc1, tc2) values (1, "2"); }`,
+			action act1() public owner { insert into tt1 (tc1, tc2) values (1, "2"); }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
 					{
 						Name:        "act1",
 						Public:      true,
 						Mutability:  schema.MutabilityUpdate,
-						Auxiliaries: []schema.AuxiliaryType{schema.AuxiliaryTypeOwner, schema.AuxiliaryTypeMustSign},
+						Auxiliaries: []schema.AuxiliaryType{schema.AuxiliaryTypeOwner},
 						Statements:  []string{`insert into tt1 (tc1, tc2) values (1, "2");`},
 					},
 				}...),
@@ -940,10 +927,7 @@ func TestParse_invalid_semantic(t *testing.T) {
 			`database td1; action act1() view public view { select *; }`,
 			schema.ErrActionMutabilityAlreadySet},
 		{"action auxiliary already set",
-			`database td1; action act1() mustsign view public mustsign { select *; }`,
-			schema.ErrActionAuxiliaryAlreadySet},
-		{"action auxiliary already set 2",
-			`database td1; action act1() mustsign owner public owner { select *; }`,
+			`database td1; action act1() owner view public owner { select *; }`,
 			schema.ErrActionAuxiliaryAlreadySet},
 	}
 
