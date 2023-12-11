@@ -2,12 +2,14 @@ package kfparser
 
 import (
 	"flag"
+	"strings"
+	"testing"
+
 	"github.com/kwilteam/kuneiform/kfparser/ast"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
+
 	"github.com/stretchr/testify/assert"
-	"strings"
-	"testing"
 )
 
 var trace = flag.Bool("trace", false, "run tests with trace enabled")
@@ -558,7 +560,7 @@ func TestParse_valid_syntax(t *testing.T) {
 			action act1($var1, $var2, $var3) private 
 			{ select * from tt1 where tc1 = $var1 or tc2 = $var2 or tc2 = $var3; }
 			action act2() private 
-			{ act1(@caller, @action, @dataset); }`,
+			{ act1(@caller, 'a', 'b'); }`,
 			genOneTableTwoColWithActions(schema.ColInt, schema.ColText,
 				[]schema.Action{
 					{
@@ -573,7 +575,7 @@ func TestParse_valid_syntax(t *testing.T) {
 						Name:       "act2",
 						Mutability: schema.MutabilityUpdate,
 						Statements: []string{
-							`act1(@caller,@action,@dataset);`,
+							`act1(@caller,'a','b');`,
 						},
 					},
 				}...),
@@ -583,7 +585,7 @@ func TestParse_valid_syntax(t *testing.T) {
 			use a_ext{addr: '0x0000', seed: 3} as ext1;
 			table tt1 { tc1 int, tc2 text }
 			action act2() private 
-			{ $v = ext1.call(@caller, @action, @dataset); }`,
+			{ $v = ext1.call(@caller, 'a', 'b'); }`,
 			&schema.Schema{
 				Name:  "td1",
 				Owner: "",
@@ -611,7 +613,7 @@ func TestParse_valid_syntax(t *testing.T) {
 						Name:       "act2",
 						Mutability: schema.MutabilityUpdate,
 						Statements: []string{
-							`$v=ext1.call(@caller,@action,@dataset);`,
+							`$v=ext1.call(@caller,'a','b');`,
 						},
 					},
 				},
@@ -623,7 +625,7 @@ func TestParse_valid_syntax(t *testing.T) {
 			use a_ext{addr: '0x0000', seed: 3} as ext1;
 			table tt1 { tc1 int, tc2 text }
 			action act2($a) private
-			{ $v = ext1.call(2, '3', $a, @dataset, -2, 1 + - 2, (1 * 2) + 3, 1 <= 2, 1 and $a, address(@caller), address(upper(@action))); }`,
+			{ $v = ext1.call(2, '3', $a, @caller, -2, 1 + - 2, (1 * 2) + 3, 1 <= 2, 1 and $a, address(@caller), upper(@caller)); }`,
 			&schema.Schema{
 				Name:  "td1",
 				Owner: "",
@@ -654,7 +656,7 @@ func TestParse_valid_syntax(t *testing.T) {
 							"$a",
 						},
 						Statements: []string{
-							`$v=ext1.call(2,'3',$a,@dataset,-2,1+-2,(1*2)+3,1<=2,1and$a,address(@caller),address(upper(@action)));`,
+							`$v=ext1.call(2,'3',$a,@caller,-2,1+-2,(1*2)+3,1<=2,1and$a,address(@caller),upper(@caller));`,
 						},
 					},
 				},

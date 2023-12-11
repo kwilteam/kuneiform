@@ -4,17 +4,14 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/kwilteam/kwil-db/parse/action"
-	"github.com/kwilteam/kwil-db/parse/sql"
+	actparser "github.com/kwilteam/kwil-db/parse/action"
+	sqlparser "github.com/kwilteam/kwil-db/parse/sql"
 	"github.com/kwilteam/kwil-db/parse/sql/tree"
 )
 
 var (
 	builtinBlockVars = map[string]bool{
-		"@caller":         true,
-		"@caller_address": true,
-		"@action":         true,
-		"@dataset":        true,
+		"@caller": true,
 	}
 )
 
