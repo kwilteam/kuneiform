@@ -767,14 +767,14 @@ func TestParse_valid_syntax(t *testing.T) {
 		},
 	}
 
-	mode := Default
-	if *trace {
-		mode = Trace
-	}
+	//mode := Default
+	//if *trace {
+	//	mode = Trace
+	//}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := ParseKF(tt.input, nil, mode)
+			got, err := Parse(tt.input)
 			assert.NoErrorf(t, err, "Paser got error")
 
 			assert.EqualValues(t, tt.want, got, `ParseFile() got %+v, want %+v`, got, tt.want)
@@ -802,14 +802,14 @@ func TestParse_invalid_syntax(t *testing.T) {
 		{"use double quote for string", `database td; use a_ext{addr: "0x0000", seed: 3} ax ext1;`},
 	}
 
-	mode := Default
-	if *trace {
-		mode = Trace
-	}
+	//mode := Default
+	//if *trace {
+	//	mode = Trace
+	//}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := ParseKF(tt.input, nil, mode)
+			_, err := Parse(tt.input)
 			assert.Errorf(t, err, "Paser should complain about invalid syntax")
 
 			if err == nil || !strings.Contains(err.Error(), utils.ErrInvalidSyntax.Error()) {
@@ -933,14 +933,14 @@ func TestParse_invalid_semantic(t *testing.T) {
 			schema.ErrActionAuxiliaryAlreadySet},
 	}
 
-	mode := Default
-	if *trace {
-		mode = Trace
-	}
+	//mode := Default
+	//if *trace {
+	//	mode = Trace
+	//}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := ParseKF(tt.input, nil, mode)
+			_, err := Parse(tt.input)
 			assert.Errorf(t, err, "Paser should complain about invalid semantic")
 			assert.ErrorIs(t, err, tt.err, "Parser complain about wrong error")
 		})
