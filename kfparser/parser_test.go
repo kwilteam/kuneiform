@@ -625,7 +625,7 @@ func TestParse_valid_syntax(t *testing.T) {
 			use a_ext{addr: '0x0000', seed: 3} as ext1;
 			table tt1 { tc1 int, tc2 text }
 			action act2($a) private
-			{ $v = ext1.call(2, '3', $a, @caller, -2, 1 + - 2, (1 * 2) + 3, 1 <= 2, 1 and $a, address(@caller), upper(@caller)); }`,
+			{ $v = ext1.call(2, '3', $a, @caller, -2, 1 + - 2, (1 * 2) + 3, 1 <= 2, 1 and $a, lower(@caller), upper(@caller)); }`,
 			&schema.Schema{
 				Name:  "td1",
 				Owner: "",
@@ -656,7 +656,7 @@ func TestParse_valid_syntax(t *testing.T) {
 							"$a",
 						},
 						Statements: []string{
-							`$v=ext1.call(2,'3',$a,@caller,-2,1+-2,(1*2)+3,1<=2,1and$a,address(@caller),upper(@caller));`,
+							`$v=ext1.call(2,'3',$a,@caller,-2,1+-2,(1*2)+3,1<=2,1and$a,lower(@caller),upper(@caller));`,
 						},
 					},
 				},
