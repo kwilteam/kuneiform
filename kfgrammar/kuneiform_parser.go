@@ -1,4 +1,4 @@
-// Code generated from KuneiformParser.g4 by ANTLR 4.12.0. DO NOT EDIT.
+// Code generated from KuneiformParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
 package kfgrammar // KuneiformParser
 import (
@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"github.com/antlr4-go/antlr/v4"
 )
 
 // Suppress unused import errors
@@ -18,20 +18,20 @@ type KuneiformParser struct {
 	*antlr.BaseParser
 }
 
-var kuneiformparserParserStaticData struct {
+var KuneiformParserParserStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
-	literalNames           []string
-	symbolicNames          []string
-	ruleNames              []string
-	predictionContextCache *antlr.PredictionContextCache
+	LiteralNames           []string
+	SymbolicNames          []string
+	RuleNames              []string
+	PredictionContextCache *antlr.PredictionContextCache
 	atn                    *antlr.ATN
 	decisionToDFA          []*antlr.DFA
 }
 
 func kuneiformparserParserInit() {
-	staticData := &kuneiformparserParserStaticData
-	staticData.literalNames = []string{
+	staticData := &KuneiformParserParserStaticData
+	staticData.LiteralNames = []string{
 		"", "':'", "';'", "'('", "'{'", "')'", "'}'", "','", "'$'", "'#'", "'@'",
 		"'.'", "'='", "'+'", "'-'", "'*'", "'/'", "'%'", "'~'", "'||'", "'<<'",
 		"'>>'", "'&'", "'|'", "'=='", "'<'", "'<='", "'>'", "'>='", "'!='",
@@ -43,7 +43,7 @@ func kuneiformparserParserInit() {
 		"'set_null'", "'set_default'", "'restrict'", "", "", "", "", "", "'not'",
 		"'and'", "'or'",
 	}
-	staticData.symbolicNames = []string{
+	staticData.SymbolicNames = []string{
 		"", "COL", "SCOL", "L_PAREN", "L_BRACE", "R_PAREN", "R_BRACE", "COMMA",
 		"DOLLAR", "HASH", "AT", "PERIOD", "ASSIGN", "PLUS", "MINUS", "STAR",
 		"DIV", "MOD", "TILDE", "PIPE2", "LT2", "GT2", "AMP", "PIPE", "EQ", "LT",
@@ -59,7 +59,7 @@ func kuneiformparserParserInit() {
 		"UNSIGNED_NUMBER_LITERAL", "STRING_LITERAL", "SQL_KEYWORDS", "SQL_STMT",
 		"WS", "TERMINATOR", "BLOCK_COMMENT", "LINE_COMMENT",
 	}
-	staticData.ruleNames = []string{
+	staticData.RuleNames = []string{
 		"source_unit", "database_directive", "extension_directive", "ext_config_list",
 		"ext_config", "annotation_decl", "annotation_attr_list", "annotation_attr",
 		"table_decl", "column_def", "column_def_list", "column_type", "column_constraint",
@@ -73,7 +73,7 @@ func kuneiformparserParserInit() {
 		"variable", "block_var", "extension_call_name", "fn_name", "sfn_name",
 		"fn_arg_list", "fn_arg_expr",
 	}
-	staticData.predictionContextCache = antlr.NewPredictionContextCache()
+	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
 		4, 1, 84, 457, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
@@ -287,7 +287,7 @@ func kuneiformparserParserInit() {
 // NewKuneiformParser(). You can call this function if you wish to initialize the static state ahead
 // of time.
 func KuneiformParserInit() {
-	staticData := &kuneiformparserParserStaticData
+	staticData := &KuneiformParserParserStaticData
 	staticData.once.Do(kuneiformparserParserInit)
 }
 
@@ -296,11 +296,11 @@ func NewKuneiformParser(input antlr.TokenStream) *KuneiformParser {
 	KuneiformParserInit()
 	this := new(KuneiformParser)
 	this.BaseParser = antlr.NewBaseParser(input)
-	staticData := &kuneiformparserParserStaticData
-	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
-	this.RuleNames = staticData.ruleNames
-	this.LiteralNames = staticData.literalNames
-	this.SymbolicNames = staticData.symbolicNames
+	staticData := &KuneiformParserParserStaticData
+	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.PredictionContextCache)
+	this.RuleNames = staticData.RuleNames
+	this.LiteralNames = staticData.LiteralNames
+	this.SymbolicNames = staticData.SymbolicNames
 	this.GrammarFileName = "KuneiformParser.g4"
 
 	return this
@@ -475,15 +475,20 @@ type ISource_unitContext interface {
 }
 
 type Source_unitContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptySource_unitContext() *Source_unitContext {
 	var p = new(Source_unitContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_source_unit
 	return p
+}
+
+func InitEmptySource_unitContext(p *Source_unitContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_source_unit
 }
 
 func (*Source_unitContext) IsSource_unitContext() {}
@@ -491,7 +496,7 @@ func (*Source_unitContext) IsSource_unitContext() {}
 func NewSource_unitContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Source_unitContext {
 	var p = new(Source_unitContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_source_unit
@@ -708,28 +713,9 @@ func (s *Source_unitContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Source_unit() (localctx ISource_unitContext) {
-	this := p
-	_ = this
-
 	localctx = NewSource_unitContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, KuneiformParserRULE_source_unit)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -739,9 +725,16 @@ func (p *KuneiformParser) Source_unit() (localctx ISource_unitContext) {
 	{
 		p.SetState(103)
 		p.Match(KuneiformParserSCOL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(107)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserUSE_ {
@@ -752,15 +745,24 @@ func (p *KuneiformParser) Source_unit() (localctx ISource_unitContext) {
 
 		p.SetState(109)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	p.SetState(115)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for (int64((_la-34)) & ^0x3f) == 0 && ((int64(1)<<(_la-34))&4398046511111) != 0 {
 		p.SetState(113)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 
 		switch p.GetTokenStream().LA(1) {
 		case KuneiformParserTABLE_:
@@ -782,19 +784,37 @@ func (p *KuneiformParser) Source_unit() (localctx ISource_unitContext) {
 			}
 
 		default:
-			panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			goto errorExit
 		}
 
 		p.SetState(117)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(118)
 		p.Match(KuneiformParserEOF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IDatabase_directiveContext is an interface to support dynamic dispatch.
@@ -813,15 +833,20 @@ type IDatabase_directiveContext interface {
 }
 
 type Database_directiveContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyDatabase_directiveContext() *Database_directiveContext {
 	var p = new(Database_directiveContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_database_directive
 	return p
+}
+
+func InitEmptyDatabase_directiveContext(p *Database_directiveContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_database_directive
 }
 
 func (*Database_directiveContext) IsDatabase_directiveContext() {}
@@ -829,7 +854,7 @@ func (*Database_directiveContext) IsDatabase_directiveContext() {}
 func NewDatabase_directiveContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Database_directiveContext {
 	var p = new(Database_directiveContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_database_directive
@@ -878,39 +903,33 @@ func (s *Database_directiveContext) Accept(visitor antlr.ParseTreeVisitor) inter
 }
 
 func (p *KuneiformParser) Database_directive() (localctx IDatabase_directiveContext) {
-	this := p
-	_ = this
-
 	localctx = NewDatabase_directiveContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, KuneiformParserRULE_database_directive)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(120)
 		p.Match(KuneiformParserDATABASE_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(121)
 		p.Database_name()
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExtension_directiveContext is an interface to support dynamic dispatch.
@@ -935,15 +954,20 @@ type IExtension_directiveContext interface {
 }
 
 type Extension_directiveContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExtension_directiveContext() *Extension_directiveContext {
 	var p = new(Extension_directiveContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_extension_directive
 	return p
+}
+
+func InitEmptyExtension_directiveContext(p *Extension_directiveContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_extension_directive
 }
 
 func (*Extension_directiveContext) IsExtension_directiveContext() {}
@@ -951,7 +975,7 @@ func (*Extension_directiveContext) IsExtension_directiveContext() {}
 func NewExtension_directiveContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Extension_directiveContext {
 	var p = new(Extension_directiveContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_extension_directive
@@ -1057,33 +1081,18 @@ func (s *Extension_directiveContext) Accept(visitor antlr.ParseTreeVisitor) inte
 }
 
 func (p *KuneiformParser) Extension_directive() (localctx IExtension_directiveContext) {
-	this := p
-	_ = this
-
 	localctx = NewExtension_directiveContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, KuneiformParserRULE_extension_directive)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(123)
 		p.Match(KuneiformParserUSE_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(124)
@@ -1091,12 +1100,19 @@ func (p *KuneiformParser) Extension_directive() (localctx IExtension_directiveCo
 	}
 	p.SetState(129)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == KuneiformParserL_BRACE {
 		{
 			p.SetState(125)
 			p.Match(KuneiformParserL_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(126)
@@ -1105,12 +1121,20 @@ func (p *KuneiformParser) Extension_directive() (localctx IExtension_directiveCo
 		{
 			p.SetState(127)
 			p.Match(KuneiformParserR_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
 	{
 		p.SetState(131)
 		p.Match(KuneiformParserAS_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(132)
@@ -1119,9 +1143,23 @@ func (p *KuneiformParser) Extension_directive() (localctx IExtension_directiveCo
 	{
 		p.SetState(133)
 		p.Match(KuneiformParserSCOL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExt_config_listContext is an interface to support dynamic dispatch.
@@ -1142,15 +1180,20 @@ type IExt_config_listContext interface {
 }
 
 type Ext_config_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExt_config_listContext() *Ext_config_listContext {
 	var p = new(Ext_config_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_ext_config_list
 	return p
+}
+
+func InitEmptyExt_config_listContext(p *Ext_config_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_ext_config_list
 }
 
 func (*Ext_config_listContext) IsExt_config_listContext() {}
@@ -1158,7 +1201,7 @@ func (*Ext_config_listContext) IsExt_config_listContext() {}
 func NewExt_config_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Ext_config_listContext {
 	var p = new(Ext_config_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_ext_config_list
@@ -1236,28 +1279,9 @@ func (s *Ext_config_listContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 }
 
 func (p *KuneiformParser) Ext_config_list() (localctx IExt_config_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewExt_config_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 6, KuneiformParserRULE_ext_config_list)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -1266,12 +1290,19 @@ func (p *KuneiformParser) Ext_config_list() (localctx IExt_config_listContext) {
 	}
 	p.SetState(140)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserCOMMA {
 		{
 			p.SetState(136)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(137)
@@ -1280,10 +1311,23 @@ func (p *KuneiformParser) Ext_config_list() (localctx IExt_config_listContext) {
 
 		p.SetState(142)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExt_configContext is an interface to support dynamic dispatch.
@@ -1303,15 +1347,20 @@ type IExt_configContext interface {
 }
 
 type Ext_configContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExt_configContext() *Ext_configContext {
 	var p = new(Ext_configContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_ext_config
 	return p
+}
+
+func InitEmptyExt_configContext(p *Ext_configContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_ext_config
 }
 
 func (*Ext_configContext) IsExt_configContext() {}
@@ -1319,7 +1368,7 @@ func (*Ext_configContext) IsExt_configContext() {}
 func NewExt_configContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Ext_configContext {
 	var p = new(Ext_configContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_ext_config
@@ -1384,28 +1433,8 @@ func (s *Ext_configContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Ext_config() (localctx IExt_configContext) {
-	this := p
-	_ = this
-
 	localctx = NewExt_configContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, KuneiformParserRULE_ext_config)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(143)
@@ -1414,13 +1443,27 @@ func (p *KuneiformParser) Ext_config() (localctx IExt_configContext) {
 	{
 		p.SetState(144)
 		p.Match(KuneiformParserCOL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(145)
 		p.Ext_config_value()
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAnnotation_declContext is an interface to support dynamic dispatch.
@@ -1441,15 +1484,20 @@ type IAnnotation_declContext interface {
 }
 
 type Annotation_declContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAnnotation_declContext() *Annotation_declContext {
 	var p = new(Annotation_declContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_annotation_decl
 	return p
+}
+
+func InitEmptyAnnotation_declContext(p *Annotation_declContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_annotation_decl
 }
 
 func (*Annotation_declContext) IsAnnotation_declContext() {}
@@ -1457,7 +1505,7 @@ func (*Annotation_declContext) IsAnnotation_declContext() {}
 func NewAnnotation_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Annotation_declContext {
 	var p = new(Annotation_declContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_annotation_decl
@@ -1526,28 +1574,8 @@ func (s *Annotation_declContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 }
 
 func (p *KuneiformParser) Annotation_decl() (localctx IAnnotation_declContext) {
-	this := p
-	_ = this
-
 	localctx = NewAnnotation_declContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 10, KuneiformParserRULE_annotation_decl)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(147)
@@ -1556,6 +1584,10 @@ func (p *KuneiformParser) Annotation_decl() (localctx IAnnotation_declContext) {
 	{
 		p.SetState(148)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(149)
@@ -1564,9 +1596,23 @@ func (p *KuneiformParser) Annotation_decl() (localctx IAnnotation_declContext) {
 	{
 		p.SetState(150)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAnnotation_attr_listContext is an interface to support dynamic dispatch.
@@ -1587,15 +1633,20 @@ type IAnnotation_attr_listContext interface {
 }
 
 type Annotation_attr_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAnnotation_attr_listContext() *Annotation_attr_listContext {
 	var p = new(Annotation_attr_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_annotation_attr_list
 	return p
+}
+
+func InitEmptyAnnotation_attr_listContext(p *Annotation_attr_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_annotation_attr_list
 }
 
 func (*Annotation_attr_listContext) IsAnnotation_attr_listContext() {}
@@ -1603,7 +1654,7 @@ func (*Annotation_attr_listContext) IsAnnotation_attr_listContext() {}
 func NewAnnotation_attr_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Annotation_attr_listContext {
 	var p = new(Annotation_attr_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_annotation_attr_list
@@ -1681,28 +1732,9 @@ func (s *Annotation_attr_listContext) Accept(visitor antlr.ParseTreeVisitor) int
 }
 
 func (p *KuneiformParser) Annotation_attr_list() (localctx IAnnotation_attr_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewAnnotation_attr_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 12, KuneiformParserRULE_annotation_attr_list)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -1711,12 +1743,19 @@ func (p *KuneiformParser) Annotation_attr_list() (localctx IAnnotation_attr_list
 	}
 	p.SetState(157)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserCOMMA {
 		{
 			p.SetState(153)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(154)
@@ -1725,10 +1764,23 @@ func (p *KuneiformParser) Annotation_attr_list() (localctx IAnnotation_attr_list
 
 		p.SetState(159)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAnnotation_attrContext is an interface to support dynamic dispatch.
@@ -1748,15 +1800,20 @@ type IAnnotation_attrContext interface {
 }
 
 type Annotation_attrContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAnnotation_attrContext() *Annotation_attrContext {
 	var p = new(Annotation_attrContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_annotation_attr
 	return p
+}
+
+func InitEmptyAnnotation_attrContext(p *Annotation_attrContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_annotation_attr
 }
 
 func (*Annotation_attrContext) IsAnnotation_attrContext() {}
@@ -1764,7 +1821,7 @@ func (*Annotation_attrContext) IsAnnotation_attrContext() {}
 func NewAnnotation_attrContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Annotation_attrContext {
 	var p = new(Annotation_attrContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_annotation_attr
@@ -1829,28 +1886,8 @@ func (s *Annotation_attrContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 }
 
 func (p *KuneiformParser) Annotation_attr() (localctx IAnnotation_attrContext) {
-	this := p
-	_ = this
-
 	localctx = NewAnnotation_attrContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 14, KuneiformParserRULE_annotation_attr)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(160)
@@ -1859,13 +1896,27 @@ func (p *KuneiformParser) Annotation_attr() (localctx IAnnotation_attrContext) {
 	{
 		p.SetState(161)
 		p.Match(KuneiformParserASSIGN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(162)
 		p.Annotation_attr_value()
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ITable_declContext is an interface to support dynamic dispatch.
@@ -1893,15 +1944,20 @@ type ITable_declContext interface {
 }
 
 type Table_declContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyTable_declContext() *Table_declContext {
 	var p = new(Table_declContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_table_decl
 	return p
+}
+
+func InitEmptyTable_declContext(p *Table_declContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_table_decl
 }
 
 func (*Table_declContext) IsTable_declContext() {}
@@ -1909,7 +1965,7 @@ func (*Table_declContext) IsTable_declContext() {}
 func NewTable_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Table_declContext {
 	var p = new(Table_declContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_table_decl
@@ -2072,28 +2128,9 @@ func (s *Table_declContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Table_decl() (localctx ITable_declContext) {
-	this := p
-	_ = this
-
 	localctx = NewTable_declContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 16, KuneiformParserRULE_table_decl)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	var _alt int
 
@@ -2101,6 +2138,10 @@ func (p *KuneiformParser) Table_decl() (localctx ITable_declContext) {
 	{
 		p.SetState(164)
 		p.Match(KuneiformParserTABLE_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(165)
@@ -2109,6 +2150,10 @@ func (p *KuneiformParser) Table_decl() (localctx ITable_declContext) {
 	{
 		p.SetState(166)
 		p.Match(KuneiformParserL_BRACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(167)
@@ -2116,16 +2161,28 @@ func (p *KuneiformParser) Table_decl() (localctx ITable_declContext) {
 	}
 	p.SetState(175)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 7, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
 				p.SetState(168)
 				p.Match(KuneiformParserCOMMA)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 			p.SetState(171)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 
 			switch p.GetTokenStream().LA(1) {
 			case KuneiformParserINDEX_NAME:
@@ -2141,31 +2198,59 @@ func (p *KuneiformParser) Table_decl() (localctx ITable_declContext) {
 				}
 
 			default:
-				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+				p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+				goto errorExit
 			}
 
 		}
 		p.SetState(177)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 7, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 	p.SetState(179)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == KuneiformParserCOMMA {
 		{
 			p.SetState(178)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
 	{
 		p.SetState(181)
 		p.Match(KuneiformParserR_BRACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IColumn_defContext is an interface to support dynamic dispatch.
@@ -2186,15 +2271,20 @@ type IColumn_defContext interface {
 }
 
 type Column_defContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyColumn_defContext() *Column_defContext {
 	var p = new(Column_defContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_column_def
 	return p
+}
+
+func InitEmptyColumn_defContext(p *Column_defContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_column_def
 }
 
 func (*Column_defContext) IsColumn_defContext() {}
@@ -2202,7 +2292,7 @@ func (*Column_defContext) IsColumn_defContext() {}
 func NewColumn_defContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Column_defContext {
 	var p = new(Column_defContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_column_def
@@ -2304,28 +2394,9 @@ func (s *Column_defContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Column_def() (localctx IColumn_defContext) {
-	this := p
-	_ = this
-
 	localctx = NewColumn_defContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 18, KuneiformParserRULE_column_def)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -2338,6 +2409,9 @@ func (p *KuneiformParser) Column_def() (localctx IColumn_defContext) {
 	}
 	p.SetState(188)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4486007441326080) != 0 {
@@ -2348,10 +2422,23 @@ func (p *KuneiformParser) Column_def() (localctx IColumn_defContext) {
 
 		p.SetState(190)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IColumn_def_listContext is an interface to support dynamic dispatch.
@@ -2372,15 +2459,20 @@ type IColumn_def_listContext interface {
 }
 
 type Column_def_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyColumn_def_listContext() *Column_def_listContext {
 	var p = new(Column_def_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_column_def_list
 	return p
+}
+
+func InitEmptyColumn_def_listContext(p *Column_def_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_column_def_list
 }
 
 func (*Column_def_listContext) IsColumn_def_listContext() {}
@@ -2388,7 +2480,7 @@ func (*Column_def_listContext) IsColumn_def_listContext() {}
 func NewColumn_def_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Column_def_listContext {
 	var p = new(Column_def_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_column_def_list
@@ -2466,28 +2558,8 @@ func (s *Column_def_listContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 }
 
 func (p *KuneiformParser) Column_def_list() (localctx IColumn_def_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewColumn_def_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 20, KuneiformParserRULE_column_def_list)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
@@ -2497,13 +2569,22 @@ func (p *KuneiformParser) Column_def_list() (localctx IColumn_def_listContext) {
 	}
 	p.SetState(196)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 10, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 10, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
 				p.SetState(192)
 				p.Match(KuneiformParserCOMMA)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 			{
 				p.SetState(193)
@@ -2513,10 +2594,26 @@ func (p *KuneiformParser) Column_def_list() (localctx IColumn_def_listContext) {
 		}
 		p.SetState(198)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 10, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 10, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IColumn_typeContext is an interface to support dynamic dispatch.
@@ -2536,15 +2633,20 @@ type IColumn_typeContext interface {
 }
 
 type Column_typeContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyColumn_typeContext() *Column_typeContext {
 	var p = new(Column_typeContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_column_type
 	return p
+}
+
+func InitEmptyColumn_typeContext(p *Column_typeContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_column_type
 }
 
 func (*Column_typeContext) IsColumn_typeContext() {}
@@ -2552,7 +2654,7 @@ func (*Column_typeContext) IsColumn_typeContext() {}
 func NewColumn_typeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Column_typeContext {
 	var p = new(Column_typeContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_column_type
@@ -2593,28 +2695,9 @@ func (s *Column_typeContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Column_type() (localctx IColumn_typeContext) {
-	this := p
-	_ = this
-
 	localctx = NewColumn_typeContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 22, KuneiformParserRULE_column_type)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -2629,7 +2712,17 @@ func (p *KuneiformParser) Column_type() (localctx IColumn_typeContext) {
 		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IColumn_constraintContext is an interface to support dynamic dispatch.
@@ -2658,15 +2751,20 @@ type IColumn_constraintContext interface {
 }
 
 type Column_constraintContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyColumn_constraintContext() *Column_constraintContext {
 	var p = new(Column_constraintContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_column_constraint
 	return p
+}
+
+func InitEmptyColumn_constraintContext(p *Column_constraintContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_column_constraint
 }
 
 func (*Column_constraintContext) IsColumn_constraintContext() {}
@@ -2674,7 +2772,7 @@ func (*Column_constraintContext) IsColumn_constraintContext() {}
 func NewColumn_constraintContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Column_constraintContext {
 	var p = new(Column_constraintContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_column_constraint
@@ -2775,30 +2873,13 @@ func (s *Column_constraintContext) Accept(visitor antlr.ParseTreeVisitor) interf
 }
 
 func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContext) {
-	this := p
-	_ = this
-
 	localctx = NewColumn_constraintContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 24, KuneiformParserRULE_column_constraint)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(229)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 
 	switch p.GetTokenStream().LA(1) {
 	case KuneiformParserPRIMARY_:
@@ -2806,6 +2887,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(201)
 			p.Match(KuneiformParserPRIMARY_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserNOT_NULL_:
@@ -2813,6 +2898,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(202)
 			p.Match(KuneiformParserNOT_NULL_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserUNIQUE_:
@@ -2820,6 +2909,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(203)
 			p.Match(KuneiformParserUNIQUE_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserDEFAULT_:
@@ -2827,10 +2920,18 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(204)
 			p.Match(KuneiformParserDEFAULT_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(205)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(206)
@@ -2839,6 +2940,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(207)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserMIN_:
@@ -2846,10 +2951,18 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(209)
 			p.Match(KuneiformParserMIN_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(210)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(211)
@@ -2858,6 +2971,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(212)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserMAX_:
@@ -2865,10 +2982,18 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(214)
 			p.Match(KuneiformParserMAX_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(215)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(216)
@@ -2877,6 +3002,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(217)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserMIN_LEN_:
@@ -2884,10 +3013,18 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(219)
 			p.Match(KuneiformParserMIN_LEN_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(220)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(221)
@@ -2896,6 +3033,10 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(222)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserMAX_LEN_:
@@ -2903,10 +3044,18 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(224)
 			p.Match(KuneiformParserMAX_LEN_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(225)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(226)
@@ -2915,13 +3064,28 @@ func (p *KuneiformParser) Column_constraint() (localctx IColumn_constraintContex
 		{
 			p.SetState(227)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ILiteral_valueContext is an interface to support dynamic dispatch.
@@ -2940,15 +3104,20 @@ type ILiteral_valueContext interface {
 }
 
 type Literal_valueContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyLiteral_valueContext() *Literal_valueContext {
 	var p = new(Literal_valueContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_literal_value
 	return p
+}
+
+func InitEmptyLiteral_valueContext(p *Literal_valueContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_literal_value
 }
 
 func (*Literal_valueContext) IsLiteral_valueContext() {}
@@ -2956,7 +3125,7 @@ func (*Literal_valueContext) IsLiteral_valueContext() {}
 func NewLiteral_valueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Literal_valueContext {
 	var p = new(Literal_valueContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_literal_value
@@ -2993,28 +3162,9 @@ func (s *Literal_valueContext) Accept(visitor antlr.ParseTreeVisitor) interface{
 }
 
 func (p *KuneiformParser) Literal_value() (localctx ILiteral_valueContext) {
-	this := p
-	_ = this
-
 	localctx = NewLiteral_valueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 26, KuneiformParserRULE_literal_value)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -3029,7 +3179,17 @@ func (p *KuneiformParser) Literal_value() (localctx ILiteral_valueContext) {
 		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // INumber_valueContext is an interface to support dynamic dispatch.
@@ -3047,15 +3207,20 @@ type INumber_valueContext interface {
 }
 
 type Number_valueContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyNumber_valueContext() *Number_valueContext {
 	var p = new(Number_valueContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_number_value
 	return p
+}
+
+func InitEmptyNumber_valueContext(p *Number_valueContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_number_value
 }
 
 func (*Number_valueContext) IsNumber_valueContext() {}
@@ -3063,7 +3228,7 @@ func (*Number_valueContext) IsNumber_valueContext() {}
 func NewNumber_valueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Number_valueContext {
 	var p = new(Number_valueContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_number_value
@@ -3096,35 +3261,29 @@ func (s *Number_valueContext) Accept(visitor antlr.ParseTreeVisitor) interface{}
 }
 
 func (p *KuneiformParser) Number_value() (localctx INumber_valueContext) {
-	this := p
-	_ = this
-
 	localctx = NewNumber_valueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 28, KuneiformParserRULE_number_value)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(233)
 		p.Match(KuneiformParserUNSIGNED_NUMBER_LITERAL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IIndex_defContext is an interface to support dynamic dispatch.
@@ -3148,15 +3307,20 @@ type IIndex_defContext interface {
 }
 
 type Index_defContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyIndex_defContext() *Index_defContext {
 	var p = new(Index_defContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_index_def
 	return p
+}
+
+func InitEmptyIndex_defContext(p *Index_defContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_index_def
 }
 
 func (*Index_defContext) IsIndex_defContext() {}
@@ -3164,7 +3328,7 @@ func (*Index_defContext) IsIndex_defContext() {}
 func NewIndex_defContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Index_defContext {
 	var p = new(Index_defContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_index_def
@@ -3245,28 +3409,9 @@ func (s *Index_defContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Index_def() (localctx IIndex_defContext) {
-	this := p
-	_ = this
-
 	localctx = NewIndex_defContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 30, KuneiformParserRULE_index_def)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -3287,6 +3432,10 @@ func (p *KuneiformParser) Index_def() (localctx IIndex_defContext) {
 	{
 		p.SetState(237)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(238)
@@ -3295,9 +3444,23 @@ func (p *KuneiformParser) Index_def() (localctx IIndex_defContext) {
 	{
 		p.SetState(239)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IForeign_key_actionContext is an interface to support dynamic dispatch.
@@ -3322,15 +3485,20 @@ type IForeign_key_actionContext interface {
 }
 
 type Foreign_key_actionContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyForeign_key_actionContext() *Foreign_key_actionContext {
 	var p = new(Foreign_key_actionContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_foreign_key_action
 	return p
+}
+
+func InitEmptyForeign_key_actionContext(p *Foreign_key_actionContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_foreign_key_action
 }
 
 func (*Foreign_key_actionContext) IsForeign_key_actionContext() {}
@@ -3338,7 +3506,7 @@ func (*Foreign_key_actionContext) IsForeign_key_actionContext() {}
 func NewForeign_key_actionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Foreign_key_actionContext {
 	var p = new(Foreign_key_actionContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_foreign_key_action
@@ -3399,28 +3567,9 @@ func (s *Foreign_key_actionContext) Accept(visitor antlr.ParseTreeVisitor) inter
 }
 
 func (p *KuneiformParser) Foreign_key_action() (localctx IForeign_key_actionContext) {
-	this := p
-	_ = this
-
 	localctx = NewForeign_key_actionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 32, KuneiformParserRULE_foreign_key_action)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -3436,12 +3585,19 @@ func (p *KuneiformParser) Foreign_key_action() (localctx IForeign_key_actionCont
 	}
 	p.SetState(243)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == KuneiformParserACTION_DO_ {
 		{
 			p.SetState(242)
 			p.Match(KuneiformParserACTION_DO_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
@@ -3457,7 +3613,17 @@ func (p *KuneiformParser) Foreign_key_action() (localctx IForeign_key_actionCont
 		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IForeign_key_defContext is an interface to support dynamic dispatch.
@@ -3487,15 +3653,20 @@ type IForeign_key_defContext interface {
 }
 
 type Foreign_key_defContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyForeign_key_defContext() *Foreign_key_defContext {
 	var p = new(Foreign_key_defContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_foreign_key_def
 	return p
+}
+
+func InitEmptyForeign_key_defContext(p *Foreign_key_defContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_foreign_key_def
 }
 
 func (*Foreign_key_defContext) IsForeign_key_defContext() {}
@@ -3503,7 +3674,7 @@ func (*Foreign_key_defContext) IsForeign_key_defContext() {}
 func NewForeign_key_defContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Foreign_key_defContext {
 	var p = new(Foreign_key_defContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_foreign_key_def
@@ -3662,28 +3833,9 @@ func (s *Foreign_key_defContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 }
 
 func (p *KuneiformParser) Foreign_key_def() (localctx IForeign_key_defContext) {
-	this := p
-	_ = this
-
 	localctx = NewForeign_key_defContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 34, KuneiformParserRULE_foreign_key_def)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -3700,6 +3852,10 @@ func (p *KuneiformParser) Foreign_key_def() (localctx IForeign_key_defContext) {
 	{
 		p.SetState(248)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(249)
@@ -3708,6 +3864,10 @@ func (p *KuneiformParser) Foreign_key_def() (localctx IForeign_key_defContext) {
 	{
 		p.SetState(250)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(251)
@@ -3727,6 +3887,10 @@ func (p *KuneiformParser) Foreign_key_def() (localctx IForeign_key_defContext) {
 	{
 		p.SetState(253)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(254)
@@ -3735,9 +3899,16 @@ func (p *KuneiformParser) Foreign_key_def() (localctx IForeign_key_defContext) {
 	{
 		p.SetState(255)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(259)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserACTION_ON_UPDATE_ || _la == KuneiformParserACTION_ON_DELETE_ {
@@ -3748,10 +3919,23 @@ func (p *KuneiformParser) Foreign_key_def() (localctx IForeign_key_defContext) {
 
 		p.SetState(261)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_visibilityContext is an interface to support dynamic dispatch.
@@ -3770,15 +3954,20 @@ type IAction_visibilityContext interface {
 }
 
 type Action_visibilityContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_visibilityContext() *Action_visibilityContext {
 	var p = new(Action_visibilityContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_visibility
 	return p
+}
+
+func InitEmptyAction_visibilityContext(p *Action_visibilityContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_visibility
 }
 
 func (*Action_visibilityContext) IsAction_visibilityContext() {}
@@ -3786,7 +3975,7 @@ func (*Action_visibilityContext) IsAction_visibilityContext() {}
 func NewAction_visibilityContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_visibilityContext {
 	var p = new(Action_visibilityContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_visibility
@@ -3823,28 +4012,9 @@ func (s *Action_visibilityContext) Accept(visitor antlr.ParseTreeVisitor) interf
 }
 
 func (p *KuneiformParser) Action_visibility() (localctx IAction_visibilityContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_visibilityContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 36, KuneiformParserRULE_action_visibility)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -3859,7 +4029,17 @@ func (p *KuneiformParser) Action_visibility() (localctx IAction_visibilityContex
 		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_mutabilityContext is an interface to support dynamic dispatch.
@@ -3877,15 +4057,20 @@ type IAction_mutabilityContext interface {
 }
 
 type Action_mutabilityContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_mutabilityContext() *Action_mutabilityContext {
 	var p = new(Action_mutabilityContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_mutability
 	return p
+}
+
+func InitEmptyAction_mutabilityContext(p *Action_mutabilityContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_mutability
 }
 
 func (*Action_mutabilityContext) IsAction_mutabilityContext() {}
@@ -3893,7 +4078,7 @@ func (*Action_mutabilityContext) IsAction_mutabilityContext() {}
 func NewAction_mutabilityContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_mutabilityContext {
 	var p = new(Action_mutabilityContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_mutability
@@ -3926,35 +4111,29 @@ func (s *Action_mutabilityContext) Accept(visitor antlr.ParseTreeVisitor) interf
 }
 
 func (p *KuneiformParser) Action_mutability() (localctx IAction_mutabilityContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_mutabilityContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 38, KuneiformParserRULE_action_mutability)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(264)
 		p.Match(KuneiformParserVIEW_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_auxiliaryContext is an interface to support dynamic dispatch.
@@ -3972,15 +4151,20 @@ type IAction_auxiliaryContext interface {
 }
 
 type Action_auxiliaryContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_auxiliaryContext() *Action_auxiliaryContext {
 	var p = new(Action_auxiliaryContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_auxiliary
 	return p
+}
+
+func InitEmptyAction_auxiliaryContext(p *Action_auxiliaryContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_auxiliary
 }
 
 func (*Action_auxiliaryContext) IsAction_auxiliaryContext() {}
@@ -3988,7 +4172,7 @@ func (*Action_auxiliaryContext) IsAction_auxiliaryContext() {}
 func NewAction_auxiliaryContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_auxiliaryContext {
 	var p = new(Action_auxiliaryContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_auxiliary
@@ -4021,35 +4205,29 @@ func (s *Action_auxiliaryContext) Accept(visitor antlr.ParseTreeVisitor) interfa
 }
 
 func (p *KuneiformParser) Action_auxiliary() (localctx IAction_auxiliaryContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_auxiliaryContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 40, KuneiformParserRULE_action_auxiliary)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(266)
 		p.Match(KuneiformParserOWNER_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_attr_listContext is an interface to support dynamic dispatch.
@@ -4072,15 +4250,20 @@ type IAction_attr_listContext interface {
 }
 
 type Action_attr_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_attr_listContext() *Action_attr_listContext {
 	var p = new(Action_attr_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_attr_list
 	return p
+}
+
+func InitEmptyAction_attr_listContext(p *Action_attr_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_attr_list
 }
 
 func (*Action_attr_listContext) IsAction_attr_listContext() {}
@@ -4088,7 +4271,7 @@ func (*Action_attr_listContext) IsAction_attr_listContext() {}
 func NewAction_attr_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_attr_listContext {
 	var p = new(Action_attr_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_attr_list
@@ -4240,37 +4423,24 @@ func (s *Action_attr_listContext) Accept(visitor antlr.ParseTreeVisitor) interfa
 }
 
 func (p *KuneiformParser) Action_attr_list() (localctx IAction_attr_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_attr_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 42, KuneiformParserRULE_action_attr_list)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(273)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&2061584302080) != 0 {
 		p.SetState(271)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 
 		switch p.GetTokenStream().LA(1) {
 		case KuneiformParserPUBLIC_, KuneiformParserPRIVATE_:
@@ -4292,15 +4462,29 @@ func (p *KuneiformParser) Action_attr_list() (localctx IAction_attr_listContext)
 			}
 
 		default:
-			panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			goto errorExit
 		}
 
 		p.SetState(275)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_declContext is an interface to support dynamic dispatch.
@@ -4328,15 +4512,20 @@ type IAction_declContext interface {
 }
 
 type Action_declContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_declContext() *Action_declContext {
 	var p = new(Action_declContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_decl
 	return p
+}
+
+func InitEmptyAction_declContext(p *Action_declContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_decl
 }
 
 func (*Action_declContext) IsAction_declContext() {}
@@ -4344,7 +4533,7 @@ func (*Action_declContext) IsAction_declContext() {}
 func NewAction_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_declContext {
 	var p = new(Action_declContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_decl
@@ -4498,32 +4687,16 @@ func (s *Action_declContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Action_decl() (localctx IAction_declContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_declContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 44, KuneiformParserRULE_action_decl)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(279)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserBLOCK_VAR_OR_ANNOTATION {
@@ -4534,11 +4707,18 @@ func (p *KuneiformParser) Action_decl() (localctx IAction_declContext) {
 
 		p.SetState(281)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(282)
 		p.Match(KuneiformParserACTION_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(283)
@@ -4547,6 +4727,10 @@ func (p *KuneiformParser) Action_decl() (localctx IAction_declContext) {
 	{
 		p.SetState(284)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(285)
@@ -4555,6 +4739,10 @@ func (p *KuneiformParser) Action_decl() (localctx IAction_declContext) {
 	{
 		p.SetState(286)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(287)
@@ -4563,6 +4751,10 @@ func (p *KuneiformParser) Action_decl() (localctx IAction_declContext) {
 	{
 		p.SetState(288)
 		p.Match(KuneiformParserL_BRACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(289)
@@ -4571,9 +4763,23 @@ func (p *KuneiformParser) Action_decl() (localctx IAction_declContext) {
 	{
 		p.SetState(290)
 		p.Match(KuneiformParserR_BRACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IParam_listContext is an interface to support dynamic dispatch.
@@ -4594,15 +4800,20 @@ type IParam_listContext interface {
 }
 
 type Param_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyParam_listContext() *Param_listContext {
 	var p = new(Param_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_param_list
 	return p
+}
+
+func InitEmptyParam_listContext(p *Param_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_param_list
 }
 
 func (*Param_listContext) IsParam_listContext() {}
@@ -4610,7 +4821,7 @@ func (*Param_listContext) IsParam_listContext() {}
 func NewParam_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Param_listContext {
 	var p = new(Param_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_param_list
@@ -4688,32 +4899,16 @@ func (s *Param_listContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Param_list() (localctx IParam_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewParam_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 46, KuneiformParserRULE_param_list)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(293)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == KuneiformParserPARAM_OR_VAR {
@@ -4725,12 +4920,19 @@ func (p *KuneiformParser) Param_list() (localctx IParam_listContext) {
 	}
 	p.SetState(299)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserCOMMA {
 		{
 			p.SetState(295)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(296)
@@ -4739,10 +4941,23 @@ func (p *KuneiformParser) Param_list() (localctx IParam_listContext) {
 
 		p.SetState(301)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IParameterContext is an interface to support dynamic dispatch.
@@ -4760,15 +4975,20 @@ type IParameterContext interface {
 }
 
 type ParameterContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyParameterContext() *ParameterContext {
 	var p = new(ParameterContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_parameter
 	return p
+}
+
+func InitEmptyParameterContext(p *ParameterContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_parameter
 }
 
 func (*ParameterContext) IsParameterContext() {}
@@ -4776,7 +4996,7 @@ func (*ParameterContext) IsParameterContext() {}
 func NewParameterContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ParameterContext {
 	var p = new(ParameterContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_parameter
@@ -4809,35 +5029,29 @@ func (s *ParameterContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Parameter() (localctx IParameterContext) {
-	this := p
-	_ = this
-
 	localctx = NewParameterContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 48, KuneiformParserRULE_parameter)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(302)
 		p.Match(KuneiformParserPARAM_OR_VAR)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IDatabase_nameContext is an interface to support dynamic dispatch.
@@ -4855,15 +5069,20 @@ type IDatabase_nameContext interface {
 }
 
 type Database_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyDatabase_nameContext() *Database_nameContext {
 	var p = new(Database_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_database_name
 	return p
+}
+
+func InitEmptyDatabase_nameContext(p *Database_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_database_name
 }
 
 func (*Database_nameContext) IsDatabase_nameContext() {}
@@ -4871,7 +5090,7 @@ func (*Database_nameContext) IsDatabase_nameContext() {}
 func NewDatabase_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Database_nameContext {
 	var p = new(Database_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_database_name
@@ -4904,35 +5123,29 @@ func (s *Database_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{
 }
 
 func (p *KuneiformParser) Database_name() (localctx IDatabase_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewDatabase_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 50, KuneiformParserRULE_database_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(304)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExtension_nameContext is an interface to support dynamic dispatch.
@@ -4950,15 +5163,20 @@ type IExtension_nameContext interface {
 }
 
 type Extension_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExtension_nameContext() *Extension_nameContext {
 	var p = new(Extension_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_extension_name
 	return p
+}
+
+func InitEmptyExtension_nameContext(p *Extension_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_extension_name
 }
 
 func (*Extension_nameContext) IsExtension_nameContext() {}
@@ -4966,7 +5184,7 @@ func (*Extension_nameContext) IsExtension_nameContext() {}
 func NewExtension_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Extension_nameContext {
 	var p = new(Extension_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_extension_name
@@ -4999,35 +5217,29 @@ func (s *Extension_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface
 }
 
 func (p *KuneiformParser) Extension_name() (localctx IExtension_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewExtension_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 52, KuneiformParserRULE_extension_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(306)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExt_config_nameContext is an interface to support dynamic dispatch.
@@ -5045,15 +5257,20 @@ type IExt_config_nameContext interface {
 }
 
 type Ext_config_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExt_config_nameContext() *Ext_config_nameContext {
 	var p = new(Ext_config_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_ext_config_name
 	return p
+}
+
+func InitEmptyExt_config_nameContext(p *Ext_config_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_ext_config_name
 }
 
 func (*Ext_config_nameContext) IsExt_config_nameContext() {}
@@ -5061,7 +5278,7 @@ func (*Ext_config_nameContext) IsExt_config_nameContext() {}
 func NewExt_config_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Ext_config_nameContext {
 	var p = new(Ext_config_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_ext_config_name
@@ -5094,35 +5311,29 @@ func (s *Ext_config_nameContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 }
 
 func (p *KuneiformParser) Ext_config_name() (localctx IExt_config_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewExt_config_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 54, KuneiformParserRULE_ext_config_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(308)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ITable_nameContext is an interface to support dynamic dispatch.
@@ -5140,15 +5351,20 @@ type ITable_nameContext interface {
 }
 
 type Table_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyTable_nameContext() *Table_nameContext {
 	var p = new(Table_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_table_name
 	return p
+}
+
+func InitEmptyTable_nameContext(p *Table_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_table_name
 }
 
 func (*Table_nameContext) IsTable_nameContext() {}
@@ -5156,7 +5372,7 @@ func (*Table_nameContext) IsTable_nameContext() {}
 func NewTable_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Table_nameContext {
 	var p = new(Table_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_table_name
@@ -5189,35 +5405,29 @@ func (s *Table_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Table_name() (localctx ITable_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewTable_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 56, KuneiformParserRULE_table_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(310)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_nameContext is an interface to support dynamic dispatch.
@@ -5235,15 +5445,20 @@ type IAction_nameContext interface {
 }
 
 type Action_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_nameContext() *Action_nameContext {
 	var p = new(Action_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_name
 	return p
+}
+
+func InitEmptyAction_nameContext(p *Action_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_name
 }
 
 func (*Action_nameContext) IsAction_nameContext() {}
@@ -5251,7 +5466,7 @@ func (*Action_nameContext) IsAction_nameContext() {}
 func NewAction_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_nameContext {
 	var p = new(Action_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_name
@@ -5284,35 +5499,29 @@ func (s *Action_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Action_name() (localctx IAction_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 58, KuneiformParserRULE_action_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(312)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IColumn_nameContext is an interface to support dynamic dispatch.
@@ -5330,15 +5539,20 @@ type IColumn_nameContext interface {
 }
 
 type Column_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyColumn_nameContext() *Column_nameContext {
 	var p = new(Column_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_column_name
 	return p
+}
+
+func InitEmptyColumn_nameContext(p *Column_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_column_name
 }
 
 func (*Column_nameContext) IsColumn_nameContext() {}
@@ -5346,7 +5560,7 @@ func (*Column_nameContext) IsColumn_nameContext() {}
 func NewColumn_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Column_nameContext {
 	var p = new(Column_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_column_name
@@ -5379,35 +5593,29 @@ func (s *Column_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Column_name() (localctx IColumn_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewColumn_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 60, KuneiformParserRULE_column_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(314)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IColumn_name_listContext is an interface to support dynamic dispatch.
@@ -5428,15 +5636,20 @@ type IColumn_name_listContext interface {
 }
 
 type Column_name_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyColumn_name_listContext() *Column_name_listContext {
 	var p = new(Column_name_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_column_name_list
 	return p
+}
+
+func InitEmptyColumn_name_listContext(p *Column_name_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_column_name_list
 }
 
 func (*Column_name_listContext) IsColumn_name_listContext() {}
@@ -5444,7 +5657,7 @@ func (*Column_name_listContext) IsColumn_name_listContext() {}
 func NewColumn_name_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Column_name_listContext {
 	var p = new(Column_name_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_column_name_list
@@ -5522,28 +5735,9 @@ func (s *Column_name_listContext) Accept(visitor antlr.ParseTreeVisitor) interfa
 }
 
 func (p *KuneiformParser) Column_name_list() (localctx IColumn_name_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewColumn_name_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 62, KuneiformParserRULE_column_name_list)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -5552,12 +5746,19 @@ func (p *KuneiformParser) Column_name_list() (localctx IColumn_name_listContext)
 	}
 	p.SetState(321)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserCOMMA {
 		{
 			p.SetState(317)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(318)
@@ -5566,10 +5767,23 @@ func (p *KuneiformParser) Column_name_list() (localctx IColumn_name_listContext)
 
 		p.SetState(323)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IIndex_nameContext is an interface to support dynamic dispatch.
@@ -5587,15 +5801,20 @@ type IIndex_nameContext interface {
 }
 
 type Index_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyIndex_nameContext() *Index_nameContext {
 	var p = new(Index_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_index_name
 	return p
+}
+
+func InitEmptyIndex_nameContext(p *Index_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_index_name
 }
 
 func (*Index_nameContext) IsIndex_nameContext() {}
@@ -5603,7 +5822,7 @@ func (*Index_nameContext) IsIndex_nameContext() {}
 func NewIndex_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Index_nameContext {
 	var p = new(Index_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_index_name
@@ -5636,35 +5855,29 @@ func (s *Index_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Index_name() (localctx IIndex_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewIndex_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 64, KuneiformParserRULE_index_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(324)
 		p.Match(KuneiformParserINDEX_NAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAnnotation_target_nameContext is an interface to support dynamic dispatch.
@@ -5682,15 +5895,20 @@ type IAnnotation_target_nameContext interface {
 }
 
 type Annotation_target_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAnnotation_target_nameContext() *Annotation_target_nameContext {
 	var p = new(Annotation_target_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_annotation_target_name
 	return p
+}
+
+func InitEmptyAnnotation_target_nameContext(p *Annotation_target_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_annotation_target_name
 }
 
 func (*Annotation_target_nameContext) IsAnnotation_target_nameContext() {}
@@ -5698,7 +5916,7 @@ func (*Annotation_target_nameContext) IsAnnotation_target_nameContext() {}
 func NewAnnotation_target_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Annotation_target_nameContext {
 	var p = new(Annotation_target_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_annotation_target_name
@@ -5731,35 +5949,29 @@ func (s *Annotation_target_nameContext) Accept(visitor antlr.ParseTreeVisitor) i
 }
 
 func (p *KuneiformParser) Annotation_target_name() (localctx IAnnotation_target_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewAnnotation_target_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 66, KuneiformParserRULE_annotation_target_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(326)
 		p.Match(KuneiformParserBLOCK_VAR_OR_ANNOTATION)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAnnotation_attr_nameContext is an interface to support dynamic dispatch.
@@ -5777,15 +5989,20 @@ type IAnnotation_attr_nameContext interface {
 }
 
 type Annotation_attr_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAnnotation_attr_nameContext() *Annotation_attr_nameContext {
 	var p = new(Annotation_attr_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_annotation_attr_name
 	return p
+}
+
+func InitEmptyAnnotation_attr_nameContext(p *Annotation_attr_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_annotation_attr_name
 }
 
 func (*Annotation_attr_nameContext) IsAnnotation_attr_nameContext() {}
@@ -5793,7 +6010,7 @@ func (*Annotation_attr_nameContext) IsAnnotation_attr_nameContext() {}
 func NewAnnotation_attr_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Annotation_attr_nameContext {
 	var p = new(Annotation_attr_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_annotation_attr_name
@@ -5826,35 +6043,29 @@ func (s *Annotation_attr_nameContext) Accept(visitor antlr.ParseTreeVisitor) int
 }
 
 func (p *KuneiformParser) Annotation_attr_name() (localctx IAnnotation_attr_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewAnnotation_attr_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 68, KuneiformParserRULE_annotation_attr_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(328)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAnnotation_attr_valueContext is an interface to support dynamic dispatch.
@@ -5872,15 +6083,20 @@ type IAnnotation_attr_valueContext interface {
 }
 
 type Annotation_attr_valueContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAnnotation_attr_valueContext() *Annotation_attr_valueContext {
 	var p = new(Annotation_attr_valueContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_annotation_attr_value
 	return p
+}
+
+func InitEmptyAnnotation_attr_valueContext(p *Annotation_attr_valueContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_annotation_attr_value
 }
 
 func (*Annotation_attr_valueContext) IsAnnotation_attr_valueContext() {}
@@ -5888,7 +6104,7 @@ func (*Annotation_attr_valueContext) IsAnnotation_attr_valueContext() {}
 func NewAnnotation_attr_valueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Annotation_attr_valueContext {
 	var p = new(Annotation_attr_valueContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_annotation_attr_value
@@ -5933,35 +6149,25 @@ func (s *Annotation_attr_valueContext) Accept(visitor antlr.ParseTreeVisitor) in
 }
 
 func (p *KuneiformParser) Annotation_attr_value() (localctx IAnnotation_attr_valueContext) {
-	this := p
-	_ = this
-
 	localctx = NewAnnotation_attr_valueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 70, KuneiformParserRULE_annotation_attr_value)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(330)
 		p.Literal_value()
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExt_config_valueContext is an interface to support dynamic dispatch.
@@ -5979,15 +6185,20 @@ type IExt_config_valueContext interface {
 }
 
 type Ext_config_valueContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExt_config_valueContext() *Ext_config_valueContext {
 	var p = new(Ext_config_valueContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_ext_config_value
 	return p
+}
+
+func InitEmptyExt_config_valueContext(p *Ext_config_valueContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_ext_config_value
 }
 
 func (*Ext_config_valueContext) IsExt_config_valueContext() {}
@@ -5995,7 +6206,7 @@ func (*Ext_config_valueContext) IsExt_config_valueContext() {}
 func NewExt_config_valueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Ext_config_valueContext {
 	var p = new(Ext_config_valueContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_ext_config_value
@@ -6040,35 +6251,25 @@ func (s *Ext_config_valueContext) Accept(visitor antlr.ParseTreeVisitor) interfa
 }
 
 func (p *KuneiformParser) Ext_config_value() (localctx IExt_config_valueContext) {
-	this := p
-	_ = this
-
 	localctx = NewExt_config_valueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 72, KuneiformParserRULE_ext_config_value)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(332)
 		p.Literal_value()
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IInit_declContext is an interface to support dynamic dispatch.
@@ -6091,15 +6292,20 @@ type IInit_declContext interface {
 }
 
 type Init_declContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyInit_declContext() *Init_declContext {
 	var p = new(Init_declContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_init_decl
 	return p
+}
+
+func InitEmptyInit_declContext(p *Init_declContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_init_decl
 }
 
 func (*Init_declContext) IsInit_declContext() {}
@@ -6107,7 +6313,7 @@ func (*Init_declContext) IsInit_declContext() {}
 func NewInit_declContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Init_declContext {
 	var p = new(Init_declContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_init_decl
@@ -6172,44 +6378,40 @@ func (s *Init_declContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Init_decl() (localctx IInit_declContext) {
-	this := p
-	_ = this
-
 	localctx = NewInit_declContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 74, KuneiformParserRULE_init_decl)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(334)
 		p.Match(KuneiformParserINIT_)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(335)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(336)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(337)
 		p.Match(KuneiformParserL_BRACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(338)
@@ -6218,9 +6420,23 @@ func (p *KuneiformParser) Init_decl() (localctx IInit_declContext) {
 	{
 		p.SetState(339)
 		p.Match(KuneiformParserR_BRACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_stmt_listContext is an interface to support dynamic dispatch.
@@ -6239,15 +6455,20 @@ type IAction_stmt_listContext interface {
 }
 
 type Action_stmt_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_stmt_listContext() *Action_stmt_listContext {
 	var p = new(Action_stmt_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_stmt_list
 	return p
+}
+
+func InitEmptyAction_stmt_listContext(p *Action_stmt_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_stmt_list
 }
 
 func (*Action_stmt_listContext) IsAction_stmt_listContext() {}
@@ -6255,7 +6476,7 @@ func (*Action_stmt_listContext) IsAction_stmt_listContext() {}
 func NewAction_stmt_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_stmt_listContext {
 	var p = new(Action_stmt_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_stmt_list
@@ -6325,32 +6546,16 @@ func (s *Action_stmt_listContext) Accept(visitor antlr.ParseTreeVisitor) interfa
 }
 
 func (p *KuneiformParser) Action_stmt_list() (localctx IAction_stmt_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_stmt_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 76, KuneiformParserRULE_action_stmt_list)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(342)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for ok := true; ok; ok = ((int64((_la-73)) & ^0x3f) == 0 && ((int64(1)<<(_la-73))&133) != 0) {
@@ -6361,10 +6566,23 @@ func (p *KuneiformParser) Action_stmt_list() (localctx IAction_stmt_listContext)
 
 		p.SetState(344)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IAction_stmtContext is an interface to support dynamic dispatch.
@@ -6383,15 +6601,20 @@ type IAction_stmtContext interface {
 }
 
 type Action_stmtContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyAction_stmtContext() *Action_stmtContext {
 	var p = new(Action_stmtContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_action_stmt
 	return p
+}
+
+func InitEmptyAction_stmtContext(p *Action_stmtContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_action_stmt
 }
 
 func (*Action_stmtContext) IsAction_stmtContext() {}
@@ -6399,7 +6622,7 @@ func (*Action_stmtContext) IsAction_stmtContext() {}
 func NewAction_stmtContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Action_stmtContext {
 	var p = new(Action_stmtContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_action_stmt
@@ -6460,30 +6683,13 @@ func (s *Action_stmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Action_stmt() (localctx IAction_stmtContext) {
-	this := p
-	_ = this
-
 	localctx = NewAction_stmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 78, KuneiformParserRULE_action_stmt)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(348)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 
 	switch p.GetTokenStream().LA(1) {
 	case KuneiformParserSQL_STMT:
@@ -6501,10 +6707,21 @@ func (p *KuneiformParser) Action_stmt() (localctx IAction_stmtContext) {
 		}
 
 	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ISql_stmtContext is an interface to support dynamic dispatch.
@@ -6523,15 +6740,20 @@ type ISql_stmtContext interface {
 }
 
 type Sql_stmtContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptySql_stmtContext() *Sql_stmtContext {
 	var p = new(Sql_stmtContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_sql_stmt
 	return p
+}
+
+func InitEmptySql_stmtContext(p *Sql_stmtContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_sql_stmt
 }
 
 func (*Sql_stmtContext) IsSql_stmtContext() {}
@@ -6539,7 +6761,7 @@ func (*Sql_stmtContext) IsSql_stmtContext() {}
 func NewSql_stmtContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Sql_stmtContext {
 	var p = new(Sql_stmtContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_sql_stmt
@@ -6576,39 +6798,37 @@ func (s *Sql_stmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Sql_stmt() (localctx ISql_stmtContext) {
-	this := p
-	_ = this
-
 	localctx = NewSql_stmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 80, KuneiformParserRULE_sql_stmt)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(350)
 		p.Match(KuneiformParserSQL_STMT)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(351)
 		p.Match(KuneiformParserSCOL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ICall_stmtContext is an interface to support dynamic dispatch.
@@ -6629,15 +6849,20 @@ type ICall_stmtContext interface {
 }
 
 type Call_stmtContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyCall_stmtContext() *Call_stmtContext {
 	var p = new(Call_stmtContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_call_stmt
 	return p
+}
+
+func InitEmptyCall_stmtContext(p *Call_stmtContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_call_stmt
 }
 
 func (*Call_stmtContext) IsCall_stmtContext() {}
@@ -6645,7 +6870,7 @@ func (*Call_stmtContext) IsCall_stmtContext() {}
 func NewCall_stmtContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Call_stmtContext {
 	var p = new(Call_stmtContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_call_stmt
@@ -6714,32 +6939,16 @@ func (s *Call_stmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Call_stmt() (localctx ICall_stmtContext) {
-	this := p
-	_ = this
-
 	localctx = NewCall_stmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 82, KuneiformParserRULE_call_stmt)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(356)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == KuneiformParserPARAM_OR_VAR {
@@ -6750,6 +6959,10 @@ func (p *KuneiformParser) Call_stmt() (localctx ICall_stmtContext) {
 		{
 			p.SetState(354)
 			p.Match(KuneiformParserASSIGN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
@@ -6760,9 +6973,23 @@ func (p *KuneiformParser) Call_stmt() (localctx ICall_stmtContext) {
 	{
 		p.SetState(359)
 		p.Match(KuneiformParserSCOL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ICall_receiversContext is an interface to support dynamic dispatch.
@@ -6783,15 +7010,20 @@ type ICall_receiversContext interface {
 }
 
 type Call_receiversContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyCall_receiversContext() *Call_receiversContext {
 	var p = new(Call_receiversContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_call_receivers
 	return p
+}
+
+func InitEmptyCall_receiversContext(p *Call_receiversContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_call_receivers
 }
 
 func (*Call_receiversContext) IsCall_receiversContext() {}
@@ -6799,7 +7031,7 @@ func (*Call_receiversContext) IsCall_receiversContext() {}
 func NewCall_receiversContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Call_receiversContext {
 	var p = new(Call_receiversContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_call_receivers
@@ -6877,28 +7109,9 @@ func (s *Call_receiversContext) Accept(visitor antlr.ParseTreeVisitor) interface
 }
 
 func (p *KuneiformParser) Call_receivers() (localctx ICall_receiversContext) {
-	this := p
-	_ = this
-
 	localctx = NewCall_receiversContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 84, KuneiformParserRULE_call_receivers)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -6907,12 +7120,19 @@ func (p *KuneiformParser) Call_receivers() (localctx ICall_receiversContext) {
 	}
 	p.SetState(366)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserCOMMA {
 		{
 			p.SetState(362)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(363)
@@ -6921,10 +7141,23 @@ func (p *KuneiformParser) Call_receivers() (localctx ICall_receiversContext) {
 
 		p.SetState(368)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ICall_bodyContext is an interface to support dynamic dispatch.
@@ -6945,15 +7178,20 @@ type ICall_bodyContext interface {
 }
 
 type Call_bodyContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyCall_bodyContext() *Call_bodyContext {
 	var p = new(Call_bodyContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_call_body
 	return p
+}
+
+func InitEmptyCall_bodyContext(p *Call_bodyContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_call_body
 }
 
 func (*Call_bodyContext) IsCall_bodyContext() {}
@@ -6961,7 +7199,7 @@ func (*Call_bodyContext) IsCall_bodyContext() {}
 func NewCall_bodyContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Call_bodyContext {
 	var p = new(Call_bodyContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_call_body
@@ -7030,28 +7268,8 @@ func (s *Call_bodyContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Call_body() (localctx ICall_bodyContext) {
-	this := p
-	_ = this
-
 	localctx = NewCall_bodyContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 86, KuneiformParserRULE_call_body)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(369)
@@ -7060,6 +7278,10 @@ func (p *KuneiformParser) Call_body() (localctx ICall_bodyContext) {
 	{
 		p.SetState(370)
 		p.Match(KuneiformParserL_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(371)
@@ -7068,9 +7290,23 @@ func (p *KuneiformParser) Call_body() (localctx ICall_bodyContext) {
 	{
 		p.SetState(372)
 		p.Match(KuneiformParserR_PAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IVariableContext is an interface to support dynamic dispatch.
@@ -7088,15 +7324,20 @@ type IVariableContext interface {
 }
 
 type VariableContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyVariableContext() *VariableContext {
 	var p = new(VariableContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_variable
 	return p
+}
+
+func InitEmptyVariableContext(p *VariableContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_variable
 }
 
 func (*VariableContext) IsVariableContext() {}
@@ -7104,7 +7345,7 @@ func (*VariableContext) IsVariableContext() {}
 func NewVariableContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VariableContext {
 	var p = new(VariableContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_variable
@@ -7137,35 +7378,29 @@ func (s *VariableContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Variable() (localctx IVariableContext) {
-	this := p
-	_ = this
-
 	localctx = NewVariableContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 88, KuneiformParserRULE_variable)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(374)
 		p.Match(KuneiformParserPARAM_OR_VAR)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IBlock_varContext is an interface to support dynamic dispatch.
@@ -7183,15 +7418,20 @@ type IBlock_varContext interface {
 }
 
 type Block_varContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyBlock_varContext() *Block_varContext {
 	var p = new(Block_varContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_block_var
 	return p
+}
+
+func InitEmptyBlock_varContext(p *Block_varContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_block_var
 }
 
 func (*Block_varContext) IsBlock_varContext() {}
@@ -7199,7 +7439,7 @@ func (*Block_varContext) IsBlock_varContext() {}
 func NewBlock_varContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Block_varContext {
 	var p = new(Block_varContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_block_var
@@ -7232,35 +7472,29 @@ func (s *Block_varContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Block_var() (localctx IBlock_varContext) {
-	this := p
-	_ = this
-
 	localctx = NewBlock_varContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 90, KuneiformParserRULE_block_var)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(376)
 		p.Match(KuneiformParserBLOCK_VAR_OR_ANNOTATION)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExtension_call_nameContext is an interface to support dynamic dispatch.
@@ -7280,15 +7514,20 @@ type IExtension_call_nameContext interface {
 }
 
 type Extension_call_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExtension_call_nameContext() *Extension_call_nameContext {
 	var p = new(Extension_call_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_extension_call_name
 	return p
+}
+
+func InitEmptyExtension_call_nameContext(p *Extension_call_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_extension_call_name
 }
 
 func (*Extension_call_nameContext) IsExtension_call_nameContext() {}
@@ -7296,7 +7535,7 @@ func (*Extension_call_nameContext) IsExtension_call_nameContext() {}
 func NewExtension_call_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Extension_call_nameContext {
 	var p = new(Extension_call_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_extension_call_name
@@ -7337,43 +7576,45 @@ func (s *Extension_call_nameContext) Accept(visitor antlr.ParseTreeVisitor) inte
 }
 
 func (p *KuneiformParser) Extension_call_name() (localctx IExtension_call_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewExtension_call_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 92, KuneiformParserRULE_extension_call_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(378)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(379)
 		p.Match(KuneiformParserPERIOD)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(380)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IFn_nameContext is an interface to support dynamic dispatch.
@@ -7392,15 +7633,20 @@ type IFn_nameContext interface {
 }
 
 type Fn_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyFn_nameContext() *Fn_nameContext {
 	var p = new(Fn_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_fn_name
 	return p
+}
+
+func InitEmptyFn_nameContext(p *Fn_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_fn_name
 }
 
 func (*Fn_nameContext) IsFn_nameContext() {}
@@ -7408,7 +7654,7 @@ func (*Fn_nameContext) IsFn_nameContext() {}
 func NewFn_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Fn_nameContext {
 	var p = new(Fn_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_fn_name
@@ -7469,31 +7715,15 @@ func (s *Fn_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Fn_name() (localctx IFn_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewFn_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 94, KuneiformParserRULE_fn_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(384)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 24, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 24, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
@@ -7508,9 +7738,21 @@ func (p *KuneiformParser) Fn_name() (localctx IFn_nameContext) {
 			p.Action_name()
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ISfn_nameContext is an interface to support dynamic dispatch.
@@ -7528,15 +7770,20 @@ type ISfn_nameContext interface {
 }
 
 type Sfn_nameContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptySfn_nameContext() *Sfn_nameContext {
 	var p = new(Sfn_nameContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_sfn_name
 	return p
+}
+
+func InitEmptySfn_nameContext(p *Sfn_nameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_sfn_name
 }
 
 func (*Sfn_nameContext) IsSfn_nameContext() {}
@@ -7544,7 +7791,7 @@ func (*Sfn_nameContext) IsSfn_nameContext() {}
 func NewSfn_nameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Sfn_nameContext {
 	var p = new(Sfn_nameContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_sfn_name
@@ -7577,35 +7824,29 @@ func (s *Sfn_nameContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *KuneiformParser) Sfn_name() (localctx ISfn_nameContext) {
-	this := p
-	_ = this
-
 	localctx = NewSfn_nameContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 96, KuneiformParserRULE_sfn_name)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(386)
 		p.Match(KuneiformParserIDENTIFIER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IFn_arg_listContext is an interface to support dynamic dispatch.
@@ -7626,15 +7867,20 @@ type IFn_arg_listContext interface {
 }
 
 type Fn_arg_listContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyFn_arg_listContext() *Fn_arg_listContext {
 	var p = new(Fn_arg_listContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_fn_arg_list
 	return p
+}
+
+func InitEmptyFn_arg_listContext(p *Fn_arg_listContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_fn_arg_list
 }
 
 func (*Fn_arg_listContext) IsFn_arg_listContext() {}
@@ -7642,7 +7888,7 @@ func (*Fn_arg_listContext) IsFn_arg_listContext() {}
 func NewFn_arg_listContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Fn_arg_listContext {
 	var p = new(Fn_arg_listContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_fn_arg_list
@@ -7720,32 +7966,16 @@ func (s *Fn_arg_listContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 }
 
 func (p *KuneiformParser) Fn_arg_list() (localctx IFn_arg_listContext) {
-	this := p
-	_ = this
-
 	localctx = NewFn_arg_listContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 98, KuneiformParserRULE_fn_arg_list)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(389)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if ((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&286728) != 0) || ((int64((_la-70)) & ^0x3f) == 0 && ((int64(1)<<(_la-70))&489) != 0) {
@@ -7757,12 +7987,19 @@ func (p *KuneiformParser) Fn_arg_list() (localctx IFn_arg_listContext) {
 	}
 	p.SetState(395)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == KuneiformParserCOMMA {
 		{
 			p.SetState(391)
 			p.Match(KuneiformParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(392)
@@ -7771,10 +8008,23 @@ func (p *KuneiformParser) Fn_arg_list() (localctx IFn_arg_listContext) {
 
 		p.SetState(397)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IFn_arg_exprContext is an interface to support dynamic dispatch.
@@ -7835,7 +8085,7 @@ type IFn_arg_exprContext interface {
 }
 
 type Fn_arg_exprContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser       antlr.Parser
 	elevate_expr IFn_arg_exprContext
 	unary_expr   IFn_arg_exprContext
@@ -7843,9 +8093,14 @@ type Fn_arg_exprContext struct {
 
 func NewEmptyFn_arg_exprContext() *Fn_arg_exprContext {
 	var p = new(Fn_arg_exprContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = KuneiformParserRULE_fn_arg_expr
 	return p
+}
+
+func InitEmptyFn_arg_exprContext(p *Fn_arg_exprContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = KuneiformParserRULE_fn_arg_expr
 }
 
 func (*Fn_arg_exprContext) IsFn_arg_exprContext() {}
@@ -7853,7 +8108,7 @@ func (*Fn_arg_exprContext) IsFn_arg_exprContext() {}
 func NewFn_arg_exprContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Fn_arg_exprContext {
 	var p = new(Fn_arg_exprContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = KuneiformParserRULE_fn_arg_expr
@@ -8103,10 +8358,8 @@ func (p *KuneiformParser) Fn_arg_expr() (localctx IFn_arg_exprContext) {
 }
 
 func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
-	this := p
-	_ = this
-
 	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+
 	_parentState := p.GetState()
 	localctx = NewFn_arg_exprContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IFn_arg_exprContext = localctx
@@ -8115,27 +8368,14 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 	p.EnterRecursionRule(localctx, 100, KuneiformParserRULE_fn_arg_expr, _p)
 	var _la int
 
-	defer func() {
-		p.UnrollRecursionContexts(_parentctx)
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(425)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 
 	switch p.GetTokenStream().LA(1) {
 	case KuneiformParserUNSIGNED_NUMBER_LITERAL, KuneiformParserSTRING_LITERAL:
@@ -8160,6 +8400,10 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 		{
 			p.SetState(402)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(403)
@@ -8171,6 +8415,10 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 		{
 			p.SetState(404)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case KuneiformParserPLUS, KuneiformParserMINUS, KuneiformParserTILDE:
@@ -8197,6 +8445,10 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 		{
 			p.SetState(408)
 			p.Match(KuneiformParserNOT_)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(409)
@@ -8214,10 +8466,16 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 		{
 			p.SetState(411)
 			p.Match(KuneiformParserL_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		p.SetState(421)
 		p.GetErrorHandler().Sync(p)
-
+		if p.HasError() {
+			goto errorExit
+		}
 		switch p.GetTokenStream().LA(1) {
 		case KuneiformParserL_PAREN, KuneiformParserPLUS, KuneiformParserMINUS, KuneiformParserTILDE, KuneiformParserNOT_, KuneiformParserIDENTIFIER, KuneiformParserPARAM_OR_VAR, KuneiformParserBLOCK_VAR_OR_ANNOTATION, KuneiformParserUNSIGNED_NUMBER_LITERAL, KuneiformParserSTRING_LITERAL:
 			{
@@ -8226,12 +8484,19 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 			}
 			p.SetState(417)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 			_la = p.GetTokenStream().LA(1)
 
 			for _la == KuneiformParserCOMMA {
 				{
 					p.SetState(413)
 					p.Match(KuneiformParserCOMMA)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(414)
@@ -8240,6 +8505,9 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 
 				p.SetState(419)
 				p.GetErrorHandler().Sync(p)
+				if p.HasError() {
+					goto errorExit
+				}
 				_la = p.GetTokenStream().LA(1)
 			}
 
@@ -8247,6 +8515,10 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 			{
 				p.SetState(420)
 				p.Match(KuneiformParserSTAR)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 
 		case KuneiformParserR_PAREN:
@@ -8256,16 +8528,26 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 		{
 			p.SetState(423)
 			p.Match(KuneiformParserR_PAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
 	p.SetState(453)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 31, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			if p.GetParseListeners() != nil {
@@ -8274,18 +8556,27 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 			_prevctx = localctx
 			p.SetState(451)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 30, p.GetParserRuleContext()) {
+			if p.HasError() {
+				goto errorExit
+			}
+
+			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 30, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewFn_arg_exprContext(p, _parentctx, _parentState)
 				p.PushNewRecursionContext(localctx, _startState, KuneiformParserRULE_fn_arg_expr)
 				p.SetState(427)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 10)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 10)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 10)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(428)
 					p.Match(KuneiformParserPIPE2)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(429)
@@ -8298,7 +8589,8 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(430)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 9)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 9)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 9)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(431)
@@ -8322,7 +8614,8 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(433)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 8)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 8)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 8)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(434)
@@ -8346,7 +8639,8 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(436)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 7)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 7)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 7)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(437)
@@ -8370,7 +8664,8 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(439)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 6)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(440)
@@ -8394,7 +8689,8 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(442)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(443)
@@ -8418,11 +8714,16 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(445)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(446)
 					p.Match(KuneiformParserAND_)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(447)
@@ -8435,26 +8736,49 @@ func (p *KuneiformParser) fn_arg_expr(_p int) (localctx IFn_arg_exprContext) {
 				p.SetState(448)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(449)
 					p.Match(KuneiformParserOR_)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(450)
 					p.fn_arg_expr(3)
 				}
 
+			case antlr.ATNInvalidAltNumber:
+				goto errorExit
 			}
 
 		}
 		p.SetState(455)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 31, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.UnrollRecursionContexts(_parentctx)
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 func (p *KuneiformParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
@@ -8472,9 +8796,6 @@ func (p *KuneiformParser) Sempred(localctx antlr.RuleContext, ruleIndex, predInd
 }
 
 func (p *KuneiformParser) Fn_arg_expr_Sempred(localctx antlr.RuleContext, predIndex int) bool {
-	this := p
-	_ = this
-
 	switch predIndex {
 	case 0:
 		return p.Precpred(p.GetParserRuleContext(), 10)
