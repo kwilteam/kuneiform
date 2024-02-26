@@ -3,7 +3,8 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+
+	"github.com/antlr4-go/antlr/v4"
 )
 
 var ErrInvalidSyntax = errors.New("syntax error")
@@ -54,22 +55,26 @@ func NewErrorListener() *ErrorListener {
 	}
 }
 
-func (s *ErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+func (s *ErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int,
+	msg string, e antlr.RecognitionException) {
 	//symbol := offendingSymbol.(antlr.Token)
 	info := fmt.Sprintf("line %d:%d %s", line, column, msg)
 	s.Add(fmt.Errorf("%w: %s", ErrInvalidSyntax, info))
 	//s.Add(errors.Wrap(ErrInvalidSyntax, info))
 }
 
-func (s *ErrorListener) ReportAmbiguity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, exact bool, ambigAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
+func (s *ErrorListener) ReportAmbiguity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int,
+	exact bool, ambigAlts *antlr.BitSet, configs *antlr.ATNConfigSet) {
 	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrAmbiguity, "ambiguity"))
 }
 
-func (s *ErrorListener) ReportAttemptingFullContext(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, conflictingAlts *antlr.BitSet, configs antlr.ATNConfigSet) {
+func (s *ErrorListener) ReportAttemptingFullContext(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int,
+	conflictingAlts *antlr.BitSet, configs *antlr.ATNConfigSet) {
 	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrAttemptingFullContext, "attempting full context"))
 }
 
-func (s *ErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex, prediction int, configs antlr.ATNConfigSet) {
+func (s *ErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex,
+	prediction int, configs *antlr.ATNConfigSet) {
 	//s.ErrorHandler.Add(startIndex, errors.Wrap(ErrContextSensitivity, "context sensitivity"))
 }
 

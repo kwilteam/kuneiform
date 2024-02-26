@@ -5,8 +5,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/kwilteam/kuneiform/kfparser"
 	"syscall/js"
+
+	"github.com/kwilteam/kuneiform/kfparser"
 )
 
 func parse(input string) (json string, err error) {

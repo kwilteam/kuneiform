@@ -3,7 +3,9 @@ package kfparser
 import (
 	"errors"
 	"fmt"
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+
+	"github.com/antlr4-go/antlr/v4"
+
 	"github.com/kwilteam/kuneiform/kfgrammar"
 	"github.com/kwilteam/kuneiform/kfparser/ast"
 	"github.com/kwilteam/kuneiform/schema"

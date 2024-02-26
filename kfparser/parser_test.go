@@ -5,11 +5,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/kwilteam/kuneiform/kfparser/ast"
 	"github.com/kwilteam/kuneiform/schema"
 	"github.com/kwilteam/kuneiform/utils"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var trace = flag.Bool("trace", false, "run tests with trace enabled")

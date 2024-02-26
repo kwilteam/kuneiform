@@ -15,7 +15,9 @@ git-sync: ## sync submodule
 
 build-antlr: ## generate antlr code
 	@echo Generate antlr code
-	@rm -rf ./kfgrammar/{*.go,*.interp,*.tokens}
+	@rm -rf ./kfgrammar/*
+	@rm -rf ./kuneiform-grammar/{gen,.antlr}/*
+	@rm -rf ./gen/
 	@cd ./kuneiform-grammar && ./generate.sh Go kfgrammar ../kfgrammar
 
 build: ## build from current commit
