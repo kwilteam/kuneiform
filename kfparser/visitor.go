@@ -2,12 +2,14 @@ package kfparser
 
 import (
 	"fmt"
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"reflect"
+	"strings"
+
+	"github.com/antlr4-go/antlr/v4"
+
 	"github.com/kwilteam/kuneiform/kfgrammar"
 	"github.com/kwilteam/kuneiform/kfparser/ast"
 	"github.com/kwilteam/kuneiform/schema"
-	"reflect"
-	"strings"
 )
 
 type Mode uint
