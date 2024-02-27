@@ -22,7 +22,6 @@ build-antlr: ## generate antlr code
 
 build: ## build from current commit
 	@make build-antlr
-	@rm -f ./wasm/*.wasm
 	@make wasm
 	@echo Build parser
 	@goreleaser build --snapshot --clean
@@ -38,7 +37,9 @@ build-go: ## build from current commit using just go
 
 wasm: ## build wasm binary
 	@echo Build wasm binary
+	@rm -f ./wasm/*.{wasm,gz}
 	@go generate ./wasm/wasm.go
+	@tar -czvf ./wasm/kuneiform_wasm.tar.gz ./wasm/kuneiform.wasm
 
 release: ## release
 	@# need configure github token
