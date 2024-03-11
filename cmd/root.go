@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"log"
@@ -119,8 +119,4 @@ func writeToFile(data []byte, filePath string) (err error) {
 	}
 
 	return err
-}
-
-func main() {
-	Execute()
 }
