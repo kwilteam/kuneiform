@@ -1,13 +1,14 @@
-package cmd
+package main
 
 import (
-	"github.com/kwilteam/kuneiform/kfparser"
-	"github.com/kwilteam/kuneiform/version"
 	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
+
+	"github.com/kwilteam/kuneiform/kfparser"
+	"github.com/kwilteam/kuneiform/version"
 )
 
 const (
@@ -118,4 +119,8 @@ func writeToFile(data []byte, filePath string) (err error) {
 	}
 
 	return err
+}
+
+func main() {
+	Execute()
 }
