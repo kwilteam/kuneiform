@@ -251,11 +251,11 @@ func (c *ContextValidator) visitActions(actions []Action) error {
 
 			switch s := stmt.(type) {
 			case *actparser.DMLStmt:
-				astTree, err := sqlparser.ParseSql(statement, 1, nil, false)
+				astTree, err := sqlparser.ParseSql(statement, 1, nil, false, false)
 				if err != nil {
 					return fmt.Errorf("%w: %s", err, statement)
 				}
-				if _, err := astTree.ToSQL(); err != nil {
+				if _, err := tree.SafeToSQL(astTree); err != nil {
 					return fmt.Errorf("%w: %s", err, statement)
 				}
 				// TODO: validate reference in SQL statement
