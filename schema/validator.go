@@ -244,22 +244,22 @@ func (c *ContextValidator) visitActions(actions []Action) error {
 		}
 
 		for _, statement := range a.Statements {
-			stmt, err := actparser.Parse(statement)
+			actStmt, err := actparser.Parse(statement)
 			if err != nil {
 				return fmt.Errorf("%w: %s", err, statement)
 			}
 
-			switch s := stmt.(type) {
+			switch s := actStmt.(type) {
 			case *actparser.DMLStmt:
-				astTree, err := sqlparser.ParseSql(statement, 1, nil, false)
+				sqlStmt, err := sqlparser.Parse(statement)
 				if err != nil {
 					return fmt.Errorf("%w: %s", err, statement)
 				}
-				if _, err := astTree.ToSQL(); err != nil {
+				if _, err := tree.SafeToSQL(sqlStmt); err != nil {
 					return fmt.Errorf("%w: %s", err, statement)
 				}
 				// TODO: validate reference in SQL statement
-				//switch t := astTree.(type) {
+				//switch t := sqlStmt.(type) {
 				//case *tree.Select:
 			case *actparser.ActionCallStmt:
 				if _, ok := c.actionCtx[s.Method]; !ok {
