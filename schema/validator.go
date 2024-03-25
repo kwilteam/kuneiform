@@ -251,7 +251,7 @@ func (c *ContextValidator) visitActions(actions []Action) error {
 
 			switch s := actStmt.(type) {
 			case *actparser.DMLStmt:
-				sqlStmt, err := sqlparser.ParseSql(statement, 1, nil, false, false)
+				sqlStmt, err := sqlparser.Parse(statement)
 				if err != nil {
 					return fmt.Errorf("%w: %s", err, statement)
 				}
