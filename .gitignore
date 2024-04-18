@@ -36,3 +36,6 @@ gen/
 # wasm
 wasm/*.wasm
 wasm/*.gz
+
+# the kuneiform binary from go build
+kuneiform
