@@ -1,6 +1,6 @@
 # :warning: DEPRECATED
 
-** This repository is no longer maintained. It has been moved to the [parse submodule](<https://github.com/kwilteam/kwil-db/tree/main/parse>) in the main Kwil-DB repo. **
+**This repository is no longer maintained. It has been moved to the [parse submodule](<https://github.com/kwilteam/kwil-db/tree/main/parse>) in the main Kwil-DB repo.**
 
 # Kuneiform
 
